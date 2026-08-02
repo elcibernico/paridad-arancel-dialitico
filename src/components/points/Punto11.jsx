@@ -159,7 +159,7 @@ export default function Punto11() {
       {/* NARRATIVA DE ENCUADRE */}
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-4 shadow-sm">
         <h2 className="text-sm font-bold text-teal-400 uppercase tracking-wider mb-2">
-          📖 La Historia: ¿Hacia dónde vamos?
+          📖 Paridad Polinómica Proyectada
         </h2>
         <p className="text-xs text-slate-300 leading-relaxed">
           Una vez estabilizada la relación histórica mediante regularización Ridge, la pregunta lógica es:
@@ -174,7 +174,7 @@ export default function Punto11() {
         {/* PARÁMETROS DE ESCENARIO */}
         <div className="md:col-span-1 p-4 rounded-2xl border bg-slate-900/50 border-slate-800 shadow-md space-y-4">
           <span className="text-xs font-black uppercase tracking-wider text-teal-400 block border-b border-slate-800 pb-1.5">
-            🎛️ Filtros de Corte y Modalidad
+            🎛️ Filtros de Corte y Modalidad Dialítica
           </span>
 
           {/* Modalidad */}

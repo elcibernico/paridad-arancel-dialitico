@@ -124,7 +124,7 @@ export default function Punto12() {
       {/* NARRATIVA DE ENCUADRE */}
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-4 shadow-sm">
         <h2 className="text-sm font-bold text-teal-400 uppercase tracking-wider mb-2">
-          📖 La Historia: El Espejismo del Pago Nominal
+          📖 El Espejismo del Pago Nominal
         </h2>
         <p className="text-xs text-slate-300 leading-relaxed">
           Las obras sociales rara vez pagan las prestaciones al día. En contextos de alta inflación, cobrar a los
