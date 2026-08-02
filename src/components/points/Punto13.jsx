@@ -278,7 +278,7 @@ export default function Punto13() {
 
               <div className="space-y-3 font-mono">
                 <p className="text-slate-300 font-sans">
-                  El Impacto Financiero acumulado en el período (<MathJaxFormula formula="IF_{acumulado}" />) suma las pérdidas netas de todos los meses de la ventana de análisis en función del tamaño del padrón (<MathJaxFormula formula="N" />) y el número de prestaciones mensuales (<MathJaxFormula formula="S" />):
+                  El Impacto Financiero acumulado en el período (<span className="text-lg"><MathJaxFormula formula="IF_{acumulado}" /></span>) suma las pérdidas netas de todos los meses de la ventana de análisis en función del tamaño del padrón (<span className="text-lg"><MathJaxFormula formula="N" /></span>) y el número de prestaciones mensuales (<span className="text-lg"><MathJaxFormula formula="S" /></span>):
                 </p>
                 {(() => {
                   const isLoss = calculations.deficitAnualTotal < 0;
@@ -296,10 +296,10 @@ export default function Punto13() {
                       <span className={`text-sm font-black uppercase tracking-wider block ${isLoss ? 'text-rose-400' : 'text-emerald-400'}`}>
                         {isLoss ? '❌ Resultado Simulado (Pérdida/Daño Acumulado)' : '✅ Resultado Simulado (Suficiencia)'}
                       </span>
-                      <div className="py-1 text-slate-200">
+                      <div className="py-1 text-lg text-slate-200">
                         <MathJaxFormula formula={"IF_{acumulado} = \\sum_{t=t_{desde}}^{t_{hasta}} (Y_t - V^P_t) \\cdot N \\cdot S"} />
                       </div>
-                      <div className={`py-1 ${isLoss ? 'text-rose-400' : 'text-emerald-400'} font-bold`}>
+                      <div className={`py-1 text-lg ${isLoss ? 'text-rose-450' : 'text-emerald-400'} font-bold`}>
                         <MathJaxFormula formula={formulaCalc} />
                       </div>
                     </div>
