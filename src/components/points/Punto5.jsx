@@ -4,12 +4,7 @@ import seriesData from '../../data/seriesData.json';
 import { fmtLatex } from '../../utils/format';
 
 export default function Punto5({ isDarkMode }) {
-  const [showSection1, setShowSection1] = useState(false);
-  const [showSection2, setShowSection2] = useState(false);
-  const [showSection3, setShowSection3] = useState(false);
-  const [showSection4, setShowSection4] = useState(false);
-  const [showSection5, setShowSection5] = useState(false);
-  const [showSection6, setShowSection6] = useState(true);
+  const [activeTab, setActiveTab] = useState(null);
 
   // Estado del Simulador Actuarial del VAAD (Apartado 6)
   const [edad, setEdad] = useState(45);
@@ -179,59 +174,77 @@ export default function Punto5({ isDarkMode }) {
         </p>
       </div>
 
-      {/* Botones de Control de Revelado Interactivos */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+      {/* Botones de Control de Revelado (Apartados 1 a 6) */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
         <button
-          onClick={() => setShowSection1(!showSection1)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection1 ? 'bg-teal-50 border-teal-600 text-slate-900 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'sec1' ? null : 'sec1')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec1'
+            ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>1. Proceso Salida</span>
-          <span>{showSection1 ? '👁️' : '🙈'}</span>
+          <span>1. Ecuación VAAD</span>
+          <span>{activeTab === 'sec1' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowSection2(!showSection2)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection2 ? 'bg-cyan-50 border-cyan-600 text-slate-900 shadow-md ring-2 ring-cyan-600 dark:bg-cyan-500/20 dark:border-cyan-500 dark:text-cyan-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'sec2' ? null : 'sec2')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec2'
+            ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>2. Eventos Compet.</span>
-          <span>{showSection2 ? '👁️' : '🙈'}</span>
+          <span>2. Tasa Descuento</span>
+          <span>{activeTab === 'sec2' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowSection3(!showSection3)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection3 ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'sec3' ? null : 'sec3')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec3'
+            ? 'bg-indigo-50 border-indigo-500 text-slate-900 shadow-md ring-2 ring-indigo-500 dark:bg-indigo-500/20 dark:border-indigo-500 dark:text-indigo-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-indigo-50/50 hover:border-indigo-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-indigo-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>3. Pagos Mensuales</span>
-          <span>{showSection3 ? '👁️' : '🙈'}</span>
+          <span>3. Evolución de los costos de la prestación dialítica</span>
+          <span>{activeTab === 'sec3' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowSection4(!showSection4)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection4 ? 'bg-purple-50 border-purple-600 text-slate-900 shadow-md ring-2 ring-purple-600 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'sec4' ? null : 'sec4')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec4'
+            ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-purple-50/50 hover:border-purple-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-purple-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>4. Ajustes (g)</span>
-          <span>{showSection4 ? '👁️' : '🙈'}</span>
+          <span>4. Factor de Ajustes Arancelarios y Descuento Real</span>
+          <span>{activeTab === 'sec4' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowSection5(!showSection5)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection5 ? 'bg-rose-50 border-rose-600 text-slate-950 shadow-md ring-2 ring-rose-600 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'sec5' ? null : 'sec5')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec5'
+            ? 'bg-cyan-50 border-cyan-500 text-slate-900 shadow-md ring-2 ring-cyan-500 dark:bg-cyan-500/20 dark:border-cyan-500 dark:text-cyan-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-cyan-50/50 hover:border-cyan-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-cyan-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>5. Ecuación VAAD</span>
-          <span>{showSection5 ? '👁️' : '🙈'}</span>
+          <span>5. Ecuación Unificada del VAAD</span>
+          <span>{activeTab === 'sec5' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowSection6(!showSection6)}
-          className={`p-2.5 rounded-xl border text-xs font-extrabold transition flex items-center justify-between col-span-2 sm:col-span-1 ${showSection6 ? 'bg-emerald-100 border-emerald-600 text-slate-950 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-500/30 dark:border-emerald-400 dark:text-emerald-300 dark:ring-2 dark:ring-emerald-500/50' : 'bg-slate-50 border-slate-300 text-emerald-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'sec6' ? null : 'sec6')}
+          className={`p-2.5 rounded-xl border text-xs font-black transition-all duration-200 flex items-center justify-between ${activeTab === 'sec6' || activeTab === null
+            ? 'bg-emerald-100 border-emerald-600 text-emerald-950 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-950 dark:border-emerald-500 dark:text-emerald-200'
+            : 'bg-slate-50 border-slate-300 text-emerald-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 dark:hover:bg-slate-800/80 dark:hover:text-white'
+            }`}
         >
           <span>⚡ 6. Simulador VAAD</span>
-          <span>{showSection6 ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'sec6' || activeTab === null ? '👁️' : '🙈'}</span>
         </button>
       </div>
 
-      {/* APARTADO 1 */}
-      {showSection1 && (
+      {/* SECCION 1 */}
+      {activeTab === 'sec1' && (
         <div className="p-5 rounded-2xl border transition-all space-y-4 bg-teal-50 border-teal-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-teal-500/30 dark:text-slate-300">
           <h4 className={`text-sm font-bold uppercase tracking-wider text-teal-950 dark:text-teal-400`}>
             🔬 1. La Fuerza de Salida: ¿Por qué un paciente deja de estar en Diálisis?
@@ -264,8 +277,8 @@ export default function Punto5({ isDarkMode }) {
         </div>
       )}
 
-      {/* APARTADO 2 */}
-      {showSection2 && (
+      {/* SECCION 2 */}
+      {activeTab === 'sec2' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-cyan-50/60 border-cyan-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-cyan-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-cyan-950 dark:text-cyan-400`}>
             📊 2. Eventos Competitivos y Ajuste por Salud del Paciente (Fine & Gray)
@@ -296,14 +309,14 @@ export default function Punto5({ isDarkMode }) {
         </div>
       )}
 
-      {/* APARTADO 3 */}
-      {showSection3 && (
+      {/* SECCION 3 */}
+      {activeTab === 'sec3' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-amber-50/60 border-amber-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-amber-950 dark:text-amber-400`}>
             💰 3. La Estructura Financiera: Pagos Mensuales y Descuento por Tiempo
           </h4>
 
-          <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-amber-300 shadow-sm dark:bg-slate-900/80 dark:border-slate-800`}>
+          <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-amber-300 shadow-sm dark:bg-slate-900/80 dark:border-amber-800`}>
             <p className="mb-2">
               <strong>Concepto Claro:</strong> Las clínicas de diálisis no le cobran a la obra social una vez al año, sino todos los meses. Por lo tanto, no podemos calcular el dinero en años enteros; debemos dividir el año en 12 meses.
             </p>
@@ -312,7 +325,7 @@ export default function Punto5({ isDarkMode }) {
             </p>
           </div>
 
-          <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-amber-300 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
+          <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-amber-300 shadow-sm dark:bg-slate-900 dark:border-amber-800`}>
             <span className="font-bold text-amber-600 dark:text-amber-400">Tasa de Descuento Financiera Mensual Equivalente:</span>
             <MathJaxFormula display={true} formula="j = (1 + r)^{1/12} - 1" />
             <span className="font-bold text-amber-600 dark:text-amber-400 mt-2 block">Factor para Actualizar Financieramente un Pago Mensual del Mes k:</span>
@@ -330,14 +343,14 @@ export default function Punto5({ isDarkMode }) {
         </div>
       )}
 
-      {/* APARTADO 4 */}
-      {showSection4 && (
+      {/* SECCION 4 */}
+      {activeTab === 'sec4' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-purple-50/60 border-purple-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-purple-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-purple-950 dark:text-purple-400`}>
             📈 4. El Factor de Ajustes Arancelarios (g): La Actualización del Módulo
           </h4>
 
-          <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-purple-300 shadow-sm dark:bg-slate-900/80 dark:border-slate-800`}>
+          <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-purple-300 shadow-sm dark:bg-slate-900/80 dark:border-purple-800`}>
             <p className="mb-2">
               <strong>Concepto Claro:</strong> En el sistema de salud, los aranceles de los módulos de diálisis sufren actualizaciones periódicas de precios para mantener la paridad técnica de la prestación. Llamamos <strong>tasa de ajustes arancelarios (<MathJaxFormula formula="g" />)</strong> a esta tasa de variación del módulo.
             </p>
@@ -346,7 +359,7 @@ export default function Punto5({ isDarkMode }) {
             </p>
           </div>
 
-          <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-purple-300 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
+          <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-purple-300 shadow-sm dark:bg-slate-900 dark:border-purple-800`}>
             <span className="font-bold text-purple-600 dark:text-purple-400">Costo del Arancel Mensual en el Mes k con Ajustes Arancelarios:</span>
             <MathJaxFormula display={true} formula="C_k = C_0 \cdot (1 + g)^{k/12}" />
             <span className="font-bold text-purple-600 dark:text-purple-400 mt-2 block">Factor Neto Combinado (Ajustes Arancelarios vs Descuento Financiero):</span>
@@ -364,8 +377,8 @@ export default function Punto5({ isDarkMode }) {
         </div>
       )}
 
-      {/* APARTADO 5 */}
-      {showSection5 && (
+      {/* SECCION 5 */}
+      {activeTab === 'sec5' && (
         <div className={`p-6 rounded-3xl border-2 shadow-2xl transition-all space-y-5 bg-white border-rose-600 ring-2 ring-rose-600/10 text-slate-950 dark:bg-slate-900 dark:border-rose-500/50 dark:ring-1 dark:ring-rose-500/20 dark:text-white`}>
 
           <div className="flex items-center justify-between border-b pb-3 border-rose-500/30">
@@ -405,7 +418,7 @@ export default function Punto5({ isDarkMode }) {
       )}
 
       {/* APARTADO 6: MODELO DE SIMULACIÓN INTERACTIVO DEL VAAD */}
-      {showSection6 && (
+      {(activeTab === 'sec6' || activeTab === null) && (
         <div className="p-6 rounded-3xl border-2 shadow-2xl transition-all space-y-6 bg-white border-emerald-600 ring-2 ring-emerald-600/10 text-slate-900 dark:bg-slate-950 dark:border-emerald-500/40 dark:ring-1 dark:ring-emerald-500/20 dark:text-slate-100">
 
           {/* Encabezado del Simulador */}
@@ -705,7 +718,7 @@ export default function Punto5({ isDarkMode }) {
                 </div>
 
                 <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-mono mt-1">
-                  * Donde <MathJaxFormula formula="TEA" /> se obtiene de la TNA cargada ({tasaInteresTNA} %): <MathJaxFormula formula={`TEA = (1 + \\frac{${fmtLatex(tasaInteresTNA/100, 4)}}{12})^{12} - 1 = ${fmtLatex(teaCalculada*100, 2)}\\%`} />.
+                  * Donde <MathJaxFormula formula="TEA" /> se obtiene de la TNA cargada ({tasaInteresTNA} %): <MathJaxFormula formula={`TEA = (1 + \\frac{${fmtLatex(tasaInteresTNA / 100, 4)}}{12})^{12} - 1 = ${fmtLatex(teaCalculada * 100, 2)}\\%`} />.
                   La variable <MathJaxFormula formula="k" /> representa el mes de la proyección (desde 0 hasta <MathJaxFormula formula="M-1" />), donde <MathJaxFormula formula="M" /> es el límite máximo de meses proyectados ({Math.min((100 - edad) * 12, 360)} meses).
                   La variable <MathJaxFormula formula="q_j" /> es la probabilidad mensual de salida ajustada por el riesgo total del paciente (edad base más comorbilidades).
                 </div>

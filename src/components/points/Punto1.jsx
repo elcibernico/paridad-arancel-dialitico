@@ -6,32 +6,31 @@ export default function Punto1() {
 
   return (
     <div className="space-y-8">
-      
+
       {/* Encabezado Narrativo */}
       <div className="border-b pb-4 border-slate-300 dark:border-slate-800">
         <span className="text-sm font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400">
           El Dilema Inicial
         </span>
         <h3 className="text-3xl sm:text-4xl font-extrabold mt-1 text-slate-900 dark:text-white">
-          Definir el Valor Actual Actuarial de Diálisis (VAAD) de un paciente que HOY inicia tratamiento sustitutivo.
+          Definir el <u>Valor Actual Actuarial de Diálisis</u> (VAAD) de un paciente que HOY inicia tratamiento sustitutivo.
         </h3>
         <p className="text-base sm:text-lg mt-2 leading-relaxed text-slate-800 font-normal dark:text-slate-300">
-          El punto de equilibrio de largo plazo entre el financiador (obra social, entidad de la seguridad social o prepaga) y el prestador especializado (centro de diálisis autónomo o red nefrológica).<br /><br />
-          Denominamos Valor Actual Actuarial de Diálisis (VAAD), el cual se define formalmente como la prima única pura; es decir, “<i>el valor presente esperado de la totalidad de las erogaciones financieras futuras en las que incurrirá la entidad de cobertura médica por un paciente desde el momento exacto de su ingreso al tratamiento sustitutivo y durante toda su vida remanente</i>”.<br />
+          El <MathJaxFormula formula="VAAD" /> es el punto de equilibrio de largo plazo entre el financiador (obra social, entidad financiadora de salud, caja o prepaga) y el prestador especializado (centro prestador de diálisis autónomo o red nefrológica).<br /><br />
+          Definimos así el <MathJaxFormula formula="VAAD" />, como una <b><i>prima única pura</i></b>; es decir,<br /><br />“<b><i>el valor presente esperado de la totalidad de las erogaciones financieras futuras, <br />en las que incurrirá una entidad de cobertura médica, <br />por un paciente, <br />desde el momento exacto de su ingreso al tratamiento sustitutivo, <br />y durante toda su vida remanente</i></b>”.<br /><br />
         </p>
       </div>
 
       {/* Controles de Revelado Narrativo: 4 Pasos Progresivos */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        
+
         {/* Tarjeta 1: La Pregunta de Fondo */}
         <button
           onClick={() => setActiveTab(activeTab === 'pregunta' ? null : 'pregunta')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${
-            activeTab === 'pregunta'
-              ? 'bg-teal-50 border-teal-600 text-slate-900 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/10 dark:border-teal-500 dark:text-white dark:shadow-lg dark:shadow-teal-500/10'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200'
-          }`}
+          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'pregunta'
+            ? 'bg-teal-50 border-teal-600 text-slate-900 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/10 dark:border-teal-500 dark:text-white dark:shadow-lg dark:shadow-teal-500/10'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xl">❓</span>
@@ -42,7 +41,7 @@ export default function Punto1() {
           <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
             1. El Enigma Financiero
           </h4>
-          <p className="text-xs text-slate-700 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             El desafío de calcular el VAAD.
           </p>
         </button>
@@ -50,11 +49,10 @@ export default function Punto1() {
         {/* Tarjeta 2: Las 3 Dimensiones de Riesgo */}
         <button
           onClick={() => setActiveTab(activeTab === 'variables' ? null : 'variables')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${
-            activeTab === 'variables'
-              ? 'bg-emerald-50 border-emerald-600 text-slate-900 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-500/10 dark:border-emerald-500 dark:text-white dark:shadow-lg dark:shadow-emerald-500/10'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200'
-          }`}
+          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'variables'
+            ? 'bg-emerald-50 border-emerald-600 text-slate-900 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-500/10 dark:border-emerald-500 dark:text-white dark:shadow-lg dark:shadow-emerald-500/10'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-emerald-500/50 dark:hover:text-white'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xl">🎲</span>
@@ -65,7 +63,7 @@ export default function Punto1() {
           <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
             2. Las 3 Incertidumbres
           </h4>
-          <p className="text-xs text-slate-700 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Biométrica, Financiera y Operativa.
           </p>
         </button>
@@ -73,11 +71,10 @@ export default function Punto1() {
         {/* Tarjeta Intermedia NUEVA: Necesidad de la Tabla Actuarial */}
         <button
           onClick={() => setActiveTab(activeTab === 'tabla_necesidad' ? null : 'tabla_necesidad')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${
-            activeTab === 'tabla_necesidad'
-              ? 'bg-cyan-50 border-cyan-600 text-slate-900 shadow-md ring-2 ring-cyan-600 dark:bg-cyan-500/10 dark:border-cyan-500 dark:text-white dark:shadow-lg dark:shadow-cyan-500/10'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200'
-          }`}
+          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'tabla_necesidad'
+            ? 'bg-cyan-50 border-cyan-600 text-slate-900 shadow-md ring-2 ring-cyan-600 dark:bg-cyan-500/10 dark:border-cyan-500 dark:text-white dark:shadow-lg dark:shadow-cyan-500/10'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-cyan-50/50 hover:border-cyan-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-cyan-500/50 dark:hover:text-white'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xl">📊</span>
@@ -88,7 +85,7 @@ export default function Punto1() {
           <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
             3. La Necesidad de la Tabla
           </h4>
-          <p className="text-xs text-slate-700 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Construir la Tabla Actuarial de Diálisis.
           </p>
         </button>
@@ -96,11 +93,10 @@ export default function Punto1() {
         {/* Tarjeta 4: El Punto de Quiebre */}
         <button
           onClick={() => setActiveTab(activeTab === 'paradigma' ? null : 'paradigma')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${
-            activeTab === 'paradigma'
-              ? 'bg-amber-50 border-amber-600 text-slate-900 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/10 dark:border-amber-500 dark:text-white dark:shadow-lg dark:shadow-amber-500/10'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-400 dark:hover:border-slate-700 dark:hover:text-slate-200'
-          }`}
+          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'paradigma'
+            ? 'bg-amber-50 border-amber-600 text-slate-900 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/10 dark:border-amber-500 dark:text-white dark:shadow-lg dark:shadow-amber-500/10'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+            }`}
         >
           <div className="flex items-center justify-between mb-2">
             <span className="text-2xl">⚡</span>
@@ -111,7 +107,7 @@ export default function Punto1() {
           <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
             4. El Punto de Quiebre
           </h4>
-          <p className="text-xs text-slate-700 dark:text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Falla de la supervivencia médica en actuaría.
           </p>
         </button>
@@ -125,11 +121,11 @@ export default function Punto1() {
             El Planteo del VAAD
           </h4>
           <p className="text-base leading-relaxed mt-2">
-            Teóricamente, el <strong>Valor Actual Actuarial de Diálisis (VAAD)</strong> intenta responder: <em>"¿Qué suma de dinero debería reservarse hoy para cubrir todos los costos dialíticos futuros de un paciente hasta su fallecimiento o trasplante?"</em>
+            Teóricamente, el <MathJaxFormula formula="VAAD" /> intenta responder: <em>"¿Qué suma de dinero debería reservarse hoy para cubrir todos los costos dialíticos futuros de un paciente hasta su fallecimiento o trasplante?"</em>
           </p>
           <div className={`p-4 rounded-xl border mt-3 text-sm bg-white border-teal-200 text-slate-800 shadow-sm dark:bg-slate-900/90 dark:border-slate-800 dark:text-slate-300`}>
             <p className={`font-bold text-slate-900 dark:text-slate-200`}>🔍 El problema implícito:</p>
-            <p className="mt-1">Para calcular ese monto actuarial se requiere conocer dos cosas con precisión absoluta: la <strong>sobrevivencia exacta del paciente</strong> en el tiempo y la <strong>evolución de la inflación médica</strong>.</p>
+            <p className="mt-1">Para calcular ese monto actuarial se requiere conocer dos cosas con precisión absoluta: la <strong>sobrevivencia exacta del paciente</strong> en el tiempo y la <strong>evolución de los costos de la prestación dialítica</strong>.</p>
           </div>
         </div>
       )}
@@ -146,7 +142,7 @@ export default function Punto1() {
             </div>
             <div className={`p-4 rounded-xl border bg-white border-emerald-200 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
               <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>2. Financiera</h5>
-              <p className={`text-sm text-slate-700 dark:text-slate-400`}>¿A qué ritmo crecen los insumos dolarizados y los salarios de salud?</p>
+              <p className={`text-sm text-slate-700 dark:text-slate-400`}>¿A qué ritmo crecen los insumos o costos nacionales y/o dolarizados y los salarios de salud?</p>
             </div>
             <div className={`p-4 rounded-xl border bg-white border-emerald-200 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
               <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>3. Operativa</h5>
@@ -177,7 +173,7 @@ export default function Punto1() {
       {activeTab === 'paradigma' && (
         <div className={`p-6 rounded-2xl border transition-all bg-amber-50/50 border-amber-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <h4 className={`text-xl font-bold text-amber-900 dark:text-amber-400`}>
-            La Semilla del Conflicto: Falla de la Literatura Nefrológica Clásica para los calculos ACTUARIALES financieros
+            Falla de la Literatura Clásica al realizar calculos ACTUARIALES financieros
           </h4>
           <p className="text-base leading-relaxed mt-2">
             Tradicionalmente, la literatura nefrológica y los modelos de gestión han utilizado el estimador de <strong>Kaplan-Meier</strong> para calcular esa supervivencia. Sin embargo, cuando pretendemos usar Kaplan-Meier para armar la tabla actuarial, <strong>descubrimos que introduce un sesgo de sobreestimación sistemática de la mortalidad en diálisis</strong>.

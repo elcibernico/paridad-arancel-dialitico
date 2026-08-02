@@ -31,7 +31,7 @@ export default function Punto9() {
 
     const mcoResult = calculateMCO(X, Y);
     const vifs = calculateVIFs(filtered);
-    
+
     let conditionNumber = Infinity;
     if (mcoResult && !mcoResult.error && mcoResult.XtX_inv) {
       conditionNumber = calculateConditionNumber(mcoResult.XtX, mcoResult.XtX_inv);
@@ -80,7 +80,7 @@ export default function Punto9() {
   // Alerta según CN y VIF
   const getSeverityLevel = () => {
     if (metrics.mcoError) return { label: 'Colapso Matemático Total', color: 'text-red-500 border-red-500 bg-red-950/20', desc: 'La devaluación y la inflación se movieron de forma idéntica en este tramo. La matriz es singular (determinante cero), haciendo imposible calcular la regresión.' };
-    
+
     const maxVif = Math.max(metrics.vifs.ipc, metrics.vifs.usd, metrics.vifs.cct);
     const cn = metrics.conditionNumber;
 
@@ -96,7 +96,7 @@ export default function Punto9() {
 
   return (
     <div className="space-y-6">
-      
+
       {/* HEADER */}
       <div className="border-b pb-4 border-slate-300 dark:border-slate-800">
         <span className="text-xs font-black uppercase tracking-wider text-red-800 dark:text-red-400">
@@ -171,7 +171,7 @@ export default function Punto9() {
 
       {/* METRICAS Y EXPLICACIONES */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        
+
         {/* CARD 1: VIF CON EXPLICACION DE VALORES EN TIEMPO REAL */}
         <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-3">
           <span className="text-xs font-black uppercase tracking-wider text-slate-400 block border-b border-slate-800 pb-1.5">
@@ -180,39 +180,39 @@ export default function Punto9() {
           <div className="space-y-3">
             <div className="space-y-0.5">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-slate-350">VIF IPC (Gastos):</span>
+                <span className="font-semibold text-slate-350"><MathJaxFormula formula="VIF_{IPC}" /> (Gastos):</span>
                 <span className={`font-mono font-black ${metrics.vifs.ipc > 10 ? 'text-red-450' : 'text-emerald-400'}`}>
-                   {metrics.vifs.ipc === Infinity ? '∞' : fmtAR(metrics.vifs.ipc, 2)}
+                  {metrics.vifs.ipc === Infinity ? '∞' : fmtAR(metrics.vifs.ipc, 2)}
                 </span>
               </div>
               <p className="text-[10.5px] text-slate-450 leading-tight">
-                {metrics.vifs.ipc === Infinity 
+                {metrics.vifs.ipc === Infinity
                   ? 'Colapso total.' : `La varianza del estimador de IPC está inflada en un factor de ${fmtAR(metrics.vifs.ipc, 1)}. Destruye la precisión estadística de la variable.`}
               </p>
             </div>
-            
+
             <div className="space-y-0.5">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-slate-350">VIF USD (Insumos):</span>
+                <span className="font-semibold text-slate-350"><MathJaxFormula formula="VIF_{USD}" /> (Insumos):</span>
                 <span className={`font-mono font-black ${metrics.vifs.usd > 10 ? 'text-red-450' : 'text-emerald-400'}`}>
-                   {metrics.vifs.usd === Infinity ? '∞' : fmtAR(metrics.vifs.usd, 2)}
+                  {metrics.vifs.usd === Infinity ? '∞' : fmtAR(metrics.vifs.usd, 2)}
                 </span>
               </div>
               <p className="text-[10.5px] text-slate-450 leading-tight">
-                {metrics.vifs.usd === Infinity 
+                {metrics.vifs.usd === Infinity
                   ? 'Colapso total.' : `La varianza de la variable cambiaria (USD) está inflada en un factor de ${fmtAR(metrics.vifs.usd, 1)} debido a su alta correlación.`}
               </p>
             </div>
 
             <div className="space-y-0.5">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-slate-350">VIF CCT (Salarios):</span>
+                <span className="font-semibold text-slate-350"><MathJaxFormula formula="VIF_{CCT}" /> (Salarios):</span>
                 <span className={`font-mono font-black ${metrics.vifs.cct > 10 ? 'text-red-450' : 'text-emerald-400'}`}>
-                   {metrics.vifs.cct === Infinity ? '∞' : fmtAR(metrics.vifs.cct, 2)}
+                  {metrics.vifs.cct === Infinity ? '∞' : fmtAR(metrics.vifs.cct, 2)}
                 </span>
               </div>
               <p className="text-[10.5px] text-slate-450 leading-tight">
-                {metrics.vifs.cct === Infinity 
+                {metrics.vifs.cct === Infinity
                   ? 'Colapso total.' : `La varianza del salario CCT está inflada en un factor de ${fmtAR(metrics.vifs.cct, 1)}, provocando inestabilidad extrema de signo.`}
               </p>
             </div>
@@ -240,25 +240,25 @@ export default function Punto9() {
         {/* CARD 3: MATRIZ DE CORRELACIONES */}
         <div className="p-4 bg-slate-900 border border-slate-800 rounded-2xl space-y-3">
           <span className="text-xs font-black uppercase tracking-wider text-slate-400 block border-b border-slate-800 pb-1.5">
-            🤝 Correlaciones de Pearson (r)
+            🤝 Correlaciones de Pearson (<MathJaxFormula formula="r" />)
           </span>
           <div className="space-y-2">
             <div className="flex justify-between items-center text-xs">
               <span className="font-semibold text-slate-400">r (IPC vs USD):</span>
               <span className="font-mono font-bold text-cyan-400">
-                 {fmtAR(metrics.corr.ipc_usd, 4)}
+                {fmtAR(metrics.corr.ipc_usd, 4)}
               </span>
             </div>
             <div className="flex justify-between items-center text-xs">
               <span className="font-semibold text-slate-400">r (IPC vs CCT):</span>
               <span className="font-mono font-bold text-cyan-400">
-                 {fmtAR(metrics.corr.ipc_cct, 4)}
+                {fmtAR(metrics.corr.ipc_cct, 4)}
               </span>
             </div>
             <div className="flex justify-between items-center text-xs">
               <span className="font-semibold text-slate-400">r (USD vs CCT):</span>
               <span className="font-mono font-bold text-cyan-400">
-                 {fmtAR(metrics.corr.usd_cct, 4)}
+                {fmtAR(metrics.corr.usd_cct, 4)}
               </span>
             </div>
           </div>

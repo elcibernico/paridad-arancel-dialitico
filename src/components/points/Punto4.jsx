@@ -2,13 +2,8 @@ import React, { useState } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
 
 export default function Punto4({ isDarkMode }) {
-  const [showBasalTable, setShowBasalTable] = useState(false);
-  const [showSHRTable, setShowSHRTable] = useState(false);
-  const [showFormulaExample, setShowFormulaExample] = useState(false);
-  const [showHybridStructure, setShowHybridStructure] = useState(false);
-  const [showIntegratedTable, setShowIntegratedTable] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
   const [showMathFormula, setShowMathFormula] = useState(false);
-  const [showConflict, setShowConflict] = useState(false);
 
   // Datos Tabla 1: Tasas Basales de Mortalidad Anual (por 1,000 P/AER)
   const tablaBasal = [
@@ -62,61 +57,82 @@ export default function Punto4({ isDarkMode }) {
       </div>
 
       {/* Botones de Control de Revelado Interactivos (6 Apartados) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
         <button
-          onClick={() => setShowBasalTable(!showBasalTable)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showBasalTable ? 'bg-teal-50 border-teal-600 text-slate-900 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'basal' ? null : 'basal')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'basal'
+              ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
+          }`}
         >
-          <span className="flex items-center gap-1">
-            <span>1. Tasas Basales</span>
-            <MathJaxFormula formula="q_{x,0}" className="inline-block text-xs font-serif" />
-          </span>
-          <span>{showBasalTable ? '👁️' : '🙈'}</span>
+          <span>1. Tasas Basales</span>
+          <span>{activeTab === 'basal' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowSHRTable(!showSHRTable)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSHRTable ? 'bg-cyan-50 border-cyan-600 text-slate-900 shadow-md ring-2 ring-cyan-600 dark:bg-cyan-500/20 dark:border-cyan-500 dark:text-cyan-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'shr' ? null : 'shr')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'shr'
+              ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+          }`}
         >
-          <span>2. Multiplicadores SHR</span>
-          <span>{showSHRTable ? '👁️' : '🙈'}</span>
+          <span>2. Factores SHR</span>
+          <span>{activeTab === 'shr' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowFormulaExample(!showFormulaExample)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showFormulaExample ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'formula' ? null : 'formula')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'formula'
+              ? 'bg-indigo-50 border-indigo-500 text-slate-900 shadow-md ring-2 ring-indigo-500 dark:bg-indigo-500/20 dark:border-indigo-500 dark:text-indigo-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-indigo-50/50 hover:border-indigo-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-indigo-500/50 dark:hover:text-white'
+          }`}
         >
-          <span>3. Fórmula y Ejemplo</span>
-          <span>{showFormulaExample ? '👁️' : '🙈'}</span>
+          <span>3. Fórmula de Ajuste</span>
+          <span>{activeTab === 'formula' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowHybridStructure(!showHybridStructure)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showHybridStructure ? 'bg-blue-50 border-blue-600 text-slate-900 shadow-md ring-2 ring-blue-600 dark:bg-blue-500/20 dark:border-blue-500 dark:text-blue-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'hibrida' ? null : 'hibrida')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'hibrida'
+              ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-purple-50/50 hover:border-purple-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-purple-500/50 dark:hover:text-white'
+          }`}
         >
           <span>4. Estructura Híbrida</span>
-          <span>{showHybridStructure ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'hibrida' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowIntegratedTable(!showIntegratedTable)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showIntegratedTable ? 'bg-purple-50 border-purple-600 text-slate-900 shadow-md ring-2 ring-purple-600 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'integrada' ? null : 'integrada')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'integrada'
+              ? 'bg-emerald-50 border-emerald-500 text-slate-900 shadow-md ring-2 ring-emerald-500 dark:bg-emerald-500/20 dark:border-emerald-500 dark:text-emerald-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-emerald-500/50 dark:hover:text-white'
+          }`}
         >
-          <span>5. Tabla Integrada</span>
-          <span>{showIntegratedTable ? '👁️' : '🙈'}</span>
+          <span>5. Tabla 5 Años</span>
+          <span>{activeTab === 'integrada' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowConflict(!showConflict)}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showConflict ? 'bg-rose-50 border-rose-600 text-slate-950 shadow-md ring-2 ring-rose-600 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'conflicto' ? null : 'conflicto')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'conflicto'
+              ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+          }`}
         >
-          <span>6. ¿Conflicto Final?</span>
-          <span>{showConflict ? '👁️' : '🙈'}</span>
+          <span>6. Conflicto VAAD</span>
+          <span>{activeTab === 'conflicto' ? '👁️' : '🙈'}</span>
         </button>
       </div>
 
       {/* APARTADO 1: TABLA DE TASAS BASALES CON MATHJAX FORMULA RENDERIZADO */}
-      {showBasalTable && (
+      {activeTab === 'basal' && (
         <div className={`p-5 rounded-2xl border transition-all bg-teal-50/60 border-teal-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-teal-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 flex items-center gap-2 flex-wrap text-teal-950 dark:text-teal-400`}>
             <span>📊 1. Tasas Basales de Mortalidad Anual</span>
@@ -157,7 +173,7 @@ export default function Punto4({ isDarkMode }) {
       )}
 
       {/* APARTADO 2: MATRIZ DE MULTIPLICADORES SHR POR COMORBILIDAD RENDERIZADOS CON MATHJAX */}
-      {showSHRTable && (
+      {activeTab === 'shr' && (
         <div className={`p-5 rounded-2xl border transition-all bg-cyan-50/60 border-cyan-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-cyan-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 text-cyan-950 dark:text-cyan-400`}>
             🧬 2. Matriz Actuarial de Multiplicadores de Riesgo (SHR de Fine y Gray)
@@ -192,7 +208,7 @@ export default function Punto4({ isDarkMode }) {
       )}
 
       {/* APARTADO 3: FÓRMULA DE AJUSTE Y EJEMPLO PRÁCTICO */}
-      {showFormulaExample && (
+      {activeTab === 'formula' && (
         <div className={`p-5 rounded-2xl border transition-all bg-amber-50/60 border-amber-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <div className="flex items-center justify-between">
             <h4 className={`text-sm font-bold uppercase tracking-wider text-amber-950 dark:text-amber-400`}>
@@ -247,7 +263,7 @@ export default function Punto4({ isDarkMode }) {
       )}
 
       {/* APARTADO 4: ESTRUCTURA HÍBRIDA DE LA TABLA (MENSUAL AÑO 1 vs ANUAL AÑO 2 EN ADELANTE) */}
-      {showHybridStructure && (
+      {activeTab === 'hibrida' && (
         <div className={`p-5 rounded-2xl border transition-all bg-blue-50/60 border-blue-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-blue-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 text-blue-950 dark:text-blue-400`}>
             📐 4. La Estructura Híbrida de la Tabla Actuarial: Periodicidad Mensual y Anual
@@ -297,7 +313,7 @@ export default function Punto4({ isDarkMode }) {
       )}
 
       {/* APARTADO 5: TABLA DE MORTALIDAD INTEGRADA (5 AÑOS) 100% EN TANTO POR UNO */}
-      {showIntegratedTable && (
+      {activeTab === 'integrada' && (
         <div className={`p-5 rounded-2xl border transition-all bg-purple-50/60 border-purple-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-purple-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 text-purple-950 dark:text-purple-400`}>
             📈 5. Tabla de Mortalidad Actuarial Integrada para 4 Perfiles Típicos (Primeros 5 Años en Tanto por Uno)
@@ -334,7 +350,7 @@ export default function Punto4({ isDarkMode }) {
       )}
 
       {/* APARTADO 6: EL CONFLICTO FINAL QUE DISPARA EL PUNTO 5 */}
-      {showConflict && (
+      {activeTab === 'conflicto' && (
         <div className={`p-5 rounded-2xl border transition-all bg-rose-50/60 border-rose-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-rose-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-rose-950 dark:text-rose-400`}>🔥 6. El Nuevo Conflicto Disparador</h4>
           <p className="text-base sm:text-lg leading-relaxed mt-1">

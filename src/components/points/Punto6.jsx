@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import MathJaxFormula from '../MathJaxFormula';
 
 export default function Punto6({ isDarkMode, onNext }) {
-  const [showSection1, setShowSection1] = useState(false);
-  const [showSection2, setShowSection2] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
 
   return (
     <div className="space-y-6">
@@ -24,30 +23,38 @@ export default function Punto6({ isDarkMode, onNext }) {
       {/* Botones de Control de Revelado (Apartados 1 y 2) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <button
-          onClick={() => setShowSection1(!showSection1)}
-          className={`p-3.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection1 ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'razones' ? null : 'razones')}
+          className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'razones'
+              ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+          }`}
         >
           <div className="flex items-center gap-2">
             <span>🚨</span>
             <span>1. Las 3 Razones para Desestimar el VAAD Único</span>
           </div>
-          <span>{showSection1 ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'razones' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowSection2(!showSection2)}
-          className={`p-3.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection2 ? 'bg-teal-50 border-teal-600 text-slate-950 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'paradigma' ? null : 'paradigma')}
+          className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
+            activeTab === 'paradigma'
+              ? 'bg-teal-50 border-teal-600 text-slate-950 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+          }`}
         >
           <div className="flex items-center gap-2">
             <span>🔄</span>
             <span>2. Cambio de Paradigma (Deconstrucción del VAAD)</span>
           </div>
-          <span>{showSection2 ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'paradigma' ? '👁️' : '🙈'}</span>
         </button>
       </div>
 
       {/* APARTADO 1: LAS 3 RAZONES PARA DESESTIMAR EL VAAD */}
-      {showSection1 && (
+      {activeTab === 'razones' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-amber-50/60 border-amber-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <div className="flex items-center gap-2">
             <span className="text-xl">🛑</span>
@@ -119,7 +126,7 @@ export default function Punto6({ isDarkMode, onNext }) {
       )}
 
       {/* APARTADO 2: CAMBIO DE PARADIGMA (DEL VAAD AL MODELO ECONOMÉTRICO DE PARIDAD) */}
-      {showSection2 && (
+      {activeTab === 'paradigma' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-teal-50/60 border-teal-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-teal-500/30 dark:text-slate-300`}>
           <div className="flex items-center gap-2">
             <span className="text-xl">🔄</span>

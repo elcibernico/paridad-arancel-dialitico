@@ -2,12 +2,8 @@ import React, { useState } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
 
 export default function Punto2({ isDarkMode }) {
-  const [showProblem, setShowProblem] = useState(false);
-  const [showMethod, setShowMethod] = useState(false);
-  const [showComparisonTable, setShowComparisonTable] = useState(false);
-  const [showReservesImpact, setShowReservesImpact] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
   const [showMathFormula, setShowMathFormula] = useState(false);
-  const [showConflict, setShowConflict] = useState(false);
 
   const data = [
     { plazo: 'Inicio (0 Meses)', km: '100%', cif: '100%', error: 'Sin error inicial' },
@@ -20,7 +16,7 @@ export default function Punto2({ isDarkMode }) {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Título y Hilo Narrativo */}
       <div className={`border-b pb-4 border-slate-300 dark:border-slate-800`}>
         <span className={`text-sm font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400`}>
@@ -34,48 +30,63 @@ export default function Punto2({ isDarkMode }) {
       {/* Botones de Control de Revelado Interactivos (5 Apartados) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5">
         <button
-          onClick={() => setShowProblem(!showProblem)}
-          className={`p-3 rounded-xl border text-sm font-bold transition flex items-center justify-between ${showProblem ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'problema' ? null : 'problema')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'problema'
+            ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>1. ¿El Problema?</span>
-          <span>{showProblem ? '👁️' : '🙈'}</span>
+          <span>1. El Problema</span>
+          <span>{activeTab === 'problema' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowMethod(!showMethod)}
-          className={`p-3 rounded-xl border text-sm font-bold transition flex items-center justify-between ${showMethod ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'solucion' ? null : 'solucion')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'solucion'
+            ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>2. ¿La Solución?</span>
-          <span>{showMethod ? '👁️' : '🙈'}</span>
+          <span>2. La Solución</span>
+          <span>{activeTab === 'solucion' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowComparisonTable(!showComparisonTable)}
-          className={`p-3 rounded-xl border text-sm font-bold transition flex items-center justify-between ${showComparisonTable ? 'bg-emerald-50 border-emerald-500 text-slate-900 shadow-md ring-2 ring-emerald-500 dark:bg-emerald-500/20 dark:border-emerald-500 dark:text-emerald-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'desviacion' ? null : 'desviacion')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'desviacion'
+            ? 'bg-emerald-50 border-emerald-500 text-slate-900 shadow-md ring-2 ring-emerald-500 dark:bg-emerald-500/20 dark:border-emerald-500 dark:text-emerald-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-emerald-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>3. Ver Desviación (+11.4%)</span>
-          <span>{showComparisonTable ? '👁️' : '🙈'}</span>
+          <span>3. La Desviación</span>
+          <span>{activeTab === 'desviacion' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowReservesImpact(!showReservesImpact)}
-          className={`p-3 rounded-xl border text-sm font-bold transition flex items-center justify-between ${showReservesImpact ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'reservas' ? null : 'reservas')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'reservas'
+            ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-purple-50/50 hover:border-purple-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-purple-500/50 dark:hover:text-white'
+            }`}
         >
           <span>4. Subestimación de Reservas</span>
-          <span>{showReservesImpact ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'reservas' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowConflict(!showConflict)}
-          className={`p-3 rounded-xl border text-sm font-bold transition flex items-center justify-between ${showConflict ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'conflicto' ? null : 'conflicto')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'conflicto'
+            ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>5. ¿El Conflicto Final?</span>
-          <span>{showConflict ? '👁️' : '🙈'}</span>
+          <span>5. El Conflicto Final</span>
+          <span>{activeTab === 'conflicto' ? '👁️' : '🙈'}</span>
         </button>
       </div>
 
       {/* APARTADO 1: EL PROBLEMA */}
-      {showProblem && (
+      {activeTab === 'problema' && (
         <div className={`p-5 rounded-2xl border transition-all bg-rose-50/60 border-rose-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-rose-500/30 dark:text-slate-300`}>
           <h4 className={`text-base font-bold uppercase tracking-wider text-rose-900 dark:text-rose-400`}>⚠️ 1. El Problema Biométrico</h4>
           <p className="text-sm sm:text-base leading-relaxed mt-1">
@@ -85,7 +96,7 @@ export default function Punto2({ isDarkMode }) {
       )}
 
       {/* APARTADO 2: LA SOLUCIÓN Y FÓRMULAS CON COLOR AMARILLO UNIFICADO PARA KM */}
-      {showMethod && (
+      {activeTab === 'solucion' && (
         <div className={`p-5 rounded-2xl border transition-all bg-teal-50/60 border-teal-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-teal-500/30 dark:text-slate-300`}>
           <div className="flex items-center justify-between">
             <h4 className={`text-sm font-bold uppercase tracking-wider text-teal-900 dark:text-teal-400`}>💡 2. La Solución: Función de Incidencia Acumulada</h4>
@@ -103,16 +114,16 @@ export default function Punto2({ isDarkMode }) {
 
           {showMathFormula && (
             <div className={`p-5 rounded-xl border mt-3 space-y-6 text-xs bg-white border-teal-200 shadow-sm text-slate-800 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300`}>
-              
+
               {/* Ecuación 1: Kaplan-Meier (Unificada a Amarillo) */}
               <div className="space-y-2">
                 <span className="font-bold text-amber-500 dark:text-amber-400">Ecuación de Kaplan-Meier (Sesgada):</span>
-                <MathJaxFormula 
-                  display={true} 
-                  className="block text-center my-3 text-amber-400 dark:text-amber-400 font-serif text-lg" 
-                  formula="\hat{S}_{KM}(t) = \prod_{t_i \le t} \left( 1 - \frac{d_i}{n_i} \right)" 
+                <MathJaxFormula
+                  display={true}
+                  className="block text-center my-3 text-amber-400 dark:text-amber-400 font-serif text-lg"
+                  formula="\hat{S}_{KM}(t) = \prod_{t_i \le t} \left( 1 - \frac{d_i}{n_i} \right)"
                 />
-                
+
                 <div className="pl-3 border-l-2 border-amber-500/40 text-[11px] leading-relaxed space-y-1">
                   <span className="font-bold text-amber-500 dark:text-amber-400">donde:</span>
                   <ul className="list-disc pl-4 space-y-0.5">
@@ -136,7 +147,7 @@ export default function Punto2({ isDarkMode }) {
               <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
                 <span className="font-bold text-teal-600 dark:text-teal-400">Ecuación de la Función de Incidencia Acumulada (Fine y Gray):</span>
                 <MathJaxFormula display={true} formula="CIF_k(t) = \int_0^t S(u^-) \cdot dH_k(u)" />
-                
+
                 <div className="pl-3 border-l-2 border-teal-500/40 text-[11px] leading-relaxed space-y-1">
                   <span className="font-bold text-teal-600 dark:text-teal-400">donde:</span>
                   <ul className="list-disc pl-4 space-y-0.5">
@@ -153,8 +164,8 @@ export default function Punto2({ isDarkMode }) {
         </div>
       )}
 
-      {/* APARTADO 3: LA TABLA DE DESVIACIONES TOTALMENTE CLARA Y SIN ABREVIATURAS */}
-      {showComparisonTable && (
+      {/* APARTADO 3: TABLA DE COMPARACIÓN */}
+      {activeTab === 'desviacion' && (
         <div className={`p-5 rounded-2xl border transition-all bg-emerald-50/60 border-emerald-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-emerald-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 text-emerald-950 dark:text-emerald-400`}>
             📊 3. Comparación de Supervivencia: Método Sesgado vs. Método Real (Argentina)
@@ -187,13 +198,13 @@ export default function Punto2({ isDarkMode }) {
         </div>
       )}
 
-      {/* APARTADO 4: IMPACTO EN RESERVAS CON LOS 6 TEXTOS PROFESIONALES REVISADOS */}
-      {showReservesImpact && (
+      {/* APARTADO 4: IMPACTO EN RESERVAS */}
+      {activeTab === 'reservas' && (
         <div className={`p-5 rounded-2xl border transition-all bg-purple-50/60 border-purple-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-purple-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-purple-900 dark:text-purple-400`}>
             📉 4. El Impacto Financiero: Subestimación de la Reserva Matemática
           </h4>
-          
+
           <p className="text-xs sm:text-sm leading-relaxed mt-2">
             Al asumir que un paciente trasplantado o que haya recuperado su función renal opera como una simple censura convencional, el modelo ignora que este no ha fallecido y que existe la probabilidad real de que reingrese a diálisis.
           </p>
@@ -225,10 +236,10 @@ export default function Punto2({ isDarkMode }) {
             </span>
 
             <div className="space-y-6">
-              
+
               {/* RENGLÓN 1: Pasos 1, 2, 3 + INDICADOR 1 (CONTINÚA) */}
               <div className="flex flex-col md:flex-row items-center gap-3">
-                
+
                 {/* 1. Tarjeta 1 */}
                 <div className={`p-3.5 rounded-2xl border text-xs font-bold flex-1 flex items-center justify-between shadow-sm min-h-[72px] bg-rose-50 border-rose-300 text-slate-900 dark:bg-rose-950/40 dark:border-rose-500/50 dark:text-rose-200`}>
                   <span className="leading-snug">1. Trata el Trasplante Renal como censura independiente (asumiendo falsamente que el trasplantado mantiene el mismo riesgo de morir en diálisis).</span>
@@ -263,7 +274,7 @@ export default function Punto2({ isDarkMode }) {
 
               {/* RENGLÓN 2: INDICADOR 2 (VIENE DE ARRIBA) + Pasos 4, 5 y Conclusión */}
               <div className="flex flex-col md:flex-row items-center gap-3">
-                
+
                 {/* INDICADOR 2: VIENE DE ARRIBA */}
                 <div className="hidden md:flex flex-col items-center justify-center shrink-0 pr-2 text-purple-400">
                   <svg className="w-6 h-6 text-purple-400 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -306,8 +317,8 @@ export default function Punto2({ isDarkMode }) {
         </div>
       )}
 
-      {/* APARTADO 5: EL CONFLICTO QUE DISPARA EL PUNTO 3 */}
-      {showConflict && (
+      {/* APARTADO 5: EL CONFLICTO FINAL */}
+      {activeTab === 'conflicto' && (
         <div className={`p-5 rounded-2xl border transition-all bg-amber-50/60 border-amber-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-amber-950 dark:text-amber-400`}>🔥 5. El Nuevo Conflicto Disparador</h4>
           <p className="text-xs sm:text-sm leading-relaxed mt-1">

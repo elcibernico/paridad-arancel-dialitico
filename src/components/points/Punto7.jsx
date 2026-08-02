@@ -4,10 +4,7 @@ import seriesData from '../../data/seriesData.json';
 import { fmtAR, fmtLatex } from '../../utils/format';
 
 export default function Punto7() {
-  const [showSection1, setShowSection1] = useState(false);
-  const [showSection2, setShowSection2] = useState(false);
-  const [showSection3, setShowSection3] = useState(false);
-  const [showSection4, setShowSection4] = useState(true);
+  const [activeTab, setActiveTab] = useState('simulador');
 
   // States for parameters
   const [wCCT, setWCCT] = useState(40);
@@ -103,34 +100,61 @@ export default function Punto7() {
         </p>
       </div>
 
-      {/* BOTONES COLAPSABLES */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
-        <button onClick={() => setShowSection1(!showSection1)} className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection1 ? 'bg-indigo-50 border-indigo-600 text-indigo-950 shadow-md ring-2 ring-indigo-600 dark:bg-indigo-950 dark:border-indigo-500 dark:text-indigo-200' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}>
-          <span>1. Pesos (w)</span>
-          <span>{showSection1 ? '👁️' : '🙈'}</span>
+      {/* Botones de Control de Revelado (Apartados 1 a 4) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <button
+          onClick={() => setActiveTab(activeTab === 'pesos' ? null : 'pesos')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'pesos'
+            ? 'bg-indigo-50 border-indigo-600 text-indigo-950 shadow-md ring-2 ring-indigo-600 dark:bg-indigo-950 dark:border-indigo-500 dark:text-indigo-200'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-indigo-50/50 hover:border-indigo-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-indigo-500/50 dark:hover:text-white'
+            }`}
+        >
+          <span>1. Ponderación de Incidencias</span>
+          <span>{activeTab === 'pesos' ? '👁️' : '🙈'}</span>
         </button>
-        <button onClick={() => setShowSection2(!showSection2)} className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection2 ? 'bg-blue-50 border-blue-600 text-blue-950 shadow-md ring-2 ring-blue-600 dark:bg-blue-950 dark:border-blue-500 dark:text-blue-200' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}>
+
+        <button
+          onClick={() => setActiveTab(activeTab === 'relativos' ? null : 'relativos')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'relativos'
+            ? 'bg-blue-50 border-blue-600 text-blue-950 shadow-md ring-2 ring-blue-600 dark:bg-blue-950 dark:border-blue-500 dark:text-blue-200'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-blue-50/50 hover:border-blue-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-blue-500/50 dark:hover:text-white'
+            }`}
+        >
           <span>2. Índices Relativos</span>
-          <span>{showSection2 ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'relativos' ? '👁️' : '🙈'}</span>
         </button>
-        <button onClick={() => setShowSection3(!showSection3)} className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between ${showSection3 ? 'bg-fuchsia-50 border-fuchsia-600 text-fuchsia-950 shadow-md ring-2 ring-fuchsia-600 dark:bg-fuchsia-950 dark:border-fuchsia-500 dark:text-fuchsia-200' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}>
+
+        <button
+          onClick={() => setActiveTab(activeTab === 'polinomico' ? null : 'polinomico')}
+          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'polinomico'
+            ? 'bg-fuchsia-50 border-fuchsia-600 text-fuchsia-950 shadow-md ring-2 ring-fuchsia-600 dark:bg-fuchsia-950 dark:border-fuchsia-500 dark:text-fuchsia-200'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-fuchsia-50/50 hover:border-fuchsia-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-fuchsia-500/50 dark:hover:text-white'
+            }`}
+        >
           <span>3. Índice Polinómico</span>
-          <span>{showSection3 ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'polinomico' ? '👁️' : '🙈'}</span>
         </button>
-        <button onClick={() => setShowSection4(!showSection4)} className={`p-2.5 rounded-xl border text-xs font-extrabold transition flex items-center justify-between ${showSection4 ? 'bg-emerald-100 border-emerald-600 text-emerald-950 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-950 dark:border-emerald-500 dark:text-emerald-200' : 'bg-slate-50 border-slate-300 text-emerald-800 hover:bg-slate-100 dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400'}`}>
+
+        <button
+          onClick={() => setActiveTab(activeTab === 'simulador' ? null : 'simulador')}
+          className={`p-2.5 rounded-xl border text-xs font-extrabold transition-all duration-200 flex items-center justify-between ${activeTab === 'simulador' || activeTab === null
+            ? 'bg-emerald-100 border-emerald-600 text-emerald-950 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-950 dark:border-emerald-500 dark:text-emerald-200'
+            : 'bg-slate-50 border-slate-300 text-emerald-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 dark:hover:bg-slate-800/80 dark:hover:text-white'
+            }`}
+        >
           <span>⚡ 4. Simulador Polinómico</span>
-          <span>{showSection4 ? '👁️' : '🙈'}</span>
+          <span>{activeTab === 'simulador' || activeTab === null ? '👁️' : '🙈'}</span>
         </button>
       </div>
 
       {/* SECCION 1 */}
-      {showSection1 && (
+      {activeTab === 'pesos' && (
         <div className="p-5 rounded-2xl border transition-all space-y-4 bg-indigo-50 border-indigo-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-indigo-500/30 dark:text-slate-300">
           <h4 className="text-sm font-bold uppercase tracking-wider text-indigo-900 dark:text-indigo-300">
-            ⚖️ 1. Ponderación de Pesos (Restricción de Completitud)
+            ⚖️ 1. Ponderación de Incidencias (Restricción de Completitud)
           </h4>
           <div className="p-4 rounded-xl border text-xs leading-relaxed bg-white border-indigo-300 shadow-sm dark:bg-slate-900/80 dark:border-slate-800">
-            <p>Se asigna a cada factor un peso porcentual (<MathJaxFormula formula="w" />) según la estructura operativa. La hemodiálisis combina mano de obra calificada (CCT), insumos importados (USD) y gastos generales (IPC). Estos pesos deben sumar 100%.</p>
+            <p>Se asigna a cada factor una incidencia porcentual (<MathJaxFormula formula="w" />) según la estructura operativa. La hemodiálisis combina mano de obra calificada (CCT), insumos importados (USD) y gastos generales (IPC). Estas incidencias deben sumar 100%.</p>
           </div>
           <div className="p-4 rounded-xl border text-xs space-y-2 bg-white border-indigo-300 shadow-sm dark:bg-slate-900 dark:border-slate-800">
             <MathJaxFormula display={true} formula="w_{CCT} + w_{USD} + w_{IPC} = 1.0" />
@@ -147,7 +171,7 @@ export default function Punto7() {
       )}
 
       {/* SECCION 2 */}
-      {showSection2 && (
+      {activeTab === 'relativos' && (
         <div className="p-5 rounded-2xl border transition-all space-y-4 bg-blue-50 border-blue-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-blue-500/30 dark:text-slate-300">
           <h4 className="text-sm font-bold uppercase tracking-wider text-blue-900 dark:text-blue-300 flex flex-wrap items-center gap-1">
             <span>📊 2. Construcción de Índices Relativos con Base </span>
@@ -173,17 +197,18 @@ export default function Punto7() {
       )}
 
       {/* SECCION 3 */}
-      {showSection3 && (
+      {activeTab === 'polinomico' && (
         <div className="p-5 rounded-2xl border transition-all space-y-4 bg-fuchsia-50 border-fuchsia-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-fuchsia-500/30 dark:text-slate-300">
           <h4 className="text-sm font-bold uppercase tracking-wider text-fuchsia-900 dark:text-fuchsia-300 flex flex-wrap items-center gap-1">
             <span>🎯 3. Agregación del Índice Polinómico (</span>
             <MathJaxFormula formula="I^P_t" />
-            <span>) y Valor Teórico (</span>
+            <span>) y Valor Polinómico Teórico (</span>
             <MathJaxFormula formula="V^P_t" />
             <span>)</span>
           </h4>
           <div className="p-4 rounded-xl border text-xs leading-relaxed bg-white border-fuchsia-300 shadow-sm dark:bg-slate-900/80 dark:border-slate-800">
-            <p>Se consolida la inflación multiplicando cada índice relativo por su peso. Luego, el arancel del mes base se actualiza con este Índice para hallar el valor de paridad técnica teórica.</p>
+            <p>Se consolida la variacion, multiplicando cada Índice Relativo por su incidencia en el precio (<MathJaxFormula formula="I^P_t" />).<br />
+              Luego, <MathJaxFormula formula="Y_{t_0}" /> (el arancel del mes base <MathJaxFormula formula="t_0" />), se actualiza con este Índice (<MathJaxFormula formula="I^P_t" />) para hallar el valor de paridad técnica teórica (<MathJaxFormula formula="V^P_t" />)</p>
           </div>
           <div className="p-4 rounded-xl border text-xs space-y-2 bg-white border-fuchsia-300 shadow-sm dark:bg-slate-900 dark:border-slate-800 flex flex-col gap-2">
             <MathJaxFormula display={true} formula="I^P_t = w_{CCT} \cdot I^{CCT}_t + w_{USD} \cdot I^{USD}_t + w_{IPC} \cdot I^{IPC}_t" />
@@ -201,7 +226,7 @@ export default function Punto7() {
       )}
 
       {/* SECCION 4: SIMULADOR */}
-      {showSection4 && (
+      {(activeTab === 'simulador' || activeTab === null) && (
         <div className="p-6 rounded-3xl border-2 shadow-2xl transition-all space-y-6 bg-white border-emerald-600 ring-2 ring-emerald-600/10 text-slate-900 dark:bg-slate-950 dark:border-emerald-500/40 dark:ring-1 dark:ring-emerald-500/20 dark:text-slate-100">
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-3 border-emerald-500/30 gap-2">
@@ -222,7 +247,7 @@ export default function Punto7() {
           {/* CONTROLES DE PESOS */}
           <div className="p-4 rounded-2xl border space-y-3 bg-emerald-50/50 border-emerald-500 text-slate-900 shadow-md dark:bg-slate-900 dark:border-emerald-500/30 dark:text-slate-100">
             <span className="text-sm font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 flex justify-between items-center">
-              <span>🎛️ 1. Estructura de Costos (Incidencias %)</span>
+              <span>🎛️ 1. Estructura de Incidencias Relativas (%) de las Variables</span>
               <span className={`px-2 py-0.5 rounded font-mono ${isValidSum ? 'bg-emerald-200 text-emerald-800 dark:bg-emerald-800 dark:text-emerald-100' : 'bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-100'}`}>Σ = {totalW}%</span>
             </span>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -266,7 +291,7 @@ export default function Punto7() {
           {/* CONTROLES DE PERIODOS Y MODALIDAD */}
           <div className="p-4 rounded-2xl border space-y-3 bg-emerald-50/50 border-emerald-500 text-slate-900 shadow-md dark:bg-slate-900 dark:border-emerald-500/30 dark:text-slate-100">
             <span className="text-sm font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block">
-              🗓️ 2. Horizonte y Modalidad de Análisis
+              🗓️ 2. Horizonte Temporal y Modalidad Dialítica
             </span>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="flex flex-col space-y-1.5">

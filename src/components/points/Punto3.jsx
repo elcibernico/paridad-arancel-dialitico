@@ -2,20 +2,17 @@ import React, { useState } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
 
 export default function Punto3({ isDarkMode }) {
-  const [showProblem, setShowProblem] = useState(false);
-  const [showMethod, setShowMethod] = useState(false);
-  const [showInteractiveDiagram, setShowInteractiveDiagram] = useState(false);
+  const [activeTab, setActiveTab] = useState(null);
   const [showMathFormula, setShowMathFormula] = useState(false);
-  const [showConflict, setShowConflict] = useState(false);
   const [selectedState, setSelectedState] = useState(null);
 
   const states = [
-    { 
-      id: 1, 
-      name: 'Hemodiálisis (HD)', 
-      type: 'Transitorio (Estado 1)', 
-      color: 'border-teal-500 bg-teal-500/10 text-teal-900 dark:text-teal-300', 
-      formula: '\\alpha_{1,6}(t)', 
+    {
+      id: 1,
+      name: 'Hemodiálisis (HD)',
+      type: 'Transitorio (Estado 1)',
+      color: 'border-teal-500 bg-teal-500/10 text-teal-900 dark:text-teal-300',
+      formula: '\\alpha_{1,6}(t)',
       desc: 'Modalidad principal de tratamiento en centro clínico (91.12% de la cohorte argentina).',
       transitionTitle: 'Pase de Hemodiálisis (Estado 1) a Muerte (Estado 6)',
       transitionExplanation: [
@@ -25,12 +22,12 @@ export default function Punto3({ isDarkMode }) {
         { symbol: 't', label: 'Tiempo de permanencia o exposición al riesgo en el tratamiento sustitutivo.' }
       ]
     },
-    { 
-      id: 2, 
-      name: 'Diálisis Peritoneal (DP)', 
-      type: 'Transitorio (Estado 2)', 
-      color: 'border-cyan-500 bg-cyan-500/10 text-cyan-900 dark:text-cyan-300', 
-      formula: '\\alpha_{2,6}(t)', 
+    {
+      id: 2,
+      name: 'Diálisis Peritoneal (DP)',
+      type: 'Transitorio (Estado 2)',
+      color: 'border-cyan-500 bg-cyan-500/10 text-cyan-900 dark:text-cyan-300',
+      formula: '\\alpha_{2,6}(t)',
       desc: 'Terapia domiciliaria continua con menor estrés cardiovascular inicial.',
       transitionTitle: 'Pase de Diálisis Peritoneal (Estado 2) a Muerte (Estado 6)',
       transitionExplanation: [
@@ -40,12 +37,12 @@ export default function Punto3({ isDarkMode }) {
         { symbol: 't', label: 'Tiempo transcurrido desde el inicio de la terapia domiciliaria.' }
       ]
     },
-    { 
-      id: 3, 
-      name: 'Hemodiafiltración (HDF)', 
-      type: 'Transitorio (Estado 3)', 
-      color: 'border-emerald-500 bg-emerald-500/10 text-emerald-900 dark:text-emerald-300', 
-      formula: '\\alpha_{3,6}(t)', 
+    {
+      id: 3,
+      name: 'Hemodiafiltración (HDF)',
+      type: 'Transitorio (Estado 3)',
+      color: 'border-emerald-500 bg-emerald-500/10 text-emerald-900 dark:text-emerald-300',
+      formula: '\\alpha_{3,6}(t)',
       desc: 'Técnica convectiva de alta pureza (13.18% de prevalentes) con mayor supervivencia.',
       transitionTitle: 'Pase de Hemodiafiltración de Alto Volumen (Estado 3) a Muerte (Estado 6)',
       transitionExplanation: [
@@ -55,12 +52,12 @@ export default function Punto3({ isDarkMode }) {
         { symbol: 't', label: 'Tiempo de exposición bajo la modalidad convectiva.' }
       ]
     },
-    { 
-      id: 4, 
-      name: 'Lista de Espera (LE)', 
-      type: 'Transitorio (Estado 4)', 
-      color: 'border-amber-500 bg-amber-500/10 text-amber-900 dark:text-amber-300', 
-      formula: '\\alpha_{4,5}(t)', 
+    {
+      id: 4,
+      name: 'Lista de Espera (LE)',
+      type: 'Transitorio (Estado 4)',
+      color: 'border-amber-500 bg-amber-500/10 text-amber-900 dark:text-amber-300',
+      formula: '\\alpha_{4,5}(t)',
       desc: 'Estado de aptitud clínica activa registrado ante el SINTRA / INCUCAI.',
       transitionTitle: 'Pase de Lista de Espera SINTRA (Estado 4) a Trasplante Renal Activo (Estado 5)',
       transitionExplanation: [
@@ -70,12 +67,12 @@ export default function Punto3({ isDarkMode }) {
         { symbol: 't', label: 'Tiempo de espera acumulado en la lista oficial de procuración.' }
       ]
     },
-    { 
-      id: 5, 
-      name: 'Trasplante (TR)', 
-      type: 'Absorbente / Exitoso (Estado 5)', 
-      color: 'border-purple-500 bg-purple-500/10 text-purple-900 dark:text-purple-300', 
-      formula: '\\text{Cese de Pasivo}', 
+    {
+      id: 5,
+      name: 'Trasplante (TR)',
+      type: 'Absorbente / Exitoso (Estado 5)',
+      color: 'border-purple-500 bg-purple-500/10 text-purple-900 dark:text-purple-300',
+      formula: '\\text{Cese de Pasivo}',
       desc: 'Restauración de la función renal con mantenimiento de inmunosupresores.',
       transitionTitle: 'Salida del Pasivo Dialítico Continuo (Estado 5)',
       transitionExplanation: [
@@ -84,12 +81,12 @@ export default function Punto3({ isDarkMode }) {
         { symbol: 'Ahorro', label: 'Elimina el costo operativo trisemanal de diálisis, requiriendo solo previsión de inmunosupresores.' }
       ]
     },
-    { 
-      id: 6, 
-      name: 'Muerte (M)', 
-      type: 'Absorbente / Evento Falla (Estado 6)', 
-      color: 'border-rose-500 bg-rose-500/10 text-rose-900 dark:text-rose-300', 
-      formula: '\\mu_{x+t}^{(\\tau)}', 
+    {
+      id: 6,
+      name: 'Muerte (M)',
+      type: 'Absorbente / Evento Falla (Estado 6)',
+      color: 'border-rose-500 bg-rose-500/10 text-rose-900 dark:text-rose-300',
+      formula: '\\mu_{x+t}^{(\\tau)}',
       desc: 'Estado absorbente final del modelo multiestado.',
       transitionTitle: 'Fuerza de Mortalidad Global Acumulada (Estado 6)',
       transitionExplanation: [
@@ -102,7 +99,7 @@ export default function Punto3({ isDarkMode }) {
 
   return (
     <div className="space-y-6">
-      
+
       {/* Encabezado del Punto 3 */}
       <div className={`border-b pb-4 border-slate-300 dark:border-slate-800`}>
         <span className={`text-xs font-black uppercase tracking-wider text-teal-800 dark:text-teal-400`}>
@@ -113,43 +110,55 @@ export default function Punto3({ isDarkMode }) {
         </h3>
       </div>
 
-      {/* Botones de Control de Revelado Interactivos */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* Botones de Control de Revelado (4 Apartados) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <button
-          onClick={() => setShowProblem(!showProblem)}
-          className={`p-3 rounded-xl border text-xs font-black transition flex items-center justify-between ${showProblem ? 'bg-rose-100 border-rose-600 text-rose-950 shadow-md ring-2 ring-rose-600 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300' : 'bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'problema' ? null : 'problema')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'problema'
+            ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>1. ¿El Problema?</span>
-          <span>{showProblem ? '👁️' : '🙈'}</span>
+          <span>1. ¿Por qué Markov?</span>
+          <span>{activeTab === 'problema' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowMethod(!showMethod)}
-          className={`p-3 rounded-xl border text-xs font-black transition flex items-center justify-between ${showMethod ? 'bg-teal-100 border-teal-600 text-teal-950 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300' : 'bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'diagrama' ? null : 'diagrama')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'diagrama'
+            ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>2. ¿La Solución Markoviana?</span>
-          <span>{showMethod ? '👁️' : '🙈'}</span>
+          <span>2. Diagrama de los 6 Estados</span>
+          <span>{activeTab === 'diagrama' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowInteractiveDiagram(!showInteractiveDiagram)}
-          className={`p-3 rounded-xl border text-xs font-black transition flex items-center justify-between ${showInteractiveDiagram ? 'bg-emerald-100 border-emerald-600 text-emerald-950 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-500/20 dark:border-emerald-500 dark:text-emerald-300' : 'bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'matriz' ? null : 'matriz')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'matriz'
+            ? 'bg-cyan-50 border-cyan-500 text-slate-900 shadow-md ring-2 ring-cyan-500 dark:bg-cyan-500/20 dark:border-cyan-500 dark:text-cyan-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-cyan-50/50 hover:border-cyan-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-cyan-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>3. Probar Diagrama S</span>
-          <span>{showInteractiveDiagram ? '👁️' : '🙈'}</span>
+          <span>3. Matriz de Transición de Estados</span>
+          <span>{activeTab === 'matriz' ? '👁️' : '🙈'}</span>
         </button>
 
         <button
-          onClick={() => setShowConflict(!showConflict)}
-          className={`p-3 rounded-xl border text-xs font-black transition flex items-center justify-between ${showConflict ? 'bg-amber-100 border-amber-600 text-amber-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300' : 'bg-slate-100 border-slate-300 text-slate-900 hover:bg-slate-200 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400 dark:hover:text-white'}`}
+          onClick={() => setActiveTab(activeTab === 'conflicto' ? null : 'conflicto')}
+          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'conflicto'
+            ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
+            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+            }`}
         >
-          <span>4. ¿El Conflicto Final?</span>
-          <span>{showConflict ? '👁️' : '🙈'}</span>
+          <span>4. El Conflicto Metodológico</span>
+          <span>{activeTab === 'conflicto' ? '👁️' : '🙈'}</span>
         </button>
       </div>
 
-      {/* BLOQUE 1: EL PROBLEMA DE MARKOV */}
-      {showProblem && (
+      {/* APARTADO 1: POR QUÉ MARKOV */}
+      {activeTab === 'problema' && (
         <div className={`p-5 rounded-2xl border transition-all bg-rose-50 border-rose-500 text-slate-950 font-medium dark:bg-slate-950 dark:border-rose-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-black uppercase tracking-wider text-rose-950 dark:text-rose-400`}>⚠️ 1. El Problema de la Rigidez Biométrica</h4>
           <p className="text-base sm:text-lg leading-relaxed mt-1">
@@ -158,8 +167,8 @@ export default function Punto3({ isDarkMode }) {
         </div>
       )}
 
-      {/* BLOQUE 2: LA SOLUCIÓN Y FÓRMULAS OPCIONALES */}
-      {showMethod && (
+      {/* APARTADO 3: LA MATRIZ DE TRANSICIÓN Y FÓRMULAS */}
+      {activeTab === 'matriz' && (
         <div className={`p-5 rounded-2xl border transition-all bg-teal-50 border-teal-500 text-slate-950 font-medium dark:bg-slate-950 dark:border-teal-500/30 dark:text-slate-300`}>
           <div className="flex items-center justify-between">
             <h4 className={`text-sm font-black uppercase tracking-wider text-teal-950 dark:text-teal-400`}>💡 2. La Solución: Matriz Estocástica de Markov</h4>
@@ -186,8 +195,8 @@ export default function Punto3({ isDarkMode }) {
         </div>
       )}
 
-      {/* BLOQUE 3: DIAGRAMA INTERACTIVO CON DIV SUPERIOR E INFERIOR DESGLOSADO */}
-      {showInteractiveDiagram && (
+      {/* APARTADO 2: DIAGRAMA INTERACTIVO DE 6 ESTADOS */}
+      {activeTab === 'diagrama' && (
         <div className={`p-5 rounded-2xl border transition-all bg-emerald-50 border-emerald-500 text-slate-950 font-medium dark:bg-slate-950 dark:border-emerald-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-black uppercase tracking-wider mb-2 text-emerald-950 dark:text-emerald-400`}>🕹️ 3. Diagrama Estocástico de Estados S</h4>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -195,9 +204,8 @@ export default function Punto3({ isDarkMode }) {
               <button
                 key={st.id}
                 onClick={() => setSelectedState(st)}
-                className={`p-3 rounded-xl border text-left transition ${st.color} ${
-                  selectedState?.id === st.id ? 'ring-2 ring-slate-900 dark:ring-white font-black' : ''
-                } ${!isDarkMode ? 'bg-white shadow-sm hover:bg-slate-100 border-slate-300' : ''}`}
+                className={`p-3 rounded-xl border text-left transition ${st.color} ${selectedState?.id === st.id ? 'ring-2 ring-slate-900 dark:ring-white font-black' : ''
+                  } ${!isDarkMode ? 'bg-white shadow-sm hover:bg-slate-100 border-slate-300' : ''}`}
               >
                 <div className="text-xs font-black text-slate-950 dark:text-white">{st.name}</div>
                 <div className="text-xs opacity-90 font-bold">{st.type}</div>
@@ -207,7 +215,7 @@ export default function Punto3({ isDarkMode }) {
 
           {selectedState && (
             <div className="space-y-3 mt-3">
-              
+
               {/* DIV 1 (SUPERIOR): Título, Descripción y Ecuación Gigante a la Derecha */}
               <div className={`p-5 rounded-xl border flex items-center justify-between min-h-[96px] bg-white border-emerald-300 shadow-sm text-slate-950 dark:bg-slate-900 dark:border-slate-800`}>
                 <div className="space-y-1.5 max-w-[65%]">
@@ -257,8 +265,8 @@ export default function Punto3({ isDarkMode }) {
         </div>
       )}
 
-      {/* BLOQUE 4: EL CONFLICTO QUE DISPARA EL PUNTO 4 */}
-      {showConflict && (
+      {/* APARTADO 4: EL CONFLICTO METODOLÓGICO Y DISPARADOR DEL PUNTO 4 */}
+      {activeTab === 'conflicto' && (
         <div className={`p-5 rounded-2xl border transition-all bg-amber-50 border-amber-500 text-slate-950 font-medium dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-black uppercase tracking-wider text-amber-950 dark:text-amber-400`}>🔥 4. El Conflicto para la Práctica Real</h4>
           <p className="text-base sm:text-lg leading-relaxed mt-1">

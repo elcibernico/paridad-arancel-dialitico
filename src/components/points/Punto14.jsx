@@ -12,15 +12,15 @@ export default function Punto14() {
         <h3 className="text-xl font-black text-white">
           La Síntesis Unificada de la Paridad Arancelaria
         </h3>
-        
+
         <div className="border-l-4 border-teal-500 pl-4 italic text-slate-300 text-xs leading-relaxed space-y-2">
           <p>
-            "La paridad técnica arancelaria no es un indicador estático. Constituye la intersección donde 
-            el comportamiento histórico del financiamiento (análisis retrospectivo) se concilia con la estructura de costos reales 
+            "La paridad técnica arancelaria no es un indicador estático. Constituye la intersección donde
+            el comportamiento histórico del financiamiento (análisis retrospectivo) se concilia con la estructura de costos reales
             (ecuación polinómica) y los escenarios futuros de inflación y rezago (análisis prospectivo)."
           </p>
           <p>
-            "El objetivo final del modelo es determinar un arancel de equilibrio que no solo cubra los costos de hoy, 
+            "El objetivo final del modelo es determinar un arancel de equilibrio que no solo cubra los costos de hoy,
             sino que además absorba el daño acumulado en el pasado y prevea la erosión del valor en el futuro."
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function Punto14() {
             ⚙️ 1. Estructura de Paridad Polinómica
           </span>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Establece los pesos técnicos relativos de la actividad (45% salarios CCT, 35% insumos dolarizados USD, 20% gastos generales IPC), 
+            Establece los pesos técnicos relativos de la actividad (45% salarios CCT, 35% insumos dolarizados USD, 20% gastos generales IPC),
             definiendo la velocidad objetiva de actualización arancelaria.
           </p>
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-850 text-center overflow-x-auto">
@@ -48,7 +48,7 @@ export default function Punto14() {
             🔍 2. Análisis Retrospectivo
           </span>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Identifica el daño acumulado histórico. Utiliza la regresión MCO y Ridge para aislar la colinealidad macroeconómica 
+            Identifica el daño acumulado histórico. Utiliza la regresión MCO y Ridge para aislar la colinealidad macroeconómica
             y medir la brecha acumulada real y la erosión generada por el rezago financiero (Time Lag).
           </p>
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-850 text-center overflow-x-auto">
@@ -62,7 +62,7 @@ export default function Punto14() {
             🔮 3. Proyección Prospectiva
           </span>
           <p className="text-xs text-slate-300 leading-relaxed">
-            Simula las trayectorias futuras recursivas ante shocks macroeconómicos y plazos de pago proyectados, 
+            Simula las trayectorias futuras recursivas ante shocks macroeconómicos y plazos de pago proyectados,
             asegurando la sostenibilidad operativa ante la erosión esperada.
           </p>
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-850 text-center">
@@ -77,11 +77,11 @@ export default function Punto14() {
           💡 Ecuación de Vinculación y Recomposición Arancelaria (Arancel Objetivo)
         </span>
         <p className="text-xs text-slate-300 leading-relaxed">
-          Para restablecer el equilibrio económico-financiero de la clínica, definimos el <strong>Arancel de Equilibrio Recompuesto (<MathJaxFormula formula="Y^*_T" />)</strong>. 
-          Este valor unifica el costo polinómico de paridad del mes actual con un factor de amortización de pérdida pasada 
-          y una prima de cobertura de riesgo inflacionario futuro:
+          Para restablecer el equilibrio económico-financiero de la clínica, definimos el <strong>Arancel de Equilibrio Recompuesto (<MathJaxFormula formula="Y^*_T" />)</strong>.
+          Este valor unifica el costo polinómico de paridad del mes actual con un factor de amortización de pérdida pasada
+          y una prima de cobertura de riesgos (macroeconómicos) futuros:
         </p>
-        
+
         <div className="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-center my-3">
           <MathJaxFormula formula="Y^*_T = V^P_T + \\Delta_{\\text{recuperación}} + \\Phi_{\\text{prospectiva}}" />
         </div>
@@ -97,7 +97,7 @@ export default function Punto14() {
           </div>
           <div className="p-3 bg-slate-950/30 rounded-xl border border-slate-850">
             <strong className="text-emerald-400 block mb-1">3. Cobertura Prospectiva (<MathJaxFormula formula="\\Phi_{\\text{prospectiva}}" />)</strong>
-            Cubre de manera predictiva la pérdida por erosión nominal futura calculada a partir del plazo de pago de la obra social y las expectativas de inflación.
+            Cubre de manera predictiva la pérdida por erosión nominal futura calculada a partir del plazo de pago de la obra social y las expectativas de variaciones macroeconómicas.
           </div>
         </div>
       </div>
