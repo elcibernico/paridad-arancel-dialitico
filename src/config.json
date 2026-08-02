@@ -1,0 +1,120 @@
+{
+  "header": {
+    "title": "PARIDAD TÉCNICA Y ACTUARIAL",
+    "subtitle": "Arancel Dialítico en Argentina",
+    "author": "Pablo Nicolás Demartis",
+    "institution": "UNR - Facultad de Ciencias Económicas y Estadística"
+  },
+  "footer": {
+    "disclaimer": "Modelo Actuarial y Econométrico de Paridad Arancelaria para Tratamiento Dialítico Crónico.",
+    "contactWhatsapp": "https://wa.me/5493410000000",
+    "copyright": "© 2026 UNR / Pablo Nicolás Demartis. Todos los derechos reservados."
+  },
+  "sections": [
+    {
+      "id": 1,
+      "part": 1,
+      "title": "Punto 1: Introducción y Marco Conceptual",
+      "subtitle": "El ideal teórico del VAAD (Valor Actual Actuarial de Diálisis)",
+      "badge": "Parte 1 - Modelo Actuarial"
+    },
+    {
+      "id": 2,
+      "part": 1,
+      "title": "Punto 2: Limitaciones del Modelo Clásico",
+      "subtitle": "El Sesgo del Estimador Kaplan-Meier",
+      "badge": "Parte 1 - Modelo Actuarial"
+    },
+    {
+      "id": 3,
+      "part": 1,
+      "title": "Punto 3: Solución Metodológica",
+      "subtitle": "Modelo Multiestado de Markov y Riesgos Competitivos",
+      "badge": "Parte 1 - Modelo Actuarial"
+    },
+    {
+      "id": 4,
+      "part": 1,
+      "title": "Punto 4: Tabla Actuarial Híbrida y Fases de Exposición",
+      "subtitle": "Registro Argentino de Diálisis 2023-2024",
+      "badge": "Parte 1 - Modelo Actuarial"
+    },
+    {
+      "id": 5,
+      "part": 1,
+      "title": "Punto 5: Expansión Geométrica por Ajustes Arancelarios",
+      "subtitle": "Ecuación Unificada del VAAD",
+      "badge": "Parte 1 - Modelo Actuarial"
+    },
+    {
+      "id": 6,
+      "part": 1,
+      "title": "Punto 6: El Quiebre Metodológico",
+      "subtitle": "Conflicto Bioético y Cambio de Paradigma",
+      "badge": "Parte 1 - Modelo Actuarial"
+    },
+    {
+      "id": 7,
+      "part": 2,
+      "title": "Punto 7: El Motor de Costos Microeconómico",
+      "subtitle": "Fórmula Polinómica Estructural (CCT, USD, IPC)",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 8,
+      "part": 2,
+      "title": "Punto 8: Modelado Econométrico Histórico",
+      "subtitle": "Estimación MCO de Elasticidades",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 9,
+      "part": 2,
+      "title": "Punto 9: Colapso por Multicolinealidad Estructural",
+      "subtitle": "Falla de Inferencia en Escenarios de Alta Inflación",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 10,
+      "part": 2,
+      "title": "Punto 10: Regularización mediante Regresión Ridge",
+      "subtitle": "Contracción L2 y Corrección del VIF",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 11,
+      "part": 2,
+      "title": "Punto 11: Algoritmo de Simulación Dinámica",
+      "subtitle": "Proyección Prospectiva Recursiva",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 12,
+      "part": 2,
+      "title": "Punto 12: Modelización del Rezago Temporal",
+      "subtitle": "Time Lag y Efecto Cascada Financiero",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 13,
+      "part": 2,
+      "title": "Punto 13: Métricas de Impacto Financiero",
+      "subtitle": "Brecha de Cobertura y Daño Económico Institucional",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 14,
+      "part": 2,
+      "title": "Punto 14: El Epílogo Aplicado",
+      "subtitle": "Arancel Técnico de Paridad Actualizado",
+      "badge": "Parte 2 - Modelo Econométrico"
+    },
+    {
+      "id": 15,
+      "part": 2,
+      "title": "Punto 15: Conclusiones y Agendas Futuras",
+      "subtitle": "Aperturas de Investigación y Resumen de Hallazgos",
+      "badge": "Parte 2 - Modelo Econométrico"
+    }
+  ]
+}
