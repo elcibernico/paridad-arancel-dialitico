@@ -392,13 +392,26 @@ export default function Punto12() {
                 <div className="p-3 bg-slate-900/60 rounded-xl text-center">
                   <span className={`text-[20px]`}><MathJaxFormula formula={"TEM = \\frac{TNA}{12}"} /></span>
                   <br />
-                  <span className="text-xs text-slate-500">
-                    Cálculo: {tna} % / 12 = {fmtAR(calculations.tem, 4)} ({fmtAR(calculations.tem * 100, 2)} % mensual)
+                  <span className="inline-block text-[24px]">
+                    <MathJaxFormula className="text-white" formula={`TEM = \\frac{${tna}\\%}{12} = ${fmtAR(calculations.tem, 4)} \\text{ (}${fmtAR(calculations.tem * 100, 2)}\\%\\text{ mensual)}`} />
                   </span>
                 </div>
 
                 <p className="text-slate-300 font-sans">
-                  <strong>2. Ecuación de Descuento Financiero e Inflacionario Combinado:</strong>
+                  <strong>2. Conversión del Plazo de Pago en Días a Meses (<MathJaxFormula formula="m" />):</strong>
+                  <br />
+                  Se convierte el atraso comercial en días a su fracción equivalente en meses tomando como base estándar meses de 30 días:
+                </p>
+                <div className="p-3 bg-slate-900/60 rounded-xl text-center">
+                  <span className={`text-[20px]`}><MathJaxFormula formula={`m = \\frac{\\text{Días de Atraso}}{30}`} /></span>
+                  <br />
+                  <span className="inline-block text-[24px]">
+                    <MathJaxFormula className="text-white" formula={`m = \\frac{${timeLagDays}\\text{ días}}{30\\text{ días}} = ${fmtAR(calculations.mesesAtraso, 2)}\\text{ meses } (m = ${fmtAR(calculations.mesesAtraso, 2)})`} />
+                  </span>
+                </div>
+
+                <p className="text-slate-300 font-sans">
+                  <strong>3. Ecuación de Descuento Financiero e Inflacionario Combinado:</strong>
                   <br />
                   El Arancel Real Percibido se calcula descontando conjuntamente el efecto inflación (<MathJaxFormula formula="g_{IPC}" />) y la tasa efectiva (<MathJaxFormula formula="TEM" />) durante los meses de atraso (<MathJaxFormula formula="m" />):
                 </p>
@@ -411,8 +424,9 @@ export default function Punto12() {
                       </span>
                       <span className={`text-[24px]`}><MathJaxFormula formula={"Y_{real} = \\frac{Y_{nominal}}{(1 + g_{IPC})^m \\cdot (1 + TEM)^m}"} /></span>
                       <br />
-                      <span className={`text-xs font-mono font-bold block ${isLoss ? 'text-rose-300' : 'text-emerald-300'}`}>
-                        <MathJaxFormula formula={`\\text{Cálculo: } \\frac{${fmtAR(calculations.Y_nominal, 2)}}{\\left(1 + ${fmtAR(gIPC / 100, 4)}\\right)^{${fmtAR(calculations.mesesAtraso, 2)}} \\cdot \\left(1 + ${fmtAR(calculations.tem, 4)}\\right)^{${fmtAR(calculations.mesesAtraso, 2)}}} = ${fmtAR(calculations.Y_real, 2)}`} />
+                      <br />
+                      <span className={`inline-block text-[24px] font-mono font-bold ${isLoss ? 'text-rose-300' : 'text-emerald-300'}`}>
+                        <MathJaxFormula className="text-white" formula={`Y_{real} = \\frac{${fmtAR(calculations.Y_nominal, 2)}}{\\left(1 + ${fmtAR(gIPC / 100, 4)}\\right)^{${fmtAR(calculations.mesesAtraso, 2)}} \\cdot \\left(1 + ${fmtAR(calculations.tem, 4)}\\right)^{${fmtAR(calculations.mesesAtraso, 2)}}} = ${fmtAR(calculations.Y_real, 2)}`} />
                       </span>
                     </div>
                   );
