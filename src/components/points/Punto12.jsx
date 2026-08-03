@@ -412,7 +412,7 @@ export default function Punto12() {
                       <span className={`text-[24px]`}><MathJaxFormula formula={"Y_{real} = \\frac{Y_{nominal}}{(1 + g_{IPC})^m \\cdot (1 + TEM)^m}"} /></span>
                       <br />
                       <span className={`text-xs font-mono font-bold block ${isLoss ? 'text-rose-300' : 'text-emerald-300'}`}>
-                        Cálculo: {fmtAR(calculations.Y_nominal, 2)} / ( (1 + {gIPC / 100})^{fmtAR(calculations.mesesAtraso, 2)} * (1 + {fmtAR(calculations.tem, 4)})^{fmtAR(calculations.mesesAtraso, 2)} ) = {fmtAR(calculations.Y_real, 2)}
+                        <MathJaxFormula formula={`\\text{Cálculo: } \\frac{${fmtAR(calculations.Y_nominal, 2)}}{\\left(1 + ${fmtAR(gIPC / 100, 4)}\\right)^{${fmtAR(calculations.mesesAtraso, 2)}} \\cdot \\left(1 + ${fmtAR(calculations.tem, 4)}\\right)^{${fmtAR(calculations.mesesAtraso, 2)}}} = ${fmtAR(calculations.Y_real, 2)}`} />
                       </span>
                     </div>
                   );
