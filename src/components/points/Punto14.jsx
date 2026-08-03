@@ -53,7 +53,7 @@ export default function Punto14() {
             y medir la brecha acumulada real y la erosión generada por el rezago financiero (Time Lag).
           </p>
           <div className="bg-slate-950/60 p-3 rounded-xl border border-slate-850 text-center overflow-x-auto">
-            <MathJaxFormula formula="\\text{Daño Retro} = \\sum_{t \\in \\text{historia}} (Y_t - V^P_t)" />
+            <MathJaxFormula formula="\text{Daño Retro} = \sum_{t \in \text{historia}} (Y_t - V^P_t)" />
           </div>
         </div>
 
@@ -83,8 +83,8 @@ export default function Punto14() {
           y una prima de cobertura de riesgos (macroeconómicos) futuros:
         </p>
 
-        <div className="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-center my-3">
-          <MathJaxFormula formula="Y^*_T = V^P_T + \\Delta_{\\text{recuperación}} + \\Phi_{\\text{prospectiva}}" />
+        <div className="bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-center my-3 overflow-x-auto">
+          <MathJaxFormula formula="Y^*_T = V^P_T + \Delta_{\text{recuperación}} + \Phi_{\text{prospectiva}}" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-400 leading-relaxed">
@@ -93,11 +93,11 @@ export default function Punto14() {
             Garantiza la cobertura del 100% de la estructura de costos actual ponderada (CCT, USD, IPC).
           </div>
           <div className="p-3 bg-slate-950/30 rounded-xl border border-slate-850">
-            <strong className="text-cyan-400 block mb-1">2. Amortización Pasada (<MathJaxFormula formula="\\Delta_{\\text{recuperación}}" />)</strong>
+            <strong className="text-cyan-400 block mb-1">2. Amortización Pasada (<MathJaxFormula formula="\Delta_{\text{recuperación}}" />)</strong>
             Recompone progresivamente la pérdida institucional acumulada generada por la brecha histórica y el retraso en el cobro (Time Lag).
           </div>
           <div className="p-3 bg-slate-950/30 rounded-xl border border-slate-850">
-            <strong className="text-emerald-400 block mb-1">3. Cobertura Prospectiva (<MathJaxFormula formula="\\Phi_{\\text{prospectiva}}" />)</strong>
+            <strong className="text-emerald-400 block mb-1">3. Cobertura Prospectiva (<MathJaxFormula formula="\Phi_{\text{prospectiva}}" />)</strong>
             Cubre de manera predictiva la pérdida por erosión nominal futura calculada a partir del plazo de pago de la obra social y las expectativas de variaciones macroeconómicas.
           </div>
         </div>
