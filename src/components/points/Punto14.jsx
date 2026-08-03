@@ -6,19 +6,20 @@ export default function Punto14() {
     <div className="space-y-6">
       {/* NARRATIVA DE CIERRE */}
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-        <span className="text-xs font-black uppercase tracking-widest text-teal-400">
+        {/*<span className="text-xs font-black uppercase tracking-widest text-teal-400">
           🎓 Epílogo Aplicado • Conclusión Metodológica
-        </span>
-        <h3 className="text-xl font-black text-white">
+        </span>*/}
+        <h2 className="text-xl font-black text-white">
           La Síntesis Unificada de la Paridad Arancelaria
-        </h3>
+        </h2>
 
-        <div className="border-l-4 border-teal-500 pl-4 italic text-slate-300 text-xs leading-relaxed space-y-2">
+        <div className="text-[20px] border-l-4 border-teal-500 pl-4 italic text-slate-300 text-xs leading-relaxed space-y-2">
           <p>
             "La paridad técnica arancelaria no es un indicador estático. Constituye la intersección donde
             el comportamiento histórico del financiamiento (análisis retrospectivo) se concilia con la estructura de costos reales
             (ecuación polinómica) y los escenarios futuros de inflación y rezago (análisis prospectivo)."
           </p>
+          <br />
           <p>
             "El objetivo final del modelo es determinar un arancel de equilibrio que no solo cubra los costos de hoy,
             sino que además absorba el daño acumulado en el pasado y prevea la erosión del valor en el futuro."

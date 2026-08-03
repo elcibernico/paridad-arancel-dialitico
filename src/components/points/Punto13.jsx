@@ -245,9 +245,8 @@ export default function Punto13() {
 
           {/* Tarjeta 3: Déficit Anualizado */}
           <div className="p-4 rounded-3xl border-2 bg-red-950/20 border-red-500/30 shadow-lg flex flex-col justify-between items-center text-center">
-            <span className="text-sm text-red-400 uppercase font-black tracking-wider">
-              💥 Daño Económico Acumulado (IF)
-            </span>
+            <span className="text-sm text-red-400 uppercase font-black tracking-wider">💥 Daño Económico Acumulado</span>
+            <span className="text-[20px]">(<MathJaxFormula formula="IF_{acumulado}" />)</span>
             <div className={`text-[32px] font-black font-mono my-3 ${calculations.deficitAnualTotal < 0 ? 'text-red-500' : 'text-emerald-400'}`}>
               ${Math.round(calculations.deficitAnualTotal).toLocaleString('es-AR')}
             </div>

@@ -390,7 +390,7 @@ export default function Punto12() {
                   La Tasa Nominal Anual (<MathJaxFormula formula="TNA" />) se convierte a Tasa Efectiva Mensual (<MathJaxFormula formula="TEM" />) para computar el costo financiero de la demora en el cobro:
                 </p>
                 <div className="p-3 bg-slate-900/60 rounded-xl text-center">
-                  <MathJaxFormula formula={"TEM = \\frac{TNA}{12}"} />
+                  <span className={`text-[20px]`}><MathJaxFormula formula={"TEM = \\frac{TNA}{12}"} /></span>
                   <br />
                   <span className="text-xs text-slate-500">
                     Cálculo: {tna} % / 12 = {fmtAR(calculations.tem, 4)} ({fmtAR(calculations.tem * 100, 2)} % mensual)
@@ -409,7 +409,7 @@ export default function Punto12() {
                       <span className={`text-xs font-black uppercase tracking-wider block ${isLoss ? 'text-rose-400' : 'text-emerald-400'}`}>
                         {isLoss ? '❌ Resultado Simulado (Pérdida por Rezago)' : '✅ Resultado Simulado (Suficiencia)'}
                       </span>
-                      <MathJaxFormula formula={"Y_{real} = \\frac{Y_{nominal}}{(1 + g_{IPC})^m \\cdot (1 + TEM)^m}"} />
+                      <span className={`text-[24px]`}><MathJaxFormula formula={"Y_{real} = \\frac{Y_{nominal}}{(1 + g_{IPC})^m \\cdot (1 + TEM)^m}"} /></span>
                       <br />
                       <span className={`text-xs font-mono font-bold block ${isLoss ? 'text-rose-300' : 'text-emerald-300'}`}>
                         Cálculo: {fmtAR(calculations.Y_nominal, 2)} / ( (1 + {gIPC / 100})^{fmtAR(calculations.mesesAtraso, 2)} * (1 + {fmtAR(calculations.tem, 4)})^{fmtAR(calculations.mesesAtraso, 2)} ) = {fmtAR(calculations.Y_real, 2)}
