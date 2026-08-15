@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
+import { useAuth } from '../../context/AuthContext';
 
-export default function Punto4({ isDarkMode }) {
+export default function Punto4({ isDarkMode, onNext }) {
   const [activeTab, setActiveTab] = useState(null);
   const [showMathFormula, setShowMathFormula] = useState(false);
+  const { hasPermission } = useAuth();
 
   // Datos Tabla 1: Tasas Basales de Mortalidad Anual (por 1,000 P/AER)
   const tablaBasal = [
@@ -28,114 +30,143 @@ export default function Punto4({ isDarkMode }) {
     { comorbilidad: 'Albuminemia Inicial < 3.5 g/dL', shrHD: 1.475, shrDP: 1.553, shrHDF: 1.828 },
     { comorbilidad: 'Hematocrito Inicial < 27%', shrHD: 1.044, shrDP: 1.200, shrHDF: 1.044 },
     { comorbilidad: 'HIV Positivo al Ingreso', shrHD: 1.669, shrDP: 2.125, shrHDF: 1.690 },
-    { comorbilidad: 'HBsAg Positivo (Hepatitis B)', shrHD: 1.167, shrDP: 2.582, shrHDF: 1.167 },
   ];
 
-  // Datos Tabla 3: Tabla de Mortalidad Integrada (5 Años) EXPRESADA 100% EN TANTO POR UNO
+  // Datos Tabla 3: Tabla Integrada (5 años) - Valores Ficticios Ilustrativos en tanto por uno
   const tablaIntegrada = [
-    { t: 'Año 1 (t=1)', perfA: 'q=0.0748 | p=0.9252', perfB: 'q=0.1758 | p=0.8242', perfC: 'q=0.2503 | p=0.7497', perfD: 'q=0.3348 | p=0.6652' },
-    { t: 'Año 2 (t=2)', perfA: 'q=0.0777 | p=0.8533', perfB: 'q=0.1824 | p=0.6739', perfC: 'q=0.2619 | p=0.5534', perfD: 'q=0.3501 | p=0.4323' },
-    { t: 'Año 3 (t=3)', perfA: 'q=0.0807 | p=0.7844', perfB: 'q=0.1893 | p=0.5463', perfC: 'q=0.2731 | p=0.4023', perfD: 'q=0.3659 | p=0.2741' },
-    { t: 'Año 4 (t=4)', perfA: 'q=0.0839 | p=0.7186', perfB: 'q=0.1963 | p=0.4391', perfC: 'q=0.2849 | p=0.2877', perfD: 'q=0.3823 | p=16.93%' },
-    { t: 'Año 5 (t=5)', perfA: 'q=0.0872 | p=0.6559', perfB: 'q=0.2037 | p=0.3497', perfC: 'q=0.2968 | p=0.2023', perfD: 'q=0.3992 | p=0.1017' },
+    { t: 'Año 1 (Sobrevida Inicial)', perfA: '0.880', perfB: '0.824', perfC: '0.840', perfD: '0.785' },
+    { t: 'Año 2', perfA: '0.774', perfB: '0.679', perfC: '0.706', perfD: '0.616' },
+    { t: 'Año 3', perfA: '0.681', perfB: '0.559', perfC: '0.593', perfD: '0.484' },
+    { t: 'Año 4', perfA: '0.599', perfB: '0.461', perfC: '0.498', perfD: '0.380' },
+    { t: 'Año 5 (Supervivencia Final)', perfA: '0.528', perfB: '0.380', perfC: '0.418', perfD: '0.298' },
   ];
+
+  const visibleCount = [
+    hasPermission('p1_p4_a1'),
+    hasPermission('p1_p4_a2'),
+    hasPermission('p1_p4_a3'),
+    hasPermission('p1_p4_a4'),
+    hasPermission('p1_p4_a5'),
+    hasPermission('p1_p4_a6')
+  ].filter(Boolean).length;
 
   return (
     <div className="space-y-6">
-      
-      {/* Encabezado del Punto 4 */}
+
+      {/* Título y Hilo Narrativo */}
       <div className={`border-b pb-4 border-slate-300 dark:border-slate-800`}>
-        <span className={`text-xs font-black uppercase tracking-wider text-teal-800 dark:text-teal-400`}>
-          Punto 4 • La Tabla Actuarial Híbrida
+        <span className={`text-sm font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400`}>
+          La Ajustabilidad de Datos
         </span>
-        <h3 className={`text-3xl sm:text-4xl font-black mt-1 text-slate-950 dark:text-white`}>
-          La Tabla Actuarial Híbrida de Diálisis en Argentina (SINTRA / INCUCAI / SAN 2024)
+        <h3 className={`text-3xl sm:text-4xl font-extrabold mt-1 text-slate-900 dark:text-white`}>
+          La Solución Argentina: Tabla Actuarial Híbrida Ajustada
         </h3>
-        <p className={`text-base sm:text-lg mt-2 leading-relaxed text-slate-800 font-normal dark:text-slate-300`}>
-          Para salvar la falta de aplicabilidad de las tablas poblacionales generales, construimos una <strong>Tabla Actuarial Híbrida</strong> segregada por modalidad (Hemodiálisis, Diálisis Peritoneal, HDF) y ajustada mediante los multiplicadores de riesgo de Fine y Gray del Registro Argentino.
-        </p>
       </div>
 
-      {/* Botones de Control de Revelado Interactivos (6 Apartados) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
-        <button
-          onClick={() => setActiveTab(activeTab === 'basal' ? null : 'basal')}
-          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'basal'
-              ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
-          }`}
-        >
-          <span>1. Tasas Basales</span>
-          <span>{activeTab === 'basal' ? '👁️' : '🙈'}</span>
-        </button>
+      {/* Botones de Control de Revelado Interactivos (Apartados) */}
+      <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-${visibleCount || 1} gap-2.5`}>
+        {/* ------------------------------------------- INI: p1_p4_a1 --------------------------------------------- */}
+        {hasPermission('p1_p4_a1') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'basal' ? null : 'basal')}
+            className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'basal'
+                ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
+            }`}
+          >
+            <span>Tasas Basales</span>
+            <span>{activeTab === 'basal' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p4_a1 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'shr' ? null : 'shr')}
-          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'shr'
-              ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
-          }`}
-        >
-          <span>2. Factores SHR</span>
-          <span>{activeTab === 'shr' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p4_a2 --------------------------------------------- */}
+        {hasPermission('p1_p4_a2') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'shr' ? null : 'shr')}
+            className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'shr'
+                ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+            }`}
+          >
+            <span>Factores SHR</span>
+            <span>{activeTab === 'shr' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p4_a2 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'formula' ? null : 'formula')}
-          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'formula'
-              ? 'bg-indigo-50 border-indigo-500 text-slate-900 shadow-md ring-2 ring-indigo-500 dark:bg-indigo-500/20 dark:border-indigo-500 dark:text-indigo-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-indigo-50/50 hover:border-indigo-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-indigo-500/50 dark:hover:text-white'
-          }`}
-        >
-          <span>3. Fórmula de Ajuste</span>
-          <span>{activeTab === 'formula' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p4_a3 --------------------------------------------- */}
+        {hasPermission('p1_p4_a3') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'formula' ? null : 'formula')}
+            className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'formula'
+                ? 'bg-indigo-50 border-indigo-500 text-slate-900 shadow-md ring-2 ring-indigo-500 dark:bg-indigo-500/20 dark:border-indigo-500 dark:text-indigo-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-indigo-50/50 hover:border-indigo-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-indigo-500/50 dark:hover:text-white'
+            }`}
+          >
+            <span>Fórmula de Ajuste</span>
+            <span>{activeTab === 'formula' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p4_a3 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'hibrida' ? null : 'hibrida')}
-          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'hibrida'
-              ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-purple-50/50 hover:border-purple-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-purple-500/50 dark:hover:text-white'
-          }`}
-        >
-          <span>4. Estructura Híbrida</span>
-          <span>{activeTab === 'hibrida' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p4_a4 --------------------------------------------- */}
+        {hasPermission('p1_p4_a4') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'hibrida' ? null : 'hibrida')}
+            className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'hibrida'
+                ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-purple-50/50 hover:border-purple-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-purple-500/50 dark:hover:text-white'
+            }`}
+          >
+            <span>Estructura Híbrida</span>
+            <span>{activeTab === 'hibrida' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p4_a4 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'integrada' ? null : 'integrada')}
-          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'integrada'
-              ? 'bg-emerald-50 border-emerald-500 text-slate-900 shadow-md ring-2 ring-emerald-500 dark:bg-emerald-500/20 dark:border-emerald-500 dark:text-emerald-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-emerald-500/50 dark:hover:text-white'
-          }`}
-        >
-          <span>5. Tabla 5 Años</span>
-          <span>{activeTab === 'integrada' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p4_a5 --------------------------------------------- */}
+        {hasPermission('p1_p4_a5') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'integrada' ? null : 'integrada')}
+            className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'integrada'
+                ? 'bg-emerald-50 border-emerald-500 text-slate-900 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-500/20 dark:border-emerald-500 dark:text-emerald-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-emerald-500/50 dark:hover:text-white'
+            }`}
+          >
+            <span>Tabla 5 Años</span>
+            <span>{activeTab === 'integrada' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p4_a5 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'conflicto' ? null : 'conflicto')}
-          className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'conflicto'
-              ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
-          }`}
-        >
-          <span>6. Conflicto VAAD</span>
-          <span>{activeTab === 'conflicto' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p4_a6 --------------------------------------------- */}
+        {hasPermission('p1_p4_a6') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'conflicto' ? null : 'conflicto')}
+            className={`p-3 rounded-xl border text-sm font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'conflicto'
+                ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+            }`}
+          >
+            <span>Conflicto VAAD</span>
+            <span>{activeTab === 'conflicto' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p4_a6 --------------------------------------------- */}
       </div>
 
       {/* APARTADO 1: TABLA DE TASAS BASALES CON MATHJAX FORMULA RENDERIZADO */}
       {activeTab === 'basal' && (
         <div className={`p-5 rounded-2xl border transition-all bg-teal-50/60 border-teal-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-teal-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 flex items-center gap-2 flex-wrap text-teal-950 dark:text-teal-400`}>
-            <span>📊 1. Tasas Basales de Mortalidad Anual</span>
+            <span>📊 Tasas Basales de Mortalidad Anual</span>
             <MathJaxFormula formula="q_{x,0}" className="inline-block text-base font-serif text-teal-400 dark:text-teal-300" />
             <span>por Modalidad en Argentina</span>
           </h4>
@@ -143,27 +174,27 @@ export default function Punto4({ isDarkMode }) {
             Tasas calculadas por 1,000 personas-año en riesgo (P/AER) para el bienio de estabilidad epidemiológica 2023-2024 (Fuente: SINTRA / INCUCAI / SAN).
           </p>
           
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto border rounded-xl border-slate-200 dark:border-slate-800">
             <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
-              <thead className={`font-bold uppercase bg-teal-100 text-slate-900 dark:bg-slate-900 dark:text-teal-400`}>
+              <thead className="font-bold uppercase bg-teal-100/80 text-slate-900 dark:bg-slate-900 dark:text-teal-400 border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="p-2.5">Rango de Edad</th>
-                  <th className="p-2.5">Varones HD</th>
-                  <th className="p-2.5">Mujeres HD</th>
-                  <th className="p-2.5">Varones DP</th>
-                  <th className="p-2.5">Mujeres DP</th>
-                  <th className="p-2.5">HDF en Línea</th>
+                  <th className="p-3 text-slate-900 dark:text-slate-200">Rango de Edad</th>
+                  <th className="p-3 text-teal-900 dark:text-teal-400">Varones HD</th>
+                  <th className="p-3 text-teal-900 dark:text-teal-400">Mujeres HD</th>
+                  <th className="p-3 text-cyan-900 dark:text-cyan-400">Varones DP</th>
+                  <th className="p-3 text-cyan-900 dark:text-cyan-400">Mujeres DP</th>
+                  <th className="p-3 text-emerald-900 dark:text-emerald-400">HDF en Línea</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800 font-semibold">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60 font-semibold">
                 {tablaBasal.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-teal-100/40 bg-white dark:hover:bg-slate-900/50">
-                    <td className="p-2.5 font-bold text-slate-900 dark:text-white">{row.rango}</td>
-                    <td className="p-2.5 text-teal-700 dark:text-teal-400">{row.hdVarones} ‰</td>
-                    <td className="p-2.5 text-teal-700 dark:text-teal-400">{row.hdMujeres} ‰</td>
-                    <td className="p-2.5 text-cyan-700 dark:text-cyan-400">{row.dpVarones} ‰</td>
-                    <td className="p-2.5 text-cyan-700 dark:text-cyan-400">{row.dpMujeres} ‰</td>
-                    <td className="p-2.5 text-emerald-800 dark:text-emerald-400 font-bold">{row.hdfLinea} ‰</td>
+                  <tr key={idx} className="bg-white dark:bg-slate-950/80 hover:bg-teal-50/50 dark:hover:bg-slate-900/60 transition-colors">
+                    <td className="p-3 font-bold text-slate-900 dark:text-slate-100">{row.rango}</td>
+                    <td className="p-3 text-teal-700 dark:text-teal-400">{row.hdVarones} ‰</td>
+                    <td className="p-3 text-teal-700 dark:text-teal-400">{row.hdMujeres} ‰</td>
+                    <td className="p-3 text-cyan-700 dark:text-cyan-400">{row.dpVarones} ‰</td>
+                    <td className="p-3 text-cyan-700 dark:text-cyan-400">{row.dpMujeres} ‰</td>
+                    <td className="p-3 text-emerald-700 dark:text-emerald-400 font-bold">{row.hdfLinea} ‰</td>
                   </tr>
                 ))}
               </tbody>
@@ -176,29 +207,29 @@ export default function Punto4({ isDarkMode }) {
       {activeTab === 'shr' && (
         <div className={`p-5 rounded-2xl border transition-all bg-cyan-50/60 border-cyan-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-cyan-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 text-cyan-950 dark:text-cyan-400`}>
-            🧬 2. Matriz Actuarial de Multiplicadores de Riesgo (SHR de Fine y Gray)
+            🧬 Matriz Actuarial de Multiplicadores de Riesgo (SHR de Fine y Gray)
           </h4>
           <p className="text-xs mb-3 leading-relaxed">
             Hazard Ratios de sub-distribución (SHR) ajustados para la cohorte incidente argentina (2018-2024) para escalar las tasas basales según la patología de base del paciente.
           </p>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto border rounded-xl border-slate-200 dark:border-slate-800">
             <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
-              <thead className={`font-bold uppercase bg-cyan-100 text-slate-900 dark:bg-slate-900 dark:text-cyan-400`}>
+              <thead className="font-bold uppercase bg-cyan-100/80 text-slate-900 dark:bg-slate-900 dark:text-cyan-400 border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="p-2.5">Comorbilidad Principal / Factor de Riesgo</th>
-                  <th className="p-2.5">Multiplicador HD (<MathJaxFormula formula="SHR_{HD}" className="inline-block text-xs font-serif" />)</th>
-                  <th className="p-2.5">Multiplicador DP (<MathJaxFormula formula="SHR_{DP}" className="inline-block text-xs font-serif" />)</th>
-                  <th className="p-2.5">Multiplicador HDF (<MathJaxFormula formula="SHR_{HDF}" className="inline-block text-xs font-serif" />)</th>
+                  <th className="p-3 text-slate-900 dark:text-slate-200">Comorbilidad Principal / Factor de Riesgo</th>
+                  <th className="p-3 text-teal-900 dark:text-teal-400">Multiplicador HD (<MathJaxFormula formula="SHR_{HD}" className="inline-block text-xs font-serif" />)</th>
+                  <th className="p-3 text-cyan-900 dark:text-cyan-400">Multiplicador DP (<MathJaxFormula formula="SHR_{DP}" className="inline-block text-xs font-serif" />)</th>
+                  <th className="p-3 text-emerald-900 dark:text-emerald-400">Multiplicador HDF (<MathJaxFormula formula="SHR_{HDF}" className="inline-block text-xs font-serif" />)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800 font-semibold">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60 font-semibold">
                 {tablaSHR.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-cyan-100/40 bg-white dark:hover:bg-slate-900/50">
-                    <td className="p-2.5 font-bold text-slate-900 dark:text-white">{row.comorbilidad}</td>
-                    <td className="p-2.5 text-teal-700 dark:text-teal-400">×{row.shrHD}</td>
-                    <td className="p-2.5 text-cyan-700 dark:text-cyan-400">×{row.shrDP}</td>
-                    <td className="p-2.5 text-emerald-800 dark:text-emerald-400 font-bold">×{row.shrHDF}</td>
+                  <tr key={idx} className="bg-white dark:bg-slate-950/80 hover:bg-cyan-50/50 dark:hover:bg-slate-900/60 transition-colors">
+                    <td className="p-3 font-bold text-slate-900 dark:text-slate-100">{row.comorbilidad}</td>
+                    <td className="p-3 text-teal-700 dark:text-teal-400">×{row.shrHD}</td>
+                    <td className="p-3 text-cyan-700 dark:text-cyan-400">×{row.shrDP}</td>
+                    <td className="p-3 text-emerald-700 dark:text-emerald-400 font-bold">×{row.shrHDF}</td>
                   </tr>
                 ))}
               </tbody>
@@ -212,7 +243,7 @@ export default function Punto4({ isDarkMode }) {
         <div className={`p-5 rounded-2xl border transition-all bg-amber-50/60 border-amber-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <div className="flex items-center justify-between">
             <h4 className={`text-sm font-bold uppercase tracking-wider text-amber-950 dark:text-amber-400`}>
-              🧮 3. Ajuste Actuarial de Probabilidades y Ejemplo Práctico
+              🧮 Ajuste Actuarial de Probabilidades y Ejemplo Práctico
             </h4>
             <button
               onClick={() => setShowMathFormula(!showMathFormula)}
@@ -266,7 +297,7 @@ export default function Punto4({ isDarkMode }) {
       {activeTab === 'hibrida' && (
         <div className={`p-5 rounded-2xl border transition-all bg-blue-50/60 border-blue-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-blue-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 text-blue-950 dark:text-blue-400`}>
-            📐 4. La Estructura Híbrida de la Tabla Actuarial: Periodicidad Mensual y Anual
+            📐 La Estructura Híbrida de la Tabla Actuarial: Periodicidad Mensual y Anual
           </h4>
           
           <p className="text-base sm:text-lg leading-relaxed mt-1">
@@ -316,31 +347,31 @@ export default function Punto4({ isDarkMode }) {
       {activeTab === 'integrada' && (
         <div className={`p-5 rounded-2xl border transition-all bg-purple-50/60 border-purple-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-purple-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider mb-2 text-purple-950 dark:text-purple-400`}>
-            📈 5. Tabla de Mortalidad Actuarial Integrada para 4 Perfiles Típicos (Primeros 5 Años en Tanto por Uno)
+            📈 Tabla de Mortalidad Actuarial Integrada para 4 Perfiles Típicos (Primeros 5 Años en Tanto por Uno)
           </h4>
           <p className="text-xs mb-3 leading-relaxed">
             Muestra la evolución acumulada en tanto por uno de la mortalidad anual (<MathJaxFormula formula="q_{x+t}" />) y la supervivencia remanente (<MathJaxFormula formula="p_x" />) aplicando los incrementos paramétricos del Registro Argentino.
           </p>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto border rounded-xl border-slate-200 dark:border-slate-800">
             <table className="w-full text-left text-xs text-slate-800 dark:text-slate-300">
-              <thead className={`font-bold uppercase bg-purple-100 text-slate-900 dark:bg-slate-900 dark:text-purple-300`}>
+              <thead className="font-bold uppercase bg-purple-100/80 text-slate-900 dark:bg-slate-900 dark:text-purple-300 border-b border-slate-200 dark:border-slate-800">
                 <tr>
-                  <th className="p-2.5">Año de Tratamiento</th>
-                  <th className="p-2.5">Perfil A<br /><span className="text-xs text-teal-600 font-normal">Varón 45a, HD Sano</span></th>
-                  <th className="p-2.5">Perfil B<br /><span className="text-xs text-amber-600 font-normal">Varón 55a, HD Diabético+EVP</span></th>
-                  <th className="p-2.5">Perfil C<br /><span className="text-xs text-cyan-600 font-normal">Mujer 65a, DP Diabética</span></th>
-                  <th className="p-2.5">Perfil D<br /><span className="text-xs text-purple-600 font-normal">Mujer 72a, HDF Diabética+ECV</span></th>
+                  <th className="p-3 text-slate-900 dark:text-slate-200">Año de Tratamiento</th>
+                  <th className="p-3 text-teal-900 dark:text-teal-400">Perfil A<br /><span className="text-xs text-teal-700 dark:text-teal-400/80 font-normal">Varón 45a, HD Sano</span></th>
+                  <th className="p-3 text-amber-900 dark:text-amber-400">Perfil B<br /><span className="text-xs text-amber-700 dark:text-amber-400/80 font-normal">Varón 55a, HD Diabético+EVP</span></th>
+                  <th className="p-3 text-cyan-900 dark:text-cyan-400">Perfil C<br /><span className="text-xs text-cyan-700 dark:text-cyan-400/80 font-normal">Mujer 65a, DP Diabética</span></th>
+                  <th className="p-3 text-purple-900 dark:text-purple-400">Perfil D<br /><span className="text-xs text-purple-700 dark:text-purple-400/80 font-normal">Mujer 72a, HDF Diabética+ECV</span></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 dark:divide-slate-800 font-semibold">
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800/60 font-semibold">
                 {tablaIntegrada.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-purple-100/40 bg-white dark:hover:bg-slate-900/50">
-                    <td className="p-2.5 font-bold text-slate-900 dark:text-white">{row.t}</td>
-                    <td className="p-2.5 text-teal-700 dark:text-teal-400">{row.perfA}</td>
-                    <td className="p-2.5 text-amber-700 dark:text-amber-400">{row.perfB}</td>
-                    <td className="p-2.5 text-cyan-700 dark:text-cyan-400">{row.perfC}</td>
-                    <td className="p-2.5 text-purple-700 dark:text-purple-400">{row.perfD}</td>
+                  <tr key={idx} className="bg-white dark:bg-slate-950/80 hover:bg-purple-50/50 dark:hover:bg-slate-900/60 transition-colors">
+                    <td className="p-3 font-bold text-slate-900 dark:text-slate-100">{row.t}</td>
+                    <td className="p-3 text-teal-700 dark:text-teal-400">{row.perfA}</td>
+                    <td className="p-3 text-amber-700 dark:text-amber-400">{row.perfB}</td>
+                    <td className="p-3 text-cyan-700 dark:text-cyan-400">{row.perfC}</td>
+                    <td className="p-3 text-purple-700 dark:text-purple-400">{row.perfD}</td>
                   </tr>
                 ))}
               </tbody>
@@ -352,11 +383,14 @@ export default function Punto4({ isDarkMode }) {
       {/* APARTADO 6: EL CONFLICTO FINAL QUE DISPARA EL PUNTO 5 */}
       {activeTab === 'conflicto' && (
         <div className={`p-5 rounded-2xl border transition-all bg-rose-50/60 border-rose-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-rose-500/30 dark:text-slate-300`}>
-          <h4 className={`text-sm font-bold uppercase tracking-wider text-rose-950 dark:text-rose-400`}>🔥 6. El Nuevo Conflicto Disparador</h4>
+          <h4 className={`text-sm font-bold uppercase tracking-wider text-rose-950 dark:text-rose-400`}>🔥 El Nuevo Conflicto Disparador</h4>
           <p className="text-base sm:text-lg leading-relaxed mt-1">
             Contamos con la tabla actuarial ajustada para la Argentina, pero <strong>¿cómo traducimos estas probabilidades de supervivencia en la masa de dinero concreta del pasivo financiero (VAAD)?</strong>
           </p>
-          <div className={`p-3 rounded-xl border mt-2 text-xs font-bold bg-rose-100 border-rose-300 text-rose-950 dark:bg-rose-500/10 dark:border-rose-500/20 dark:text-rose-200`}>
+          <div
+            onClick={onNext}
+            className="p-3 rounded-xl border mt-2 text-xs font-bold bg-rose-100 border-rose-300 text-rose-950 dark:bg-rose-500/10 dark:border-rose-500/20 dark:text-rose-200 cursor-pointer hover:bg-rose-200/50 dark:hover:bg-rose-500/20 transition-all"
+          >
             👉 Próximo paso (Punto 5): La Ecuación Financiera de Valoración del VAAD.
           </div>
         </div>

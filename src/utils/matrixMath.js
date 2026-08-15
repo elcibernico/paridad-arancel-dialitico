@@ -150,19 +150,34 @@ export function calculateRidge(X, Y, lambda) {
     }
     beta[0] = intercepto;
 
-    // Para visualizar matrices en el panel algebraico, construimos un XtX "simulado" con la penalización incorporada a escala, o directamente mostramos las ZtZ.
-    // Pero como la vista de UI asume matrices de (k+1) x (k+1), la generamos agregando lambda directamente a la matriz original multiplicada por un factor de escala.
-    // Sin embargo, para no complicar el renderizado visual, devolveremos el XtX original con lambda sumada (solo como mock ilustrativo).
+    // Para visualizar matrices en el panel algebraico, construimos XtX, XtY, M (XtX + lambda*I) y M_inv directas
     const Xt = transpose(X);
     const XtX = multiply(Xt, X);
-    const XtX_ridge = XtX.map((row, r) => 
+    const XtY = multiply(Xt, Y);
+    
+    // Matriz M = XtX + lambda * I (sin penalizar el intercepto en la pos 0,0)
+    const M = XtX.map((row, r) => 
       row.map((val, c) => (r === c && r > 0 ? val + lambda : val))
     );
+
+    let M_inv = null;
+    let beta_direct = null;
+    try {
+      M_inv = inv(M);
+      beta_direct = multiply(M_inv, XtY);
+    } catch (e) {
+      // In case of singular matrix
+      M_inv = null;
+    }
 
     return {
       beta,
       beta_star: [0, ...beta_star], // Índice 0 relleno para mantener misma estructura que beta (1=IPC, 2=USD, 3=CCT)
-      XtX: XtX_ridge, // Solo con fines ilustrativos en la UI (el cálculo real se hizo estandarizado)
+      XtX,
+      XtY,
+      M,
+      M_inv,
+      beta_direct,
       error: null
     };
   } catch (error) {
@@ -243,3 +258,35 @@ export function calculateVIFs(data) {
 
   return vifs;
 }
+
+/**
+ * Calcula el R^2 Ajustado de una estimación.
+ * @param {Array} X - Matriz de diseño n x 4.
+ * @param {Array} Y - Vector de aranceles n.
+ * @param {Array} beta - Vector de coeficientes estimadas (intercepto + k variables).
+ * @returns {number} R^2 Ajustado.
+ */
+export function calculateR2Adjusted(X, Y, beta) {
+  if (!X || !Y || !beta || X.length === 0) return 0;
+  const n = Y.length;
+  const k = beta.length - 1; // 3 predictors: IPC, USD, CCT
+  if (n - k - 1 <= 0) return 0;
+
+  const meanY = Y.reduce((sum, val) => sum + val, 0) / n;
+  let ssTot = 0;
+  let ssRes = 0;
+
+  for (let i = 0; i < n; i++) {
+    let pred = beta[0];
+    for (let j = 1; j <= k; j++) {
+      pred += beta[j] * X[i][j];
+    }
+    ssTot += Math.pow(Y[i] - meanY, 2);
+    ssRes += Math.pow(Y[i] - pred, 2);
+  }
+
+  const r2 = ssTot === 0 ? 0 : 1 - (ssRes / ssTot);
+  const r2Adj = 1 - (1 - r2) * (n - 1) / (n - k - 1);
+  return r2Adj;
+}
+

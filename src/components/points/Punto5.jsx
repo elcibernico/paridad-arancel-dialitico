@@ -2,20 +2,32 @@ import React, { useState, useMemo } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
 import seriesData from '../../data/seriesData.json';
 import { fmtLatex } from '../../utils/format';
+import { useGlobalParams } from '../../context/GlobalContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Punto5({ isDarkMode }) {
   const [activeTab, setActiveTab] = useState(null);
+  const { hasPermission } = useAuth();
 
-  // Estado del Simulador Actuarial del VAAD (Apartado 6)
-  const [edad, setEdad] = useState(45);
-  const [modalidad, setModalidad] = useState('HD');
-  const [comorbilidad, setComorbilidad] = useState('DBT_EVP');
-  const [ajusteG, setAjusteG] = useState(30);
+  const visibleCount = [
+    hasPermission('p1_p5_a1'),
+    hasPermission('p1_p5_a2'),
+    hasPermission('p1_p5_a3'),
+    hasPermission('p1_p5_a4'),
+    hasPermission('p1_p5_a5'),
+    hasPermission('p1_p5_a6')
+  ].filter(Boolean).length;
 
-  // Por defecto el último período de la serie (Mayo 2026)
+  const {
+    edadPaciente: edad, setEdadPaciente: setEdad,
+    modalidadDialitica: modalidad, setModalidadDialitica: setModalidad,
+    comorbilidadIngreso: comorbilidad, setComorbilidadIngreso: setComorbilidad,
+    tasaCrecimientoVaad: ajusteG, setTasaCrecimientoVaad: setAjusteG,
+    tasaDescuento: tasaInteresTNA, setTasaDescuento: setTasaInteresTNA,
+    periodoHasta: periodo, setPeriodoHasta: setPeriodo
+  } = useGlobalParams();
+
   const ultimoPeriodoData = seriesData[seriesData.length - 1];
-  const [periodo, setPeriodo] = useState(ultimoPeriodoData.periodo);
-  const [tasaInteresTNA, setTasaInteresTNA] = useState(25);
 
   // Buscadores para dropdowns
   const [searchModalidad, setSearchModalidad] = useState('');
@@ -160,11 +172,9 @@ export default function Punto5({ isDarkMode }) {
 
   return (
     <div className="space-y-6">
-
-      {/* Encabezado Principal del Punto 5 */}
       <div className={`border-b pb-4 border-slate-300 dark:border-slate-800`}>
-        <span className={`text-xs font-black uppercase tracking-wider text-teal-800 dark:text-teal-400`}>
-          Punto 5 • Modelo Actuarial Completo
+        <span className={`text-sm font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400`}>
+          La Expansión de Erogaciones
         </span>
         <h3 className={`text-3xl sm:text-4xl font-black mt-1 text-slate-950 dark:text-white`}>
           Expansión Geométrica por Ajustes Arancelarios y Ecuación Unificada del VAAD
@@ -174,83 +184,105 @@ export default function Punto5({ isDarkMode }) {
         </p>
       </div>
 
-      {/* Botones de Control de Revelado (Apartados 1 a 6) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
-        <button
-          onClick={() => setActiveTab(activeTab === 'sec1' ? null : 'sec1')}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec1'
-            ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
-            }`}
-        >
-          <span>1. Ecuación VAAD</span>
-          <span>{activeTab === 'sec1' ? '👁️' : '🙈'}</span>
-        </button>
+      <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-${visibleCount || 1} gap-2.5`}>
+        {/* ------------------------------------------- INI: p1_p5_a1 --------------------------------------------- */}
+        {hasPermission('p1_p5_a1') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'sec1' ? null : 'sec1')}
+            className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec1'
+              ? 'bg-rose-50 border-rose-500 text-slate-900 shadow-md ring-2 ring-rose-500 dark:bg-rose-500/20 dark:border-rose-500 dark:text-rose-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-rose-50/50 hover:border-rose-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-rose-500/50 dark:hover:text-white'
+              }`}
+          >
+            <span>Ecuación VAAD</span>
+            <span>{activeTab === 'sec1' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p5_a1 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'sec2' ? null : 'sec2')}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec2'
-            ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
-            }`}
-        >
-          <span>2. Tasa Descuento</span>
-          <span>{activeTab === 'sec2' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p5_a2 --------------------------------------------- */}
+        {hasPermission('p1_p5_a2') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'sec2' ? null : 'sec2')}
+            className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec2'
+              ? 'bg-teal-50 border-teal-500 text-slate-900 shadow-md ring-2 ring-teal-500 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+              }`}
+          >
+            <span>Tasa Descuento</span>
+            <span>{activeTab === 'sec2' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p5_a2 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'sec3' ? null : 'sec3')}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec3'
-            ? 'bg-indigo-50 border-indigo-500 text-slate-900 shadow-md ring-2 ring-indigo-500 dark:bg-indigo-500/20 dark:border-indigo-500 dark:text-indigo-300'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-indigo-50/50 hover:border-indigo-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-indigo-500/50 dark:hover:text-white'
-            }`}
-        >
-          <span>3. Evolución de los costos de la prestación dialítica</span>
-          <span>{activeTab === 'sec3' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p5_a3 --------------------------------------------- */}
+        {hasPermission('p1_p5_a3') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'sec3' ? null : 'sec3')}
+            className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec3'
+              ? 'bg-indigo-50 border-indigo-500 text-slate-900 shadow-md ring-2 ring-indigo-500 dark:bg-indigo-500/20 dark:border-indigo-500 dark:text-indigo-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-indigo-50/50 hover:border-indigo-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-indigo-500/50 dark:hover:text-white'
+              }`}
+          >
+            <span>Evolución de los costos de la prestación dialítica</span>
+            <span>{activeTab === 'sec3' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p5_a3 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'sec4' ? null : 'sec4')}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec4'
-            ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-purple-50/50 hover:border-purple-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-purple-500/50 dark:hover:text-white'
-            }`}
-        >
-          <span>4. Factor de Ajustes Arancelarios y Descuento Real</span>
-          <span>{activeTab === 'sec4' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p5_a4 --------------------------------------------- */}
+        {hasPermission('p1_p5_a4') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'sec4' ? null : 'sec4')}
+            className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec4'
+              ? 'bg-purple-50 border-purple-500 text-slate-900 shadow-md ring-2 ring-purple-500 dark:bg-purple-500/20 dark:border-purple-500 dark:text-purple-300'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-purple-50/50 hover:border-purple-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-purple-500/50 dark:hover:text-white'
+              }`}
+          >
+            <span>Factor de Ajustes Arancelarios y Descuento Real</span>
+            <span>{activeTab === 'sec4' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p5_a4 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'sec5' ? null : 'sec5')}
-          className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec5'
-            ? 'bg-cyan-50 border-cyan-500 text-slate-900 shadow-md ring-2 ring-cyan-500 dark:bg-cyan-500/20 dark:border-cyan-500 dark:text-cyan-300'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-cyan-50/50 hover:border-cyan-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-cyan-500/50 dark:hover:text-white'
-            }`}
-        >
-          <span>5. Ecuación Unificada del VAAD</span>
-          <span>{activeTab === 'sec5' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p5_a5 --------------------------------------------- */}
+        {hasPermission('p1_p5_a5') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'sec5' ? null : 'sec5')}
+            className={`p-2.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'sec5'
+              ? 'bg-cyan-50 border-cyan-600 text-slate-900 shadow-md ring-2 ring-cyan-600 dark:bg-cyan-500/10 dark:border-cyan-500 dark:text-white dark:shadow-lg dark:shadow-cyan-500/10'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-cyan-50/50 hover:border-cyan-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-cyan-500/50 dark:hover:text-white'
+              }`}
+          >
+            <span>Ecuación Unificada del VAAD</span>
+            <span>{activeTab === 'sec5' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p5_a5 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'sec6' ? null : 'sec6')}
-          className={`p-2.5 rounded-xl border text-xs font-black transition-all duration-200 flex items-center justify-between ${activeTab === 'sec6' || activeTab === null
-            ? 'bg-emerald-100 border-emerald-600 text-emerald-950 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-950 dark:border-emerald-500 dark:text-emerald-200'
-            : 'bg-slate-50 border-slate-300 text-emerald-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 dark:hover:bg-slate-800/80 dark:hover:text-white'
-            }`}
-        >
-          <span>⚡ 6. Simulador VAAD</span>
-          <span>{activeTab === 'sec6' || activeTab === null ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p1_p5_a6 --------------------------------------------- */}
+        {hasPermission('p1_p5_a6') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'sec6' ? null : 'sec6')}
+            className={`p-2.5 rounded-xl border text-xs font-black transition-all duration-200 flex items-center justify-between ${activeTab === 'sec6'
+              ? 'bg-emerald-100 border-emerald-600 text-emerald-950 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-950 dark:border-emerald-500 dark:text-emerald-200'
+              : 'bg-slate-50 border-slate-300 text-emerald-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-emerald-400 dark:hover:bg-slate-800/80 dark:hover:text-white'
+              }`}
+          >
+            <span>⚡ Simulador VAAD</span>
+            <span>{activeTab === 'sec6' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p5_a6 --------------------------------------------- */}
       </div>
 
-      {/* SECCION 1 */}
       {activeTab === 'sec1' && (
         <div className="p-5 rounded-2xl border transition-all space-y-4 bg-teal-50 border-teal-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-teal-500/30 dark:text-slate-300">
           <h4 className={`text-sm font-bold uppercase tracking-wider text-teal-950 dark:text-teal-400`}>
-            🔬 1. La Fuerza de Salida: ¿Por qué un paciente deja de estar en Diálisis?
+            🔬 La Fuerza de Salida: ¿Por qué un paciente deja de estar en Diálisis?
           </h4>
 
-          <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-teal-300 shadow-sm dark:bg-slate-900/80 dark:border-slate-800`}>
+          <div className={`p-4 rounded-xl border text-[18px] leading-relaxed bg-white border-teal-300 shadow-sm dark:bg-slate-900/80 dark:border-slate-800`}>
             <p className="mb-2">
               <strong>Concepto Claro:</strong> Un paciente que entra a diálisis no se queda allí para siempre. Solo deja de recibir diálisis por dos motivos: porque lamentablemente fallece o porque recibe un trasplante renal exitoso.
             </p>
@@ -259,19 +291,19 @@ export default function Punto5({ isDarkMode }) {
             </p>
           </div>
 
-          <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-teal-300 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
+          <div className={`p-4 rounded-xl border text-[18px] space-y-2 bg-white border-teal-300 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
             <span className="font-bold text-teal-600 dark:text-teal-400">Suma Aditiva de Salidas (Decremento Múltiple):</span>
-            <MathJaxFormula display={true} formula="\mu_{x+t}^{(\tau)} = \mu_{x+t}^{(01)} + \mu_{x+t}^{(02)}" />
+            <MathJaxFormula display={true} formula="\mu_{x+t}^{(\tau)} = \mu_{x+t}^{(01)} + \mu_{x+t}^{(02)}" className="text-[24px]" />
             <span className="font-bold text-teal-600 dark:text-teal-400 mt-2 block">Probabilidad Exacta de Permanecer con Vida y en Diálisis:</span>
-            <MathJaxFormula display={true} formula="{_t p_x^{(\tau)}} = \exp \left( - \int_{0}^{t} \left[ \mu_{x+s}^{(01)} + \mu_{x+s}^{(02)} \right] ds \right)" />
+            <MathJaxFormula display={true} formula="{_t p_x^{(\tau)}} = \exp \left( - \int_{0}^{t} \left[ \mu_{x+s}^{(01)} + \mu_{x+s}^{(02)} \right] ds \right)" className="text-[24px]" />
           </div>
 
-          <div className="pl-3 border-l-2 border-teal-500/40 text-xs leading-relaxed space-y-1">
+          <div className="pl-3 border-l-2 border-teal-500/40 text-[18px] leading-relaxed space-y-1">
             <span className="font-bold">donde:</span>
             <ul className="list-disc pl-4 space-y-0.5">
-              <li><MathJaxFormula formula="\mu_{x+s}^{(01)}" />: Fuerza o velocidad de mortalidad en diálisis para un paciente de edad <MathJaxFormula formula="x" /> tras un tiempo transcurrido <MathJaxFormula formula="s" />.</li>
-              <li><MathJaxFormula formula="\mu_{x+s}^{(02)}" />: Fuerza o velocidad de salida por haber recibido un trasplante renal.</li>
-              <li><MathJaxFormula formula="{_t p_x^{(\tau)}}" />: Probabilidad acumulada de que el paciente continúe con vida en la sala de diálisis al tiempo <MathJaxFormula formula="t" />.</li>
+              <li><MathJaxFormula formula="\mu_{x+s}^{(01)}" className="inline-block text-[16px]" />: Fuerza o velocidad de mortalidad en diálisis para un paciente de edad <MathJaxFormula formula="x" className="inline-block text-[16px]" /> tras un tiempo transcurrido <MathJaxFormula formula="s" className="inline-block text-[16px]" />.</li>
+              <li><MathJaxFormula formula="\mu_{x+s}^{(02)}" className="inline-block text-[16px]" />: Fuerza o velocidad de salida por haber recibido un trasplante renal o haber recuperado la función renal.</li>
+              <li><MathJaxFormula formula="{_t p_x^{(\tau)}}" className="inline-block text-[16px]" />: Probabilidad acumulada de que el paciente continúe con vida en la sala de diálisis al tiempo <MathJaxFormula formula="t" className="inline-block text-[16px]" />.</li>
             </ul>
           </div>
         </div>
@@ -281,7 +313,7 @@ export default function Punto5({ isDarkMode }) {
       {activeTab === 'sec2' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-cyan-50/60 border-cyan-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-cyan-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-cyan-950 dark:text-cyan-400`}>
-            📊 2. Eventos Competitivos y Ajuste por Salud del Paciente (Fine & Gray)
+            📊 Eventos Competitivos y Ajuste por Salud del Paciente (Fine & Gray)
           </h4>
 
           <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-cyan-300 shadow-sm dark:bg-slate-900/80 dark:border-slate-800`}>
@@ -313,7 +345,7 @@ export default function Punto5({ isDarkMode }) {
       {activeTab === 'sec3' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-amber-50/60 border-amber-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-amber-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-amber-950 dark:text-amber-400`}>
-            💰 3. La Estructura Financiera: Pagos Mensuales y Descuento por Tiempo
+            💰 La Estructura Financiera: Pagos Mensuales y Descuento por Tiempo
           </h4>
 
           <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-amber-300 shadow-sm dark:bg-slate-900/80 dark:border-amber-800`}>
@@ -347,7 +379,7 @@ export default function Punto5({ isDarkMode }) {
       {activeTab === 'sec4' && (
         <div className={`p-5 rounded-2xl border transition-all space-y-4 bg-purple-50/60 border-purple-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-purple-500/30 dark:text-slate-300`}>
           <h4 className={`text-sm font-bold uppercase tracking-wider text-purple-950 dark:text-purple-400`}>
-            📈 4. El Factor de Ajustes Arancelarios (g): La Actualización del Módulo
+            📈 El Factor de Ajustes Arancelarios (g): La Actualización del Módulo
           </h4>
 
           <div className={`p-4 rounded-xl border text-xs leading-relaxed bg-white border-purple-300 shadow-sm dark:bg-slate-900/80 dark:border-purple-800`}>
@@ -385,7 +417,7 @@ export default function Punto5({ isDarkMode }) {
             <div className="flex items-center gap-2">
               <span className="text-2xl">🔥</span>
               <h4 className="text-base sm:text-lg font-black uppercase tracking-wider text-rose-600 dark:text-rose-400">
-                5. Ecuación Unificada del Valor Actual Actuarial de Diálisis (VAAD)
+                Ecuación Unificada del Valor Actual Actuarial de Diálisis (VAAD)
               </h4>
             </div>
             <span className="px-3 py-1 text-xs font-black uppercase tracking-widest rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/30">
@@ -427,7 +459,7 @@ export default function Punto5({ isDarkMode }) {
               <div className="flex items-center gap-2">
                 <span className="text-xl">⚡</span>
                 <h4 className="text-base sm:text-lg font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                  6. Modelo de Simulación Interactivo del VAAD
+                  Modelo de Simulación Interactivo del VAAD
                 </h4>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -697,33 +729,37 @@ export default function Punto5({ isDarkMode }) {
             </div>
 
             {/* Fórmulas matemáticas de verificación detallada */}
-            <div className="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-4">
-              <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl space-y-3">
-                <div>
-                  <h4 className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">
-                    Ecuación General de Descuento Actuarial Unificada:
-                  </h4>
-                  <div className="overflow-x-auto py-2 text-center text-base sm:text-lg text-slate-800 dark:text-slate-200">
-                    <MathJaxFormula formula={"VAAD_x = \\sum_{k=0}^{M-1} \\left[ C_0 \\cdot \\left( \\frac{1+g}{1+TEA} \\right)^{\\frac{k}{12}} \\cdot \\prod_{j=1}^{k} (1 - q_j) \\right]"} />
+            {/* ------------------------------------------- INI: p1_p5_a5 --------------------------------------------- */}
+            {hasPermission('p1_p5_a5') && (
+              <div className="border-t border-slate-200 dark:border-slate-800 pt-4 space-y-4">
+                <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl space-y-3">
+                  <div>
+                    <h4 className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">
+                      Ecuación General de Descuento Actuarial Unificada:
+                    </h4>
+                    <div className="overflow-x-auto py-2 text-center text-base sm:text-lg text-slate-800 dark:text-slate-200">
+                      <MathJaxFormula formula={"VAAD_x = \\sum_{k=0}^{M-1} \\left[ C_0 \\cdot \\left( \\frac{1+g}{1+TEA} \\right)^{\\frac{k}{12}} \\cdot \\prod_{j=1}^{k} (1 - q_j) \\right]"} />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <h4 className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">
-                    Ecuación Reemplazada con Variables de Simulación:
-                  </h4>
-                  <div className="overflow-x-auto py-2 text-center text-base sm:text-lg text-slate-800 dark:text-slate-200">
-                    <MathJaxFormula formula={"VAAD_{" + edad + "} = \\sum_{k=0}^{" + (Math.min((100 - edad) * 12, 360) - 1) + "} \\left[ " + fmtLatex(C0, 0) + " \\cdot \\left( \\frac{1 + " + fmtLatex(ajusteG / 100, 2) + "}{1 + " + fmtLatex(teaCalculada, 4) + "} \\right)^{\\frac{k}{12}} \\cdot \\prod_{j=1}^{k} (1 - q_j) \\right] = " + fmtLatex(vaadSeleccionado, 0)} />
+                  <div>
+                    <h4 className="text-xs font-black uppercase text-slate-500 dark:text-slate-400 tracking-wider">
+                      Ecuación Reemplazada con Variables de Simulación:
+                    </h4>
+                    <div className="overflow-x-auto py-2 text-center text-base sm:text-lg text-slate-800 dark:text-slate-200">
+                      <MathJaxFormula formula={"VAAD_{" + edad + "} = \\sum_{k=0}^{" + (Math.min((100 - edad) * 12, 360) - 1) + "} \\left[ " + fmtLatex(C0, 0) + " \\cdot \\left( \\frac{1 + " + fmtLatex(ajusteG / 100, 2) + "}{1 + " + fmtLatex(teaCalculada, 4) + "} \\right)^{\\frac{k}{12}} \\cdot \\prod_{j=1}^{k} (1 - q_j) \\right] = " + fmtLatex(vaadSeleccionado, 0)} />
+                    </div>
                   </div>
-                </div>
 
-                <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-mono mt-1">
-                  * Donde <MathJaxFormula formula="TEA" /> se obtiene de la TNA cargada ({tasaInteresTNA} %): <MathJaxFormula formula={`TEA = (1 + \\frac{${fmtLatex(tasaInteresTNA / 100, 4)}}{12})^{12} - 1 = ${fmtLatex(teaCalculada * 100, 2)}\\%`} />.
-                  La variable <MathJaxFormula formula="k" /> representa el mes de la proyección (desde 0 hasta <MathJaxFormula formula="M-1" />), donde <MathJaxFormula formula="M" /> es el límite máximo de meses proyectados ({Math.min((100 - edad) * 12, 360)} meses).
-                  La variable <MathJaxFormula formula="q_j" /> es la probabilidad mensual de salida ajustada por el riesgo total del paciente (edad base más comorbilidades).
+                  <div className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-mono mt-1">
+                    * Donde <MathJaxFormula formula="TEA" /> se obtiene de la TNA cargada ({tasaInteresTNA} %): <MathJaxFormula formula={`TEA = (1 + \\frac{${fmtLatex(tasaInteresTNA / 100, 4)}}{12})^{12} - 1 = ${fmtLatex(teaCalculada * 100, 2)}\\%`} />.
+                    La variable <MathJaxFormula formula="k" /> representa el mes de la proyección (desde 0 hasta <MathJaxFormula formula="M-1" />), donde <MathJaxFormula formula="M" /> es el límite máximo de meses proyectados ({Math.min((100 - edad) * 12, 360)} meses).
+                    La variable <MathJaxFormula formula="q_j" /> es la probabilidad mensual de salida ajustada por el riesgo total del paciente (edad base más comorbilidades).
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+            {/* ------------------------------------------- FIN: p1_p5_a5 --------------------------------------------- */}
 
           </div>
 

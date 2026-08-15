@@ -7,9 +7,11 @@ export default function SlideContainer({ section, children, currentPoint, totalP
       {/* Encabezado del Punto/Diapositiva */}
       <div className="flex flex-col md:flex-row md:items-center justify-between border-b pb-6 mb-8 gap-4 border-slate-300 dark:border-slate-800">
         <div>
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs mb-3 border bg-teal-100 text-teal-950 border-teal-300 font-extrabold dark:bg-teal-500/10 dark:text-teal-400 dark:border-teal-500/20 dark:font-bold">
-            {section.badge}
-          </span>
+          {section.badge && (
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs mb-3 border bg-teal-100 text-teal-950 border-teal-300 font-extrabold dark:bg-teal-500/10 dark:text-teal-400 dark:border-teal-500/20 dark:font-bold">
+              {section.badge}
+            </span>
+          )}
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
             {section.title}
           </h2>
@@ -25,12 +27,9 @@ export default function SlideContainer({ section, children, currentPoint, totalP
             disabled={currentPoint === 1}
             className="flex items-center space-x-1 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold border transition disabled:opacity-40 disabled:cursor-not-allowed bg-white hover:bg-slate-100 text-slate-900 border-slate-300 shadow-md dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700"
           >
-            <span>← Anteriores</span>
+            <span>← Anterior</span>
           </button>
-          
-          <span className="text-xs font-mono font-bold text-slate-800 dark:text-slate-400">
-            {currentPoint} / {totalPoints}
-          </span>
+
 
           <button
             onClick={onNext}

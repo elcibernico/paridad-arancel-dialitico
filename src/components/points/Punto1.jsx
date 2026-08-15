@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
+import { useAuth } from '../../context/AuthContext';
 
-export default function Punto1() {
+export default function Punto1({ onNext }) {
   const [activeTab, setActiveTab] = useState(null);
+  const { hasPermission } = useAuth();
+
+  // Contar cuántos apartados están permitidos para dimensionar el grid dinámicamente
+  const visibleCount = [
+    hasPermission('p1_p1_a1'),
+    hasPermission('p1_p1_a2'),
+    hasPermission('p1_p1_a3'),
+    hasPermission('p1_p1_a4')
+  ].filter(Boolean).length;
 
   return (
     <div className="space-y-8">
@@ -21,96 +31,112 @@ export default function Punto1() {
         </p>
       </div>
 
-      {/* Controles de Revelado Narrativo: 4 Pasos Progresivos */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+      {/* Controles de Revelado Narrativo: Pasos Progresivos */}
+      <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${visibleCount || 1} gap-3`}>
 
         {/* Tarjeta 1: La Pregunta de Fondo */}
-        <button
-          onClick={() => setActiveTab(activeTab === 'pregunta' ? null : 'pregunta')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'pregunta'
-            ? 'bg-teal-50 border-teal-600 text-slate-900 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/10 dark:border-teal-500 dark:text-white dark:shadow-lg dark:shadow-teal-500/10'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
-            }`}
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-2xl">❓</span>
-            <span className="text-sm font-bold px-2 py-0.5 rounded bg-teal-800 text-white dark:bg-slate-800 dark:text-teal-400">
-              {activeTab === 'pregunta' ? 'Ocultar' : 'Explorar'}
-            </span>
-          </div>
-          <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
-            1. El Enigma Financiero
-          </h4>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            El desafío de calcular el VAAD.
-          </p>
-        </button>
+        {/* ------------------------------------------- INI: p1_p1_a1 --------------------------------------------- */}
+        {hasPermission('p1_p1_a1') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'pregunta' ? null : 'pregunta')}
+            className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'pregunta'
+              ? 'bg-teal-50 border-teal-600 text-slate-900 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/10 dark:border-teal-500 dark:text-white dark:shadow-lg dark:shadow-teal-500/10'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+              }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">❓</span>
+              <span className="text-sm font-bold px-2 py-0.5 rounded bg-teal-800 text-white dark:bg-slate-800 dark:text-teal-400">
+                {activeTab === 'pregunta' ? 'Ocultar' : 'Explorar'}
+              </span>
+            </div>
+            <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
+              El Enigma Financiero
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              El desafío de calcular el VAAD.
+            </p>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p1_a1 --------------------------------------------- */}
 
         {/* Tarjeta 2: Las 3 Dimensiones de Riesgo */}
-        <button
-          onClick={() => setActiveTab(activeTab === 'variables' ? null : 'variables')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'variables'
-            ? 'bg-emerald-50 border-emerald-600 text-slate-900 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-500/10 dark:border-emerald-500 dark:text-white dark:shadow-lg dark:shadow-emerald-500/10'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-emerald-500/50 dark:hover:text-white'
-            }`}
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-2xl">🎲</span>
-            <span className="text-sm font-bold px-2 py-0.5 rounded bg-emerald-800 text-white dark:bg-slate-800 dark:text-emerald-400">
-              {activeTab === 'variables' ? 'Ocultar' : 'Explorar'}
-            </span>
-          </div>
-          <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
-            2. Las 3 Incertidumbres
-          </h4>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Biométrica, Financiera y Operativa.
-          </p>
-        </button>
+        {/* ------------------------------------------- INI: p1_p1_a2 --------------------------------------------- */}
+        {hasPermission('p1_p1_a2') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'variables' ? null : 'variables')}
+            className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'variables'
+              ? 'bg-emerald-50 border-emerald-600 text-slate-900 shadow-md ring-2 ring-emerald-600 dark:bg-emerald-500/10 dark:border-emerald-500 dark:text-white dark:shadow-lg dark:shadow-emerald-500/10'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-emerald-50/50 hover:border-emerald-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-emerald-500/50 dark:hover:text-white'
+              }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">🎲</span>
+              <span className="text-sm font-bold px-2 py-0.5 rounded bg-emerald-800 text-white dark:bg-slate-800 dark:text-emerald-400">
+                {activeTab === 'variables' ? 'Ocultar' : 'Explorar'}
+              </span>
+            </div>
+            <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
+              Las 3 Incertidumbres
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Biométrica, Financiera y Operativa.
+            </p>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p1_a2 --------------------------------------------- */}
 
         {/* Tarjeta Intermedia NUEVA: Necesidad de la Tabla Actuarial */}
-        <button
-          onClick={() => setActiveTab(activeTab === 'tabla_necesidad' ? null : 'tabla_necesidad')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'tabla_necesidad'
-            ? 'bg-cyan-50 border-cyan-600 text-slate-900 shadow-md ring-2 ring-cyan-600 dark:bg-cyan-500/10 dark:border-cyan-500 dark:text-white dark:shadow-lg dark:shadow-cyan-500/10'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-cyan-50/50 hover:border-cyan-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-cyan-500/50 dark:hover:text-white'
-            }`}
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-2xl">📊</span>
-            <span className="text-sm font-bold px-2 py-0.5 rounded bg-cyan-800 text-white dark:bg-slate-800 dark:text-cyan-400">
-              {activeTab === 'tabla_necesidad' ? 'Ocultar' : 'Explorar'}
-            </span>
-          </div>
-          <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
-            3. La Necesidad de la Tabla
-          </h4>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Construir la Tabla Actuarial de Diálisis.
-          </p>
-        </button>
+        {/* ------------------------------------------- INI: p1_p1_a3 --------------------------------------------- */}
+        {hasPermission('p1_p1_a3') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'tabla_necesidad' ? null : 'tabla_necesidad')}
+            className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'tabla_necesidad'
+              ? 'bg-cyan-50 border-cyan-600 text-slate-900 shadow-md ring-2 ring-cyan-600 dark:bg-cyan-500/10 dark:border-cyan-500 dark:text-white dark:shadow-lg dark:shadow-cyan-500/10'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-cyan-50/50 hover:border-cyan-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-cyan-500/50 dark:hover:text-white'
+              }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">📊</span>
+              <span className="text-sm font-bold px-2 py-0.5 rounded bg-cyan-800 text-white dark:bg-slate-800 dark:text-cyan-400">
+                {activeTab === 'tabla_necesidad' ? 'Ocultar' : 'Explorar'}
+              </span>
+            </div>
+            <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
+              La Necesidad de la Tabla
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Construir la Tabla Actuarial de Diálisis.
+            </p>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p1_a3 --------------------------------------------- */}
 
         {/* Tarjeta 4: El Punto de Quiebre */}
-        <button
-          onClick={() => setActiveTab(activeTab === 'paradigma' ? null : 'paradigma')}
-          className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'paradigma'
-            ? 'bg-amber-50 border-amber-600 text-slate-900 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/10 dark:border-amber-500 dark:text-white dark:shadow-lg dark:shadow-amber-500/10'
-            : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
-            }`}
-        >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-2xl">⚡</span>
-            <span className="text-sm font-bold px-2 py-0.5 rounded bg-amber-800 text-white dark:bg-slate-800 dark:text-amber-400">
-              {activeTab === 'paradigma' ? 'Ocultar' : 'Explorar'}
-            </span>
-          </div>
-          <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
-            4. El Punto de Quiebre
-          </h4>
-          <p className="text-xs text-slate-600 dark:text-slate-400">
-            Falla de la supervivencia médica en actuaría.
-          </p>
-        </button>
+        {/* ------------------------------------------- INI: p1_p1_a4 --------------------------------------------- */}
+        {hasPermission('p1_p1_a4') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'paradigma' ? null : 'paradigma')}
+            className={`p-4 rounded-xl border text-left transition-all duration-200 ${activeTab === 'paradigma'
+              ? 'bg-amber-50 border-amber-600 text-slate-900 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/10 dark:border-amber-500 dark:text-white dark:shadow-lg dark:shadow-amber-500/10'
+              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+              }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">⚡</span>
+              <span className="text-sm font-bold px-2 py-0.5 rounded bg-amber-800 text-white dark:bg-slate-800 dark:text-amber-400">
+                {activeTab === 'paradigma' ? 'Ocultar' : 'Explorar'}
+              </span>
+            </div>
+            <h4 className="font-bold text-sm sm:text-base mb-1 text-slate-900 dark:text-white">
+              El Punto de Quiebre
+            </h4>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              Falla de la supervivencia médica en actuaría.
+            </p>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p1_p1_a4 --------------------------------------------- */}
 
       </div>
 
@@ -133,20 +159,20 @@ export default function Punto1() {
       {activeTab === 'variables' && (
         <div className={`p-6 rounded-2xl border transition-all bg-emerald-50/50 border-emerald-500 text-slate-800 font-normal dark:bg-slate-950 dark:border-emerald-500/30 dark:text-slate-300`}>
           <h4 className={`text-xl font-bold text-emerald-900 dark:text-emerald-400`}>
-            Las 3 Dimensiones de transferencia del riesgo (Financiadora al prestador)
+            Las 3 Dimensiones de TRANSFERENCIA del RIESGO (Financiadora al prestador)
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-3">
             <div className={`p-4 rounded-xl border bg-white border-emerald-200 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
-              <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>1. Biométrica</h5>
-              <p className={`text-sm text-slate-700 dark:text-slate-400`}>¿Cuánto tiempo vive el paciente y cuándo se trasplanta?</p>
+              <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>1. El Biométrico </h5>
+              <p className={`text-sm text-slate-700 dark:text-slate-400`}>Incertidumbre sobre la longevidad y la permanencia efectiva del paciente en el padrón</p>
             </div>
             <div className={`p-4 rounded-xl border bg-white border-emerald-200 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
-              <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>2. Financiera</h5>
-              <p className={`text-sm text-slate-700 dark:text-slate-400`}>¿A qué ritmo crecen los insumos o costos nacionales y/o dolarizados y los salarios de salud?</p>
+              <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>2. Financiero y Macroeconómico</h5>
+              <p className={`text-sm text-slate-700 dark:text-slate-400`}>Asociado a la volatilidad de precios</p>
             </div>
             <div className={`p-4 rounded-xl border bg-white border-emerald-200 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
-              <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>3. Operativa</h5>
-              <p className={`text-sm text-slate-700 dark:text-slate-400`}>¿Cuánto tarda la obra social en ajustar el arancel nominal?</p>
+              <h5 className={`font-bold text-base mb-1 text-slate-900 dark:text-white`}>3. Operativo y de Gestión</h5>
+              <p className={`text-sm text-slate-700 dark:text-slate-400`}>Derivado de la variabilidad de las complicaciones clínicas y la intensidad de cuidados requerida</p>
             </div>
           </div>
         </div>
@@ -178,8 +204,11 @@ export default function Punto1() {
           <p className="text-base leading-relaxed mt-2">
             Tradicionalmente, la literatura nefrológica y los modelos de gestión han utilizado el estimador de <strong>Kaplan-Meier</strong> para calcular esa supervivencia. Sin embargo, cuando pretendemos usar Kaplan-Meier para armar la tabla actuarial, <strong>descubrimos que introduce un sesgo de sobreestimación sistemática de la mortalidad en diálisis</strong>.
           </p>
-          <div className={`p-4 rounded-xl border mt-3 text-sm bg-amber-100 border-amber-300 text-amber-900 font-bold dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-amber-200`}>
-            <strong>Siguiente Desafío (Punto 2):</strong> Analizaremos cómo el estimador de Kaplan-Meier distorsiona las probabilidades de la tabla actuarial argentina al ignorar la competencia del Trasplante Renal.
+          <div
+            onClick={onNext}
+            className="p-4 rounded-xl border mt-3 text-sm bg-amber-100 border-amber-300 text-amber-900 font-bold dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-amber-200 cursor-pointer hover:bg-amber-200/50 dark:hover:bg-amber-500/20 transition-all"
+          >
+            <strong>Siguiente Desafío:</strong> Analizaremos cómo el estimador de Kaplan-Meier distorsiona las probabilidades de la tabla actuarial argentina al ignorar la competencia del Trasplante Renal.
           </div>
         </div>
       )}

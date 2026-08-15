@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import MathJaxFormula from '../MathJaxFormula';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Punto6({ isDarkMode, onNext }) {
   const [activeTab, setActiveTab] = useState(null);
+  const { hasPermission } = useAuth();
+
+  const visibleCount = [
+    hasPermission('p2_p1'),
+    hasPermission('p2_p2')
+  ].filter(Boolean).length;
 
   return (
     <div className="space-y-6">
@@ -10,7 +17,7 @@ export default function Punto6({ isDarkMode, onNext }) {
       {/* Encabezado Principal del Punto 6 */}
       <div className={`border-b pb-4 border-slate-300 dark:border-slate-800`}>
         <span className={`text-xs font-black uppercase tracking-wider text-amber-700 dark:text-amber-400`}>
-          Punto 6 • El Quiebre Metodológico y Cambio de Paradigma
+          El Quiebre Metodológico y Cambio de Paradigma
         </span>
         <h3 className={`text-3xl sm:text-4xl font-black mt-1 text-slate-950 dark:text-white`}>
           Desestimación del VAAD de Pago Único y Transición al Modelo Econométrico del Arancel
@@ -20,37 +27,45 @@ export default function Punto6({ isDarkMode, onNext }) {
         </p>
       </div>
 
-      {/* Botones de Control de Revelado (Apartados 1 y 2) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <button
-          onClick={() => setActiveTab(activeTab === 'razones' ? null : 'razones')}
-          className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'razones'
-              ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <span>🚨</span>
-            <span>1. Las 3 Razones para Desestimar el VAAD Único</span>
-          </div>
-          <span>{activeTab === 'razones' ? '👁️' : '🙈'}</span>
-        </button>
+      {/* Botones de Control de Revelado (Apartados) */}
+      <div className={`grid grid-cols-1 sm:grid-cols-${visibleCount || 1} gap-3`}>
+        {/* ------------------------------------------- INI: p2_p1 --------------------------------------------- */}
+        {hasPermission('p2_p1') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'razones' ? null : 'razones')}
+            className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'razones'
+                ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <span>🚨</span>
+              <span>Las 3 Razones para Desestimar el VAAD Único</span>
+            </div>
+            <span>{activeTab === 'razones' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p2_p1 --------------------------------------------- */}
 
-        <button
-          onClick={() => setActiveTab(activeTab === 'paradigma' ? null : 'paradigma')}
-          className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
-            activeTab === 'paradigma'
-              ? 'bg-teal-50 border-teal-600 text-slate-950 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
-              : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <span>🔄</span>
-            <span>2. Cambio de Paradigma (Deconstrucción del VAAD)</span>
-          </div>
-          <span>{activeTab === 'paradigma' ? '👁️' : '🙈'}</span>
-        </button>
+        {/* ------------------------------------------- INI: p2_p2 --------------------------------------------- */}
+        {hasPermission('p2_p2') && (
+          <button
+            onClick={() => setActiveTab(activeTab === 'paradigma' ? null : 'paradigma')}
+            className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
+              activeTab === 'paradigma'
+                ? 'bg-teal-50 border-teal-600 text-slate-950 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
+                : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <span>🔄</span>
+              <span>Cambio de Paradigma (Deconstrucción del VAAD)</span>
+            </div>
+            <span>{activeTab === 'paradigma' ? '👁️' : '🙈'}</span>
+          </button>
+        )}
+        {/* ------------------------------------------- FIN: p2_p2 --------------------------------------------- */}
       </div>
 
       {/* APARTADO 1: LAS 3 RAZONES PARA DESESTIMAR EL VAAD */}
@@ -59,7 +74,7 @@ export default function Punto6({ isDarkMode, onNext }) {
           <div className="flex items-center gap-2">
             <span className="text-xl">🛑</span>
             <h4 className={`text-sm font-bold uppercase tracking-wider text-amber-950 dark:text-amber-400`}>
-              1. Las Tres Razones Fundamentales por las que se Desestima la Primera Parte
+              Las Tres Razones Fundamentales por las que se Desestima la Primera Parte
             </h4>
           </div>
 
@@ -74,7 +89,7 @@ export default function Punto6({ isDarkMode, onNext }) {
               <div>
                 <div className="flex items-center gap-2 font-bold text-amber-600 dark:text-amber-400 mb-1">
                   <span className="text-base">🏦</span>
-                  <h5>1. Inviabilidad Operativa y Financiera del Mercado</h5>
+                  <h5>Inviabilidad Operativa y Financiera del Mercado</h5>
                 </div>
                 <p className="leading-relaxed text-xs">
                   En la práctica real del sistema de salud (obras sociales y prepagas), ningún financiador transferirá por adelantado la totalidad del valor actual actuarial de un paciente crónico al momento de su ingreso. El mercado no opera ni operará mediante pagos capitados únicos por adelantado.
@@ -90,7 +105,7 @@ export default function Punto6({ isDarkMode, onNext }) {
               <div>
                 <div className="flex items-center gap-2 font-bold text-amber-600 dark:text-amber-400 mb-1">
                   <span className="text-base">🔍</span>
-                  <h5>2. Opacidad de Costos y Ceguera Marginal</h5>
+                  <h5>Opacidad de Costos y Ceguera Marginal</h5>
                 </div>
                 <p className="leading-relaxed text-xs">
                   Un valor global resumido en una sola cifra de capitalización oculta la dinámica diaria de los costos reales. No permite visibilizar el comportamiento marginal de los insumos (dólar, mano de obra, mantenimiento) ni evaluar la suficiencia puntual de la facturación mes a mes.
@@ -106,7 +121,7 @@ export default function Punto6({ isDarkMode, onNext }) {
               <div>
                 <div className="flex items-center gap-2 font-bold text-rose-600 dark:text-rose-400 mb-1">
                   <span className="text-base">⚖️</span>
-                  <h5>3. Conflicto Bioético e Perverso Incentivo Económico</h5>
+                  <h5>Conflicto Bioético e Perverso Incentivo Económico</h5>
                 </div>
                 <p className="leading-relaxed text-xs">
                   Percibir la totalidad del tratamiento del paciente en el momento cero genera un perverso incentivo económico: el prestador cobraría todo el capital inicial y una menor supervivencia del paciente derivaría en "mayores resultados económicos". Esto atenta directamente contra los principios bioéticos rectores de este trabajo.
@@ -131,7 +146,7 @@ export default function Punto6({ isDarkMode, onNext }) {
           <div className="flex items-center gap-2">
             <span className="text-xl">🔄</span>
             <h4 className={`text-sm font-bold uppercase tracking-wider text-teal-950 dark:text-teal-400`}>
-              2. Cambio de paradigma (del VAAD al Modelo Econométrico de Paridad)
+              Cambio de paradigma (del VAAD al Modelo Econométrico de Paridad)
             </h4>
           </div>
 
@@ -149,21 +164,21 @@ export default function Punto6({ isDarkMode, onNext }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
             <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-teal-300 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
-              <div className="font-bold text-teal-600 dark:text-teal-400">1. Desvinculación Ética Financiera</div>
+              <div className="font-bold text-teal-600 dark:text-teal-400">Desvinculación Ética Financiera</div>
               <p className="text-xs leading-relaxed">
                 El prestador percibirá el arancel en tanto y en cuanto continúe brindando la prestación con vida al paciente. La supervivencia de la persona vuelve a alinearse perfectamente con la supervivencia del prestador.
               </p>
             </div>
 
             <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-teal-300 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
-              <div className="font-bold text-teal-600 dark:text-teal-400">2. Motor Econométrico de Costos</div>
+              <div className="font-bold text-teal-600 dark:text-teal-400">Motor Econométrico de Costos</div>
               <p className="text-xs leading-relaxed">
                 Pasamos a la Parte 2 del trabajo: modelar la sesión mediante una función polinómica estructural de 3 variables macroeconómicas clave: <strong>Cotización del Dólar (<MathJaxFormula formula="USD" />)</strong>, <strong>IPC General (<MathJaxFormula formula="IPC" />)</strong> y <strong>Paritarias de Salud (<MathJaxFormula formula="CCT" />)</strong>.
               </p>
             </div>
 
             <div className={`p-4 rounded-xl border text-xs space-y-2 bg-white border-teal-300 shadow-sm dark:bg-slate-900 dark:border-slate-800`}>
-              <div className="font-bold text-teal-600 dark:text-teal-400">3. Arancel Técnico de Paridad</div>
+              <div className="font-bold text-teal-600 dark:text-teal-400">Arancel Técnico de Paridad</div>
               <p className="text-xs leading-relaxed">
                 Utilizaremos el andamiaje actuarial para medir el descalce y fijar el <strong>Precio Técnico de Paridad</strong> necesario para resarcir la pérdida por el retraso de las obras sociales y garantizar la sustentabilidad.
               </p>

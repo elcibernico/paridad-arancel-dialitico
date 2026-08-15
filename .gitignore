@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+check_db.cjs
+scratch.js
+*.sql
+.git_disabled/
 
 # Editor directories and files
 .vscode/*
