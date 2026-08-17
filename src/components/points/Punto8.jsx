@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
-import seriesData from '../../data/seriesData.json';
 import { buildMatrices, calculateMCO, calculateRidge, calculateConditionNumber, calculateVIFs, calculateR2Adjusted } from '../../utils/matrixMath';
 import { fmtAR, fmtLatex } from '../../utils/format';
 import { useGlobalParams } from '../../context/GlobalContext';
@@ -43,11 +42,36 @@ export default function Punto8() {
   const activeTab = activeTabState || defaultTab;
 
   const {
+    seriesData,
     modalidadDialitica, setModalidadDialitica,
     periodoDesde, setPeriodoDesde,
     periodoHasta, setPeriodoHasta,
     lambdaRidge, setLambdaRidge
   } = useGlobalParams();
+
+  // Forzar siempre periodoDesde ante cualquier cruce de rango temporal
+  const handlePeriodoHastaChange = (val) => {
+    setPeriodoHasta(val);
+    const indexHasta = seriesData.findIndex(d => d.periodo === val);
+    const indexDesde = seriesData.findIndex(d => d.periodo === periodoDesde);
+    // Si periodoDesde es posterior a periodoHasta, o si el rango tiene menos de 4 meses
+    if (indexDesde === -1 || indexDesde > indexHasta || (indexHasta - indexDesde + 1) < 4) {
+      const targetDesdeIdx = Math.max(0, indexHasta - 11); // Fallback a 12 meses anteriores
+      setPeriodoDesde(seriesData[targetDesdeIdx].periodo);
+    }
+  };
+
+  const handlePeriodoDesdeChange = (val) => {
+    const indexDesde = seriesData.findIndex(d => d.periodo === val);
+    const indexHasta = seriesData.findIndex(d => d.periodo === periodoHasta);
+    // Evitar que el usuario elija un periodoDesde que deje menos de 4 meses
+    if (indexHasta !== -1 && (indexHasta - indexDesde + 1) < 4) {
+      const maxDesdeIdx = Math.max(0, indexHasta - 3); // Límite que deja exactamente 4 meses
+      setPeriodoDesde(seriesData[maxDesdeIdx].periodo);
+    } else {
+      setPeriodoDesde(val);
+    }
+  };
 
   const [mostrarVariables, setMostrarVariables] = useState(false);
   const [mostrarFinanciadora, setMostrarFinanciadora] = useState(false);
@@ -79,8 +103,13 @@ export default function Punto8() {
 
   // ─── Main computation ──────────────────────────────────────────
   const results = useMemo(() => {
-    const filtered = seriesData.filter(d => d.periodo >= periodoDesde && d.periodo <= periodoHasta);
-    if (filtered.length === 0) return null;
+    let filtered = seriesData.filter(d => d.periodo >= periodoDesde && d.periodo <= periodoHasta);
+    let isFallbackRange = false;
+
+    if (filtered.length < 4) {
+      filtered = seriesData.slice(-12); // Fallback a los últimos 12 meses
+      isFallbackRange = true;
+    }
 
     const firstVal = filtered[0];
     const lastVal = filtered[filtered.length - 1];
@@ -222,7 +251,8 @@ export default function Punto8() {
       corr: { ipc_usd: getCorr(ipc, usd), ipc_cct: getCorr(ipc, cct), usd_cct: getCorr(usd, cct) },
       datosFiltrados: filtered,
       r2AdjRidge,
-      insesgadezRidge
+      insesgadezRidge,
+      isFallbackRange
     };
   }, [periodoDesde, periodoHasta, modalidadDialitica, lambdaRidge]);
 
@@ -686,14 +716,26 @@ export default function Punto8() {
 
   return (
     <div className="space-y-6">
+      {results.isFallbackRange && (
+        <div className="p-4 rounded-xl border border-yellow-800/40 bg-yellow-950/20 text-yellow-300 text-xs leading-relaxed flex items-start gap-2.5 shadow-md">
+          <span className="text-sm mt-0.5 shrink-0">⚠️</span>
+          <p>
+            <strong>Rango temporal incoherente detectado en los parámetros globales</strong> (el período de partida es anterior al período de inicio de la serie). Para evitar un bloqueo de carga en la simulación, se está visualizando un rango temporal de fallback con los últimos 12 meses históricos ({evolucionBaseLabel} a {labelHasta}). Por favor, ajusta los períodos de análisis en el menú de Parámetros Globales.
+          </p>
+        </div>
+      )}
 
       {/* ── HEADER ── */}
-      <div className="border-b pb-4 border-slate-800">
-        <h3 className="text-3xl font-black text-white">Análisis Econométrico Consolidado</h3>
-        <p className="text-sm text-slate-400 mt-1">
-          Unificación de los modelos econométricos para estimación de elasticidades históricas, detección de colinealidad y regularización de estimadores.
-        </p>
-      </div>
+      {/* ------------------------------------------- INI: p3_p2_a1 --------------------------------------------- */}
+      {hasPermission('p3_p2_a1') && (
+        <div className="border-b pb-4 border-slate-800">
+          <h3 className="text-3xl font-black text-white">Análisis Econométrico Consolidado</h3>
+          <p className="text-sm text-slate-400 mt-1">
+            Unificación de los modelos econométricos para estimación de elasticidades históricas, detección de colinealidad y regularización de estimadores.
+          </p>
+        </div>
+      )}
+      {/* ------------------------------------------- FIN: p3_p2_a1 --------------------------------------------- */}
 
       {/* ── LEVEL 1: TAB NAVIGATOR + BANNER (Full Width) ── */}
       <div className="space-y-4">
@@ -725,29 +767,40 @@ export default function Punto8() {
         </div>
 
         <div className="p-3 rounded-xl border border-teal-500/20 bg-slate-900/60 text-[24px] text-slate-300 leading-relaxed shadow-sm">
-          {activeTab === 'mco' && (
+          {/* ------------------------------------------- INI: p3_p2_a6 --------------------------------------------- */}
+          {activeTab === 'mco' && hasPermission('p3_p2_a6') && (
             <p>
               Se busca determinar la sensibilidad histórica directa del arancel ante variaciones en <MathJaxFormula formula="IPC,\ USD\ y\  CCT" className="inline-block  text-[20px]" />. <br />
               Sin embargo, al existir colinealidad, se mueven en la misma dirección), los coeficientes MCO pueden resultar inestables o distorsionados.
             </p>
           )}
-          {activeTab === 'ortogonalidad' && (
+          {/* ------------------------------------------- FIN: p3_p2_a6 --------------------------------------------- */}
+
+          {/* ------------------------------------------- INI: p3_p2_a7 --------------------------------------------- */}
+          {activeTab === 'ortogonalidad' && hasPermission('p3_p2_a7') && (
             <p>
               Existe pérdida de independencia matemática entre los factores (<MathJaxFormula formula="IPC,\ USD\,\  CCT" className="inline-block  text-[20px]" />), ya que las variables covarían fuertemente. <br />
               El modelo MCO, no logra atribuir correctamente el peso individual a cada factor a los cambios en los valores.
             </p>
           )}
-          {activeTab === 'ridge' && (
+          {/* ------------------------------------------- FIN: p3_p2_a7 --------------------------------------------- */}
+
+          {/* ------------------------------------------- INI: p3_p2_a8 --------------------------------------------- */}
+          {activeTab === 'ridge' && hasPermission('p3_p2_a8') && (
             <p>
               Se aplica una penalización <MathJaxFormula formula={"\\lambda > 0"} /> en la diagonal de la matriz <MathJaxFormula formula={"X^T X"} />. <br />
               Esta regularización elimina la varianza infinita producida por la colinealidad y restaura la insesgadez económica.
             </p>
           )}
-          {activeTab === 'validacion' && (
+          {/* ------------------------------------------- FIN: p3_p2_a8 --------------------------------------------- */}
+
+          {/* ------------------------------------------- INI: p3_p2_a9 --------------------------------------------- */}
+          {activeTab === 'validacion' && hasPermission('p3_p2_a9') && (
             <p>
               Verifica la solidez del modelo <i>regularizado (evaluando el Número de Condición, el <MathJaxFormula formula={"R^2"} /> ajustado y la coherencia de signos)</i>, garantizando un modelo sano para proyecciones actuariales.
             </p>
           )}
+          {/* ------------------------------------------- FIN: p3_p2_a9 --------------------------------------------- */}
         </div>
       </div>
 
@@ -809,16 +862,16 @@ export default function Punto8() {
                 </div>
                 <div className="p-3 rounded-xl border space-y-1.5 bg-slate-950 border-slate-800">
                   <label className="text-xs font-bold text-slate-400 block uppercase">Período Desde</label>
-                  <select value={periodoDesde} onChange={e => setPeriodoDesde(e.target.value)}
-                    className="w-full text-xs font-bold p-1.5 rounded border focus:outline-none bg-slate-900 border-slate-700 text-white">
-                    {seriesData.filter(d => d.periodo <= periodoHasta).map(d => <option key={d.periodo} value={d.periodo}>{d.label}</option>)}
+                  <select value={periodoDesde} onChange={e => handlePeriodoDesdeChange(e.target.value)}
+                    className="w-full text-xs font-bold p-1.5 rounded border focus:outline-none bg-slate-900 border-slate-700 text-white cursor-pointer">
+                    {seriesData.filter(d => d.periodo <= periodoHasta || d.periodo === periodoDesde).map(d => <option key={d.periodo} value={d.periodo}>{d.label}</option>)}
                   </select>
                 </div>
                 <div className="p-3 rounded-xl border space-y-1.5 bg-slate-950 border-slate-800">
                   <label className="text-xs font-bold text-slate-400 block uppercase">Período Hasta</label>
-                  <select value={periodoHasta} onChange={e => setPeriodoHasta(e.target.value)}
-                    className="w-full text-xs font-bold p-1.5 rounded border focus:outline-none bg-slate-900 border-slate-700 text-white">
-                    {seriesData.filter(d => d.periodo >= periodoDesde).map(d => <option key={d.periodo} value={d.periodo}>{d.label}</option>)}
+                  <select value={periodoHasta} onChange={e => handlePeriodoHastaChange(e.target.value)}
+                    className="w-full text-xs font-bold p-1.5 rounded border focus:outline-none bg-slate-900 border-slate-700 text-white cursor-pointer">
+                    {seriesData.map(d => <option key={d.periodo} value={d.periodo}>{d.label}</option>)}
                   </select>
                 </div>
               </div>
@@ -828,7 +881,7 @@ export default function Punto8() {
                     <span className="text-teal-400">Penalización Ridge (λ):</span>
                     <span className="text-white font-mono">{lambdaRidge}</span>
                   </div>
-                  <input type="range" min="0" max="0.001" step="0.00001" value={lambdaRidge}
+                  <input type="range" min="0" max="0.0005" step="0.00001" value={lambdaRidge}
                     onChange={e => setLambdaRidge(Number(e.target.value))}
                     className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-500" />
                   <div className="flex justify-between text-[10px] text-slate-500 font-mono">
@@ -849,82 +902,116 @@ export default function Punto8() {
         <div className="lg:col-span-5 space-y-4">
           {activeTab === 'mco' && (
             <>
-              {hasPermission('p3_p2_a6') && evolucionIndicesWidget}
-              <div className="p-4 rounded-2xl border bg-slate-900/20 border-slate-800 space-y-3">
-                <h4 className="text-[14px] font-bold text-white">Mínimos Cuadrados Ordinarios</h4>
-                <p className="text-[14px] text-slate-400 leading-relaxed">
-                  Estimación de la sensibilidad arancelaria a factores macroeconómicos. Cuando no hay colinealidad,
-                  el MCO es el estimador insesgado de mínima varianza (Gauss-Markov). Observá la tabla de
-                  <strong className="text-teal-400"> Intercepto y Elasticidades</strong> para ver los coeficientes y detectar valores erráticos (rojo).
-                </p>
-                {results.mcoRes.error && (
-                  <div className="p-3 bg-red-950/20 text-red-400 rounded-lg text-xs">{results.mcoRes.error}</div>
-                )}
-              </div>
-              {tablaCoeficientesWidget}
+              {/* ------------------------------------------- INI: p3_p2_a2 --------------------------------------------- */}
+              {hasPermission('p3_p2_a2') && evolucionIndicesWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a2 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a6 --------------------------------------------- */}
+              {hasPermission('p3_p2_a6') && (
+                <div className="p-4 rounded-2xl border bg-slate-900/20 border-slate-800 space-y-3">
+                  <h4 className="text-[14px] font-bold text-white">Mínimos Cuadrados Ordinarios</h4>
+                  <p className="text-[14px] text-slate-400 leading-relaxed">
+                    Estimación de la sensibilidad arancelaria a factores macroeconómicos. Cuando no hay colinealidad,
+                    el MCO es el estimador insesgado de mínima varianza (Gauss-Markov). Observá la tabla de
+                    <strong className="text-teal-400"> Intercepto y Elasticidades</strong> para ver los coeficientes y detectar valores erráticos (rojo).
+                  </p>
+                  {results.mcoRes.error && (
+                    <div className="p-3 bg-red-950/20 text-red-400 rounded-lg text-xs">{results.mcoRes.error}</div>
+                  )}
+                </div>
+              )}
+              {/* ------------------------------------------- FIN: p3_p2_a6 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a4 --------------------------------------------- */}
+              {hasPermission('p3_p2_a4') && tablaCoeficientesWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a4 --------------------------------------------- */}
             </>
           )}
 
           {activeTab === 'ortogonalidad' && (
             <>
+              {/* ------------------------------------------- INI: p3_p2_a2 --------------------------------------------- */}
               {hasPermission('p3_p2_a2') && evolucionIndicesWidget}
-              <div className={`p-4 rounded-2xl border ${severity.color} text-[14px] space-y-1.5`}>
-                <span className="font-bold uppercase tracking-wider block text-[14px]">Estado del Diagnóstico: {severity.label}</span>
-                <p className="leading-relaxed opacity-90 text-[14px]">{severity.desc}</p>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { label: 'VIF IPC', val: results.vifs.ipc, color: 'text-yellow-400' },
-                  { label: 'VIF USD', val: results.vifs.usd, color: 'text-cyan-400' },
-                  { label: 'VIF CCT', val: results.vifs.cct, color: 'text-orange-400' }
-                ].map(v => (
-                  <div key={v.label} className="p-3 rounded-xl bg-slate-900/40 border border-slate-800">
-                    <span className="text-[10px] text-slate-500 uppercase block font-bold">{v.label}</span>
-                    <span className={`font-mono text-[14px] font-bold ${v.color}`}>
-                      {v.val === Infinity ? '∞' : fmtES(v.val, 2)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="p-4 bg-slate-900/10 border border-slate-800 rounded-2xl space-y-2 text-[14px]">
-                <span className="font-bold text-white block text-[14px]">Correlaciones de Pearson entre variables:</span>
-                <div className="space-y-1 font-mono text-[14px]">
+              {/* ------------------------------------------- FIN: p3_p2_a2 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a7_b1 --------------------------------------------- */}
+              {hasPermission('p3_p2_a7_b1') && (
+                <div className={`p-4 rounded-2xl border ${severity.color} text-[14px] space-y-1.5`}>
+                  <span className="font-bold uppercase tracking-wider block text-[14px]">Estado del Diagnóstico: {severity.label}</span>
+                  <p className="leading-relaxed opacity-90 text-[14px]">{severity.desc}</p>
+                </div>
+              )}
+              {/* ------------------------------------------- FIN: p3_p2_a7_b1 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a7_b2 --------------------------------------------- */}
+              {hasPermission('p3_p2_a7_b2') && (
+                <div className="grid grid-cols-3 gap-2">
                   {[
-                    { label: 'r (IPC vs USD)', val: results.corr.ipc_usd },
-                    { label: 'r (IPC vs CCT)', val: results.corr.ipc_cct },
-                    { label: 'r (USD vs CCT)', val: results.corr.usd_cct }
-                  ].map(c => (
-                    <div key={c.label} className="flex justify-between">
-                      <span>{c.label}:</span>
-                      <span className={`${Math.abs(c.val) > 0.85 ? 'text-red-400 font-bold' : Math.abs(c.val) > 0.6 ? 'text-yellow-400' : 'text-cyan-400'}`}>
-                        {fmtES(c.val, 4)}
-                        {Math.abs(c.val) > 0.85 && <span className="ml-1 text-[10px] text-red-500">⚠️ Alta colinealidad</span>}
+                    { label: 'VIF IPC', val: results.vifs.ipc, color: 'text-yellow-400' },
+                    { label: 'VIF USD', val: results.vifs.usd, color: 'text-cyan-400' },
+                    { label: 'VIF CCT', val: results.vifs.cct, color: 'text-orange-400' }
+                  ].map(v => (
+                    <div key={v.label} className="p-3 rounded-xl bg-slate-900/40 border border-slate-800">
+                      <span className="text-[10px] text-slate-500 uppercase block font-bold">{v.label}</span>
+                      <span className={`font-mono text-[14px] font-bold ${v.color}`}>
+                        {v.val === Infinity ? '∞' : fmtES(v.val, 2)}
                       </span>
                     </div>
                   ))}
                 </div>
-              </div>
+              )}
+              {/* ------------------------------------------- FIN: p3_p2_a7_b2 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a7_b3 --------------------------------------------- */}
+              {hasPermission('p3_p2_a7_b3') && (
+                <div className="p-4 bg-slate-900/10 border border-slate-800 rounded-2xl space-y-2 text-[14px]">
+                  <span className="font-bold text-white block text-[14px]">Correlaciones de Pearson entre variables:</span>
+                  <div className="space-y-1 font-mono text-[14px]">
+                    {[
+                      { label: 'r (IPC vs USD)', val: results.corr.ipc_usd },
+                      { label: 'r (IPC vs CCT)', val: results.corr.ipc_cct },
+                      { label: 'r (USD vs CCT)', val: results.corr.usd_cct }
+                    ].map(c => (
+                      <div key={c.label} className="flex justify-between">
+                        <span>{c.label}:</span>
+                        <span className={`${Math.abs(c.val) > 0.85 ? 'text-red-400 font-bold' : Math.abs(c.val) > 0.6 ? 'text-yellow-400' : 'text-cyan-400'}`}>
+                          {fmtES(c.val, 4)}
+                          {Math.abs(c.val) > 0.85 && <span className="ml-1 text-[10px] text-red-500">⚠️ Alta colinealidad</span>}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {/* ------------------------------------------- FIN: p3_p2_a7_b3 --------------------------------------------- */}
             </>
           )}
 
           {activeTab === 'ridge' && (
             <>
-              {hasPermission('p3_p2_a2') && trazaRidgeWidget}
-              <div className="p-4 rounded-2xl border bg-slate-900/20 border-slate-800 space-y-3">
-                <h4 className="text-[14px] font-bold text-white">Regularización L2 (Ridge)</h4>
-                <p className="text-[14px] text-slate-400 leading-relaxed">
-                  Al introducir <MathJaxFormula formula={"\\lambda > 0"} />, los coeficientes se contraen,
-                  eliminando la varianza infinita de la colinealidad a cambio de un sesgo controlado.
-                </p>
-              </div>
-              {tablaCoeficientesWidget}
+              {/* ------------------------------------------- INI: p3_p2_a8_b2 --------------------------------------------- */}
+              {hasPermission('p3_p2_a8_b2') && trazaRidgeWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a8_b2 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a8_b1 --------------------------------------------- */}
+              {hasPermission('p3_p2_a8_b1') && (
+                <div className="p-4 rounded-2xl border bg-slate-900/20 border-slate-800 space-y-3">
+                  <h4 className="text-[14px] font-bold text-white">Regularización L2 (Ridge)</h4>
+                  <p className="text-[14px] text-slate-400 leading-relaxed">
+                    Al introducir <MathJaxFormula formula={"\\lambda > 0"} />, los coeficientes se contraen,
+                    eliminando la varianza infinita de la colinealidad a cambio de un sesgo controlado.
+                  </p>
+                </div>
+              )}
+              {/* ------------------------------------------- FIN: p3_p2_a8_b1 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a4 --------------------------------------------- */}
+              {hasPermission('p3_p2_a4') && tablaCoeficientesWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a4 --------------------------------------------- */}
             </>
           )}
 
           {activeTab === 'validacion' && (
             <>
+              {/* ------------------------------------------- INI: p3_p2_a2 --------------------------------------------- */}
               {hasPermission('p3_p2_a2') && evolucionIndicesWidget}
-              {tablaCoeficientesWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a2 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a4 --------------------------------------------- */}
+              {hasPermission('p3_p2_a4') && tablaCoeficientesWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a4 --------------------------------------------- */}
             </>
           )}
         </div>
@@ -933,7 +1020,9 @@ export default function Punto8() {
         <div className="lg:col-span-7 space-y-4">
           {activeTab === 'mco' && (
             <>
+              {/* ------------------------------------------- INI: p3_p2_a3 --------------------------------------------- */}
               {hasPermission('p3_p2_a3') && descomposicionSensibilidadWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a3 --------------------------------------------- */}
               {/* ------------------------------------------- INI: p3_p2_a6_b3 --------------------------------------------- */}
               {hasPermission('p3_p2_a6_b3') && (
                 <div className="flex justify-end pt-2">
@@ -951,9 +1040,11 @@ export default function Punto8() {
 
           {activeTab === 'ortogonalidad' && (
             <>
+              {/* ------------------------------------------- INI: p3_p2_a3 --------------------------------------------- */}
               {hasPermission('p3_p2_a3') && descomposicionSensibilidadWidget}
-              {/* ------------------------------------------- INI: p3_p2_a7_b3 --------------------------------------------- */}
-              {hasPermission('p3_p2_a7_b3') && (
+              {/* ------------------------------------------- FIN: p3_p2_a3 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a7_b4 --------------------------------------------- */}
+              {hasPermission('p3_p2_a7_b4') && (
                 <div className="flex justify-end pt-2">
                   <button
                     onClick={() => setMostrarDesarrolloOrt(!mostrarDesarrolloOrt)}
@@ -963,13 +1054,15 @@ export default function Punto8() {
                   </button>
                 </div>
               )}
-              {/* ------------------------------------------- FIN: p3_p2_a7_b3 --------------------------------------------- */}
+              {/* ------------------------------------------- FIN: p3_p2_a7_b4 --------------------------------------------- */}
             </>
           )}
 
           {activeTab === 'ridge' && (
             <>
+              {/* ------------------------------------------- INI: p3_p2_a3 --------------------------------------------- */}
               {hasPermission('p3_p2_a3') && descomposicionSensibilidadWidget}
+              {/* ------------------------------------------- FIN: p3_p2_a3 --------------------------------------------- */}
               {/* ------------------------------------------- INI: p3_p2_a8_b4 --------------------------------------------- */}
               {hasPermission('p3_p2_a8_b4') && (
                 <div className="flex justify-end pt-2">
@@ -987,84 +1080,90 @@ export default function Punto8() {
 
           {activeTab === 'validacion' && (
             <>
+              {/* ------------------------------------------- INI: p3_p2_a3 --------------------------------------------- */}
               {hasPermission('p3_p2_a3') && descomposicionSensibilidadWidget}
-              <div className="p-4 rounded-2xl border bg-slate-900/20 border-slate-800 text-[14px] leading-relaxed space-y-3">
-                <h4 className="text-sm font-bold text-white">Validación Actuarial del Ajuste</h4>
-                <p className="text-slate-400">
-                  La paridad estimada a través de la penalización Ridge logra estabilizar el arancel autónomo base
-                  y los ponderadores macroeconómicos. La tabla de Intercepto y Elasticidades muestra el resultado.
-                </p>
-                <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-3">
-                  <span className="font-bold text-teal-400 block font-sans">Indicadores de Calidad del Modelo (click para detalles):</span>
-
-                  <div className="grid grid-cols-1 gap-2.5 text-[18px]">
-                    {/* Botón Número de Condición */}
-                    <button
-                      onClick={() => setExpandedIndicator(expandedIndicator === 'condicion' ? null : 'condicion')}
-                      className={`w-full text-left p-3 rounded-xl border transition-all duration-300 cursor-pointer ${expandedIndicator === 'condicion'
-                          ? 'bg-indigo-950/40 border-indigo-500/80 text-white'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-indigo-500/30'
-                        }`}
-                    >
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-indigo-400">κ - Número de Condición:</span>
-                        <span className="font-mono text-[14px] bg-indigo-950 px-2 py-0.5 rounded text-indigo-300 border border-indigo-900/60">
-                          {results.conditionNumber === Infinity ? 'Infinito' : fmtES(results.conditionNumber, 1)}
-                        </span>
-                      </div>
-                      {expandedIndicator === 'condicion' && (
-                        <p className="text-[16px] text-slate-400 mt-2 leading-relaxed font-sans normal-case">
-                          Mide qué tan "enredados" están los datos (colinealidad). Si es muy alto, el modelo se "marea" porque la inflación, el dólar y los salarios se mueven todos juntos en la misma dirección, impidiendo saber qué pesa más. Nuestro ajuste matemático (Ridge) desenreda este problema para dar resultados estables y confiables.
-                        </p>
-                      )}
-                    </button>
-
-                    {/* Botón R2 Ajustado */}
-                    <button
-                      onClick={() => setExpandedIndicator(expandedIndicator === 'r2' ? null : 'r2')}
-                      className={`w-full text-left p-3 rounded-xl border transition-all duration-300 cursor-pointer ${expandedIndicator === 'r2'
-                          ? 'bg-teal-950/40 border-teal-500/80 text-white'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-teal-500/30'
-                        }`}
-                    >
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-teal-400">R² Ajustado Histórico:</span>
-                        <span className="font-mono text-[14px] bg-teal-950 px-2 py-0.5 rounded text-teal-300 border border-teal-900/60">
-                          {fmtES(results.r2AdjRidge, 4)}
-                        </span>
-                      </div>
-                      {expandedIndicator === 'r2' && (
-                        <p className="text-[16px] text-slate-400 mt-2 leading-relaxed font-sans normal-case">
-                          Es como la "nota de un examen" del 0 al 1 (o de 0% a 100%) que nos dice qué tan bien nuestro modelo explica la realidad. Un valor de {fmtES(results.r2AdjRidge, 4)} significa que la inflación, el dólar y los salarios logran explicar el {fmtES(results.r2AdjRidge * 100, 2)}% de por qué cambió el costo del arancel.
-                        </p>
-                      )}
-                    </button>
-
-                    {/* Botón Insesgadez Económica */}
-                    <button
-                      onClick={() => setExpandedIndicator(expandedIndicator === 'insesgadez' ? null : 'insesgadez')}
-                      className={`w-full text-left p-3 rounded-xl border transition-all duration-300 cursor-pointer ${expandedIndicator === 'insesgadez'
-                          ? 'bg-fuchsia-950/40 border-fuchsia-500/80 text-white'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-fuchsia-500/30'
-                        }`}
-                    >
-                      <div className="flex justify-between items-center">
-                        <span className="font-bold text-fuchsia-400">Insesgadez Económica:</span>
-                        <span className="font-mono text-[14px] bg-fuchsia-950 px-2 py-0.5 rounded text-fuchsia-300 border border-fuchsia-900/60">
-                          {results.insesgadezRidge ? 'Signos Coherentes (+)' : 'Signos Erráticos (-)'}
-                        </span>
-                      </div>
-                      {expandedIndicator === 'insesgadez' && (
-                        <p className="text-[16px] text-slate-400 mt-2 leading-relaxed font-sans normal-case">
-                          Verifica que el modelo tenga sentido en el mundo real. Si la inflación sube, el costo del arancel tiene que subir (eso es un signo "positivo"). Si la matemática diera un signo negativo, el modelo estaría roto. Esta prueba garantiza que todos los costos empujen el arancel hacia arriba, como dicta la lógica económica.
-                        </p>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
+              {/* ------------------------------------------- FIN: p3_p2_a3 --------------------------------------------- */}
               {/* ------------------------------------------- INI: p3_p2_a9_b1 --------------------------------------------- */}
               {hasPermission('p3_p2_a9_b1') && (
+                <div className="p-4 rounded-2xl border bg-slate-900/20 border-slate-800 text-[14px] leading-relaxed space-y-3">
+                  <h4 className="text-sm font-bold text-white">Validación Actuarial del Ajuste</h4>
+                  <p className="text-slate-400">
+                    La paridad estimada a través de la penalización Ridge logra estabilizar el arancel autónomo base
+                    y los ponderadores macroeconómicos. La tabla de Intercepto y Elasticidades muestra el resultado.
+                  </p>
+                  <div className="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-3">
+                    <span className="font-bold text-teal-400 block font-sans">Indicadores de Calidad del Modelo (click para detalles):</span>
+
+                    <div className="grid grid-cols-1 gap-2.5 text-[18px]">
+                      {/* Botón Número de Condición */}
+                      <button
+                        onClick={() => setExpandedIndicator(expandedIndicator === 'condicion' ? null : 'condicion')}
+                        className={`w-full text-left p-3 rounded-xl border transition-all duration-300 cursor-pointer ${expandedIndicator === 'condicion'
+                          ? 'bg-indigo-950/40 border-indigo-500/80 text-white'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-indigo-500/30'
+                          }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-indigo-400">κ - Número de Condición:</span>
+                          <span className="font-mono text-[14px] bg-indigo-950 px-2 py-0.5 rounded text-indigo-300 border border-indigo-900/60">
+                            {results.conditionNumber === Infinity ? 'Infinito' : fmtES(results.conditionNumber, 1)}
+                          </span>
+                        </div>
+                        {expandedIndicator === 'condicion' && (
+                          <p className="text-[16px] text-slate-400 mt-2 leading-relaxed font-sans normal-case">
+                            Mide qué tan "enredados" están los datos (colinealidad). Si es muy alto, el modelo se "marea" porque la inflación, el dólar y los salarios se mueven todos juntos en la misma dirección, impidiendo saber qué pesa más. Nuestro ajuste matemático (Ridge) desenreda este problema para dar resultados estables y confiables.
+                          </p>
+                        )}
+                      </button>
+
+                      {/* Botón R2 Ajustado */}
+                      <button
+                        onClick={() => setExpandedIndicator(expandedIndicator === 'r2' ? null : 'r2')}
+                        className={`w-full text-left p-3 rounded-xl border transition-all duration-300 cursor-pointer ${expandedIndicator === 'r2'
+                          ? 'bg-teal-950/40 border-teal-500/80 text-white'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-teal-500/30'
+                          }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-teal-400">R² Ajustado Histórico:</span>
+                          <span className="font-mono text-[14px] bg-teal-950 px-2 py-0.5 rounded text-teal-300 border border-teal-900/60">
+                            {fmtES(results.r2AdjRidge, 4)}
+                          </span>
+                        </div>
+                        {expandedIndicator === 'r2' && (
+                          <p className="text-[16px] text-slate-400 mt-2 leading-relaxed font-sans normal-case">
+                            Es como la "nota de un examen" del 0 al 1 (o de 0% a 100%) que nos dice qué tan bien nuestro modelo explica la realidad. Un valor de {fmtES(results.r2AdjRidge, 4)} significa que la inflación, el dólar y los salarios logran explicar el {fmtES(results.r2AdjRidge * 100, 2)}% de por qué cambió el costo del arancel.<br />Operando con Lambda, ajustamos la pérdida de independencia matemática de los factores (IPC, USD, CCT), hasta la medida en que no se vea afectada severamente la capacidad explicativa de nuestro modelo.
+                          </p>
+                        )}
+                      </button>
+
+                      {/* Botón Insesgadez Económica */}
+                      <button
+                        onClick={() => setExpandedIndicator(expandedIndicator === 'insesgadez' ? null : 'insesgadez')}
+                        className={`w-full text-left p-3 rounded-xl border transition-all duration-300 cursor-pointer ${expandedIndicator === 'insesgadez'
+                          ? 'bg-fuchsia-950/40 border-fuchsia-500/80 text-white'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-fuchsia-500/30'
+                          }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <span className="font-bold text-fuchsia-400">Insesgadez Económica:</span>
+                          <span className="font-mono text-[14px] bg-fuchsia-950 px-2 py-0.5 rounded text-fuchsia-300 border border-fuchsia-900/60">
+                            {results.insesgadezRidge ? 'Signos Coherentes (+)' : 'Signos Erráticos (-)'}
+                          </span>
+                        </div>
+                        {expandedIndicator === 'insesgadez' && (
+                          <p className="text-[16px] text-slate-400 mt-2 leading-relaxed font-sans normal-case">
+                            Verifica que el modelo tenga sentido en el mundo real. Si la inflación sube, el costo del arancel tiene que subir (eso es un signo "positivo"). Si la matemática diera un signo negativo, el modelo estaría roto. Esta prueba garantiza que todos los costos empujen el arancel hacia arriba, como dicta la lógica económica.
+                          </p>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {/* ------------------------------------------- FIN: p3_p2_a9_b1 --------------------------------------------- */}
+              {/* ------------------------------------------- INI: p3_p2_a9_b2 --------------------------------------------- */}
+              {hasPermission('p3_p2_a9_b2') && (
                 <div className="flex justify-end pt-2">
                   <button
                     onClick={() => setMostrarDesarrolloVal(!mostrarDesarrolloVal)}
@@ -1074,7 +1173,7 @@ export default function Punto8() {
                   </button>
                 </div>
               )}
-              {/* ------------------------------------------- FIN: p3_p2_a9_b1 --------------------------------------------- */}
+              {/* ------------------------------------------- FIN: p3_p2_a9_b2 --------------------------------------------- */}
             </>
           )}
         </div>
@@ -1147,6 +1246,7 @@ export default function Punto8() {
                 return (
                   <div className="mt-3 space-y-3">
                     <p className="text-[14px] text-slate-400 font-sans leading-relaxed">
+                      <br /><strong><u>Cálculo Matricial</u></strong><br />
                       El elemento <strong className="text-teal-300">{`C[${r + 1},${c + 1}]`}</strong> es el producto punto
                       entre la columna <strong className="text-yellow-300">"{colALabel}"</strong> y
                       la columna <strong className="text-cyan-300">"{colBLabel}"</strong> de X. En notación matricial:
@@ -1195,20 +1295,25 @@ export default function Punto8() {
 
               return (
                 <div className="space-y-4 text-[14px] font-mono text-slate-300">
-                  <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2">
-                    <span className="text-teal-300 font-bold block font-sans text-[14px]">Paso 1: Dimensión de Matrices de Entrada</span>
-                    <p className="text-[14px] text-slate-400 font-sans">
-                      Matriz de Diseño <MathJaxFormula formula={"X"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" />: <strong>{results.X.length} × 4</strong> | Vector <MathJaxFormula formula={"Y"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" />: <strong>{results.Y.length} × 1</strong>
-                    </p>
-                    <p className="text-[14px] text-slate-500 font-sans leading-relaxed">
-                      Columna 1 = Intercepto (todos 1,0000),&nbsp;columna 2 = IPC,&nbsp;columna 3 = USD,&nbsp;columna 4 = CCT.
-                    </p>
-                  </div>
+                  {/* ------------------------------------------- INI: p3_p2_a6_b1 --------------------------------------------- */}
+                  {hasPermission('p3_p2_a6_b1') && (
+                    <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2">
+                      <span className="text-teal-300 font-bold block font-sans text-[14px]">Paso 1: Dimensión de Matrices de Entrada</span>
+                      <p className="text-[14px] text-slate-400 font-sans">
+                        Matriz de Diseño <MathJaxFormula formula={"X"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" />: <strong>{results.X.length} × 4</strong> | Vector <MathJaxFormula formula={"Y"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" />: <strong>{results.Y.length} × 1</strong>
+                      </p>
+                      <p className="text-[14px] text-slate-500 font-sans leading-relaxed">
+                        Columna 1 = Intercepto (todos 1,0000),&nbsp;columna 2 = IPC,&nbsp;columna 3 = USD,&nbsp;columna 4 = CCT.
+                      </p>
+                    </div>
+                  )}
+                  {/* ------------------------------------------- FIN: p3_p2_a6_b1 --------------------------------------------- */}
 
-                  {XtX && (
+                  {/* ------------------------------------------- INI: p3_p2_a6_b2 --------------------------------------------- */}
+                  {hasPermission('p3_p2_a6_b2') && XtX && (
                     <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-3">
                       <div className="font-sans space-y-1">
-                        <span className="text-teal-300 font-bold block text-[14px]">Paso 1,5: Desglose del Producto XᵀX — ¿Cómo se calculó cada número?</span>
+                        <span className="text-teal-300 font-bold block text-[14px]">Paso 1.1: Desglose del Producto Matricial XᵀX — ¿Cómo se calculó cada número?</span>
                         <p className="text-[14px] text-slate-400 leading-relaxed">
                           Cada celda es el producto punto entre dos columnas de X
                           ({results.X.length} multiplicaciones, una por período).
@@ -1235,8 +1340,8 @@ export default function Punto8() {
                                     <td key={c}
                                       onClick={() => setSelectedXtXCell(isSel ? null : { row: r, col: c })}
                                       className={`p-1.5 text-right cursor-pointer rounded transition font-mono text-[14px] border ${isSel
-                                          ? 'bg-teal-500/25 border-teal-500 text-teal-200 font-black'
-                                          : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-600'
+                                        ? 'bg-teal-500/25 border-teal-500 text-teal-200 font-black'
+                                        : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-600'
                                         }`}
                                     >
                                       {val >= 1e6 ? val.toExponential(2) : fmtES(val, 2)}
@@ -1248,34 +1353,49 @@ export default function Punto8() {
                           </tbody>
                         </table>
                       </div>
-                      {selectedXtXCell && renderCellDetailFW(selectedXtXCell.row, selectedXtXCell.col)}
+                      {/* ------------------------------------------- INI: p3_p2_a6_b3 --------------------------------------------- */}
+                      {selectedXtXCell && hasPermission('p3_p2_a6_b3') && renderCellDetailFW(selectedXtXCell.row, selectedXtXCell.col)}
+                      {/* ------------------------------------------- FIN: p3_p2_a6_b3 --------------------------------------------- */}
                     </div>
                   )}
+                  {/* ------------------------------------------- FIN: p3_p2_a6_b2 --------------------------------------------- */}
 
-                  <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2 overflow-x-auto">
-                    <span className="text-teal-300 font-bold block font-sans text-[14px]">Paso 2: Matriz Intersección (XᵀX — 4×4)</span>
-                    <p className="text-[14px] text-slate-400 font-sans">Resultado final de todas las sumas de productos:</p>
-                    {XtX && <MathJaxFormula formula={`X^T X = ${matrixToLatex(XtX, 2)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />}
-                  </div>
+                  {/* ------------------------------------------- INI: p3_p2_a6_b4 --------------------------------------------- */}
+                  {hasPermission('p3_p2_a6_b4') && (
+                    <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2 overflow-x-auto">
+                      <span className="text-teal-300 font-bold block font-sans text-[14px]">Paso 2: Matriz Intersección (XᵀX — 4×4)</span>
+                      <p className="text-[14px] text-slate-400 font-sans">Resultado final de todas las sumas de productos:</p>
+                      {XtX && <MathJaxFormula formula={`X^T X = ${matrixToLatex(XtX, 2)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />}
+                    </div>
+                  )}
+                  {/* ------------------------------------------- FIN: p3_p2_a6_b4 --------------------------------------------- */}
 
-                  <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2 overflow-x-auto">
-                    <span className="text-teal-300 font-bold block font-sans text-[14px]">Paso 3: Matriz Inversa ((XᵀX)⁻¹) y Vector XᵀY</span>
-                    {results.mcoRes.XtX_inv ? (
-                      <>
-                        <MathJaxFormula formula={`(X^T X)^{-1} = ${matrixToLatex(results.mcoRes.XtX_inv, 6)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
-                        <MathJaxFormula formula={`X^T Y = ${matrixToLatex(results.mcoRes.XtY.map(v => [v]), 2)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
-                      </>
-                    ) : (
-                      <p className="text-red-400 font-sans text-[14px]">🚨 Inversión no computable — det(XᵀX) ≈ 0.</p>
-                    )}
-                  </div>
+                  {/* ------------------------------------------- INI: p3_p2_a6_b5 --------------------------------------------- */}
+                  {hasPermission('p3_p2_a6_b5') && (
+                    <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-800 space-y-2 overflow-x-auto">
+                      <span className="text-teal-300 font-bold block font-sans text-[14px]">Paso 3: Matriz Inversa ((XᵀX)⁻¹) y Vector XᵀY</span>
+                      {results.mcoRes.XtX_inv ? (
+                        <>
+                          <MathJaxFormula formula={`(X^T X)^{-1} = ${matrixToLatex(results.mcoRes.XtX_inv, 6)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
+                          <MathJaxFormula formula={`X^T Y = ${matrixToLatex(results.mcoRes.XtY.map(v => [v]), 2)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
+                        </>
+                      ) : (
+                        <p className="text-red-400 font-sans text-[14px]">🚨 Inversión no computable — det(XᵀX) ≈ 0.</p>
+                      )}
+                    </div>
+                  )}
+                  {/* ------------------------------------------- FIN: p3_p2_a6_b5 --------------------------------------------- */}
 
-                  <div className="p-3 bg-slate-900/60 rounded-xl border border-teal-800/40 text-teal-300 font-bold space-y-2 overflow-x-auto">
-                    <span className="font-sans text-[14px]">Paso 4: Vector Estimado Final β̂_MCO</span>
-                    {results.mcoBeta && (
-                      <MathJaxFormula formula={`\\hat{\\beta}_{\\text{MCO}} = ${matrixToLatex(results.mcoBeta.map(v => [v]), 4)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
-                    )}
-                  </div>
+                  {/* ------------------------------------------- INI: p3_p2_a6_b6 --------------------------------------------- */}
+                  {hasPermission('p3_p2_a6_b6') && (
+                    <div className="p-3 bg-slate-900/60 rounded-xl border border-teal-800/40 text-teal-300 font-bold space-y-2 overflow-x-auto">
+                      <span className="font-sans text-[14px]">Paso 4: Vector Estimado Final β̂_MCO</span>
+                      {results.mcoBeta && (
+                        <MathJaxFormula formula={`\\hat{\\beta}_{\\text{MCO}} = ${matrixToLatex(results.mcoBeta.map(v => [v]), 4)}`} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
+                      )}
+                    </div>
+                  )}
+                  {/* ------------------------------------------- FIN: p3_p2_a6_b6 --------------------------------------------- */}
                 </div>
               );
             })()}
@@ -1285,8 +1405,8 @@ export default function Punto8() {
       {/* ------------------------------------------- FIN: p3_p2_a6_b3 --------------------------------------------- */}
 
       {/* ── PLANTEOS MATEMÁTICOS ORTOGONALIDAD ── */}
-      {/* ------------------------------------------- INI: p3_p2_a7_b3 --------------------------------------------- */}
-      {activeTab === 'ortogonalidad' && mostrarDesarrolloOrt && hasPermission('p3_p2_a7_b3') && (
+      {/* ------------------------------------------- INI: p3_p2_a7_b4 --------------------------------------------- */}
+      {activeTab === 'ortogonalidad' && mostrarDesarrolloOrt && hasPermission('p3_p2_a7_b4') && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-5 rounded-2xl border bg-slate-900/30 border-slate-800 space-y-3">
             <span className="text-[14px] font-bold uppercase tracking-wider text-teal-400 block">
@@ -1311,7 +1431,7 @@ export default function Punto8() {
           </div>
         </div>
       )}
-      {/* ------------------------------------------- FIN: p3_p2_a7_b3 --------------------------------------------- */}
+      {/* ------------------------------------------- FIN: p3_p2_a7_b4 --------------------------------------------- */}
 
       {/* ── PLANTEO Y DESARROLLO MATRICIAL RIDGE ── */}
       {/* ------------------------------------------- INI: p3_p2_a8_b4 --------------------------------------------- */}
@@ -1378,18 +1498,22 @@ export default function Punto8() {
 
         return (
           <div className="space-y-4">
-            <div className="p-5 rounded-2xl border bg-slate-900/30 border-slate-800 space-y-3">
-              <span className="text-[14px] font-bold uppercase tracking-wider text-teal-400 block">
-                📐 Planteo Matemático de la Penalización Ridge
-              </span>
-              <p className="text-[14px] text-slate-400 leading-relaxed">
-                Se adiciona la matriz de penalización diagonal <MathJaxFormula formula={"\\lambda I"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" /> a la matriz de covarianza <MathJaxFormula formula={"X^T X"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" /> para eliminar la singularidad matemática:
-              </p>
-              <MathJaxFormula formula={"\\hat{\\beta}_{\\text{Ridge}} = (X^T X + \\lambda I)^{-1} X^T Y"} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
-              <p className="text-[14px] text-slate-500 italic">
-                Al regularizar la matriz original obtenemos <MathJaxFormula formula={"M = X^T X + \\lambda I"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" />, cuya inversión es estable y tiene determinante estrictamente distinto de cero.
-              </p>
-            </div>
+            {/* ------------------------------------------- INI: p3_p2_a8_b3 --------------------------------------------- */}
+            {hasPermission('p3_p2_a8_b3') && (
+              <div className="p-5 rounded-2xl border bg-slate-900/30 border-slate-800 space-y-3">
+                <span className="text-[14px] font-bold uppercase tracking-wider text-teal-400 block">
+                  📐 Planteo Matemático de la Penalización Ridge
+                </span>
+                <p className="text-[14px] text-slate-400 leading-relaxed">
+                  Se adiciona la matriz de penalización diagonal <MathJaxFormula formula={"\\lambda I"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" /> a la matriz de covarianza <MathJaxFormula formula={"X^T X"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" /> para eliminar la singularidad matemática:
+                </p>
+                <MathJaxFormula formula={"\\hat{\\beta}_{\\text{Ridge}} = (X^T X + \\lambda I)^{-1} X^T Y"} display={true} className="block text-center my-3 text-teal-300 font-serif text-[14px] font-semibold" />
+                <p className="text-[14px] text-slate-500 italic">
+                  Al regularizar la matriz original obtenemos <MathJaxFormula formula={"M = X^T X + \\lambda I"} className="inline-block text-teal-300 font-serif px-1 font-semibold text-[14px]" />, cuya inversión es estable y tiene determinante estrictamente distinto de cero.
+                </p>
+              </div>
+            )}
+            {/* ------------------------------------------- FIN: p3_p2_a8_b3 --------------------------------------------- */}
 
             <div className="p-5 rounded-2xl border bg-slate-950 border-slate-800 space-y-3">
               <div className="flex items-center justify-between border-b border-slate-800 pb-2">
@@ -1463,8 +1587,8 @@ export default function Punto8() {
                                     <td key={c}
                                       onClick={() => setSelectedRidgeCell(isSel ? null : { row: r, col: c })}
                                       className={`p-1.5 text-right cursor-pointer rounded transition font-mono text-[14px] border ${isSel
-                                          ? 'bg-teal-500/25 border-teal-500 text-teal-200 font-black'
-                                          : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-600'
+                                        ? 'bg-teal-500/25 border-teal-500 text-teal-200 font-black'
+                                        : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white hover:border-slate-600'
                                         }`}
                                     >
                                       {val >= 1e6 ? val.toExponential(2) : fmtES(val, 2)}
@@ -1509,8 +1633,8 @@ export default function Punto8() {
       {/* ------------------------------------------- FIN: p3_p2_a8_b4 --------------------------------------------- */}
 
       {/* ── PLANTEO MATEMÁTICO VALIDACIÓN ── */}
-      {/* ------------------------------------------- INI: p3_p2_a9_b1 --------------------------------------------- */}
-      {activeTab === 'validacion' && mostrarDesarrolloVal && hasPermission('p3_p2_a9_b1') && (
+      {/* ------------------------------------------- INI: p3_p2_a9_b2 --------------------------------------------- */}
+      {activeTab === 'validacion' && mostrarDesarrolloVal && hasPermission('p3_p2_a9_b2') && (
         <div className="p-5 rounded-2xl border bg-slate-900/30 border-slate-800 space-y-4">
           <span className="text-[14px] font-bold uppercase tracking-wider text-teal-400 block">
             📐 Planteo Matemático de los Indicadores de Calidad del Modelo
@@ -1527,7 +1651,7 @@ export default function Punto8() {
           </div>
         </div>
       )}
-      {/* ------------------------------------------- FIN: p3_p2_a9_b1 --------------------------------------------- */}
+      {/* ------------------------------------------- FIN: p3_p2_a9_b2 --------------------------------------------- */}
 
     </div>
   );

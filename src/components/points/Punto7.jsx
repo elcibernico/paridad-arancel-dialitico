@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { MathJaxFormula } from '../MathJaxFormula';
-import seriesData from '../../data/seriesData.json';
 import { fmtAR, fmtLatex } from '../../utils/format';
 import { useGlobalParams } from '../../context/GlobalContext';
 
@@ -9,6 +8,7 @@ export default function Punto7() {
   const [mostrarVariables, setMostrarVariables] = useState(false);
 
   const {
+    seriesData,
     incidencias, setIncidencias,
     modalidadDialitica: modalidad, setModalidadDialitica: setModalidad,
     periodoDesde: t0, setPeriodoDesde: setT0,

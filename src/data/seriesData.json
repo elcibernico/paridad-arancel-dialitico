@@ -8,7 +8,8 @@
     "valorModuloDP": 83429.45,
     "ipc": 385.8826,
     "usd": 86.25,
-    "cct": 44221.93
+    "cct": 44221.93,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-01",
@@ -19,7 +20,8 @@
     "valorModuloDP": 89269.47,
     "ipc": 401.5071,
     "usd": 89.25,
-    "cct": 46722.68
+    "cct": 46722.68,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-02",
@@ -30,7 +32,8 @@
     "valorModuloDP": 89269.47,
     "ipc": 415.8595,
     "usd": 91.5,
-    "cct": 49848.64
+    "cct": 49848.64,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-03",
@@ -41,7 +44,8 @@
     "valorModuloDP": 89269.47,
     "ipc": 435.8657,
     "usd": 94.5,
-    "cct": 52974.56
+    "cct": 52974.56,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-04",
@@ -52,7 +56,8 @@
     "valorModuloDP": 95109.61,
     "ipc": 453.6503,
     "usd": 95.5,
-    "cct": 60186.05
+    "cct": 60186.05,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-05",
@@ -63,7 +68,8 @@
     "valorModuloDP": 95109.61,
     "ipc": 468.725,
     "usd": 96.75,
-    "cct": 60186.05
+    "cct": 60186.05,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-06",
@@ -74,7 +80,8 @@
     "valorModuloDP": 95109.61,
     "ipc": 483.6049,
     "usd": 97.75,
-    "cct": 60186.05
+    "cct": 60186.05,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-07",
@@ -85,7 +92,8 @@
     "valorModuloDP": 100949.76,
     "ipc": 498.0987,
     "usd": 98.75,
-    "cct": 69213.96
+    "cct": 69213.96,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-08",
@@ -96,7 +104,8 @@
     "valorModuloDP": 100949.76,
     "ipc": 510.3942,
     "usd": 99.75,
-    "cct": 69213.96
+    "cct": 69213.96,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-09",
@@ -107,7 +116,8 @@
     "valorModuloDP": 109292.5,
     "ipc": 528.4968,
     "usd": 101,
-    "cct": 78241.87
+    "cct": 78241.87,
+    "porcentajeCalidad": 0
   },
   {
     "periodo": "2021-10",
@@ -118,7 +128,8 @@
     "valorModuloDP": 115132.65,
     "ipc": 547.0802,
     "usd": 102,
-    "cct": 78241.87
+    "cct": 78241.87,
+    "porcentajeCalidad": 0.06
   },
   {
     "periodo": "2021-11",
@@ -129,7 +140,8 @@
     "valorModuloDP": 115132.65,
     "ipc": 560.9184,
     "usd": 103,
-    "cct": 84260.47
+    "cct": 84260.47,
+    "porcentajeCalidad": 0.06
   },
   {
     "periodo": "2021-12",
@@ -140,7 +152,8 @@
     "valorModuloDP": 120488.63,
     "ipc": 582.4575,
     "usd": 104.75,
-    "cct": 84260.47
+    "cct": 84260.47,
+    "porcentajeCalidad": 0.06
   },
   {
     "periodo": "2022-01",
@@ -151,7 +164,8 @@
     "valorModuloDP": 126513.24,
     "ipc": 605.0317,
     "usd": 107.25,
-    "cct": 84260.47
+    "cct": 84260.47,
+    "porcentajeCalidad": 0.11
   },
   {
     "periodo": "2022-02",
@@ -162,7 +176,8 @@
     "valorModuloDP": 126513.24,
     "ipc": 633.4341,
     "usd": 109.5,
-    "cct": 89075.35
+    "cct": 89075.35,
+    "porcentajeCalidad": 0.11
   },
   {
     "periodo": "2022-03",
@@ -173,7 +188,8 @@
     "valorModuloDP": 126513.24,
     "ipc": 676.0566,
     "usd": 113,
-    "cct": 92686.52
+    "cct": 92686.52,
+    "porcentajeCalidad": 0.11
   },
   {
     "periodo": "2022-04",
@@ -184,7 +200,8 @@
     "valorModuloDP": 156635.39,
     "ipc": 716.9399,
     "usd": 117.25,
-    "cct": 92686.52
+    "cct": 92686.52,
+    "porcentajeCalidad": 0.15
   },
   {
     "periodo": "2022-05",
@@ -195,7 +212,8 @@
     "valorModuloDP": 156635.39,
     "ipc": 753.147,
     "usd": 122.25,
-    "cct": 102882.04
+    "cct": 102882.04,
+    "porcentajeCalidad": 0.15
   },
   {
     "periodo": "2022-06",
@@ -206,7 +224,8 @@
     "valorModuloDP": 156635.39,
     "ipc": 793.0278,
     "usd": 127,
-    "cct": 113077.55
+    "cct": 113077.55,
+    "porcentajeCalidad": 0.15
   },
   {
     "periodo": "2022-07",
@@ -217,7 +236,8 @@
     "valorModuloDP": 168684.11,
     "ipc": 851.761,
     "usd": 133.25,
-    "cct": 113077.55
+    "cct": 113077.55,
+    "porcentajeCalidad": 0.19
   },
   {
     "periodo": "2022-08",
@@ -228,7 +248,8 @@
     "valorModuloDP": 168684.11,
     "ipc": 911.1316,
     "usd": 141,
-    "cct": 130687.99
+    "cct": 130687.99,
+    "porcentajeCalidad": 0.19
   },
   {
     "periodo": "2022-09",
@@ -239,7 +260,8 @@
     "valorModuloDP": 180732.95,
     "ipc": 967.3076,
     "usd": 149.25,
-    "cct": 130687.99
+    "cct": 130687.99,
+    "porcentajeCalidad": 0.23
   },
   {
     "periodo": "2022-10",
@@ -250,7 +272,8 @@
     "valorModuloDP": 180732.95,
     "ipc": 1028.706,
     "usd": 158.5,
-    "cct": 137176.05
+    "cct": 137176.05,
+    "porcentajeCalidad": 0.23
   },
   {
     "periodo": "2022-11",
@@ -261,7 +284,8 @@
     "valorModuloDP": 180732.95,
     "ipc": 1079.2787,
     "usd": 170.25,
-    "cct": 152005.89
+    "cct": 152005.89,
+    "porcentajeCalidad": 0.28
   },
   {
     "periodo": "2022-12",
@@ -272,7 +296,8 @@
     "valorModuloDP": 187912.52,
     "ipc": 1134.5875,
     "usd": 179.25,
-    "cct": 166835.74
+    "cct": 166835.74,
+    "porcentajeCalidad": 0.28
   },
   {
     "periodo": "2023-01",
@@ -283,7 +308,8 @@
     "valorModuloDP": 218687.04,
     "ipc": 1202.979,
     "usd": 190,
-    "cct": 166835.74
+    "cct": 166835.74,
+    "porcentajeCalidad": 0.34
   },
   {
     "periodo": "2023-02",
@@ -294,7 +320,8 @@
     "valorModuloDP": 218687.04,
     "ipc": 1282.7091,
     "usd": 200,
-    "cct": 173323.79
+    "cct": 173323.79,
+    "porcentajeCalidad": 0.34
   },
   {
     "periodo": "2023-03",
@@ -305,7 +332,8 @@
     "valorModuloDP": 218687.04,
     "ipc": 1381.1601,
     "usd": 211.5,
-    "cct": 181665.58
+    "cct": 181665.58,
+    "porcentajeCalidad": 0.34
   },
   {
     "periodo": "2023-04",
@@ -316,7 +344,8 @@
     "valorModuloDP": 270376.39,
     "ipc": 1497.2147,
     "usd": 225,
-    "cct": 198015.48
+    "cct": 198015.48,
+    "porcentajeCalidad": 0.4
   },
   {
     "periodo": "2023-05",
@@ -327,7 +356,8 @@
     "valorModuloDP": 270376.39,
     "ipc": 1613.5895,
     "usd": 243,
-    "cct": 214365.38
+    "cct": 214365.38,
+    "porcentajeCalidad": 0.4
   },
   {
     "periodo": "2023-06",
@@ -338,7 +368,8 @@
     "valorModuloDP": 270376.39,
     "ipc": 1709.6115,
     "usd": 261.5,
-    "cct": 228898.63
+    "cct": 228898.63,
+    "porcentajeCalidad": 0.4
   },
   {
     "periodo": "2023-07",
@@ -349,7 +380,8 @@
     "valorModuloDP": 290257.29,
     "ipc": 1818.0838,
     "usd": 280,
-    "cct": 243431.88
+    "cct": 243431.88,
+    "porcentajeCalidad": 0.44
   },
   {
     "periodo": "2023-08",
@@ -360,7 +392,8 @@
     "valorModuloDP": 330018.59,
     "ipc": 2044.2832,
     "usd": 356.5,
-    "cct": 265231.75
+    "cct": 265231.75,
+    "porcentajeCalidad": 0.44
   },
   {
     "periodo": "2023-09",
@@ -371,7 +404,8 @@
     "valorModuloDP": 423262.35,
     "ipc": 2304.9242,
     "usd": 356.5,
-    "cct": 296114.9
+    "cct": 296114.9,
+    "porcentajeCalidad": 0.48
   },
   {
     "periodo": "2023-10",
@@ -382,7 +416,8 @@
     "valorModuloDP": 476727.07,
     "ipc": 2496.273,
     "usd": 356.5,
-    "cct": 312464.8
+    "cct": 312464.8,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2023-11",
@@ -393,7 +428,8 @@
     "valorModuloDP": 512370.13,
     "ipc": 2816.0628,
     "usd": 367,
-    "cct": 367146.14
+    "cct": 367146.14,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2023-12",
@@ -404,7 +440,8 @@
     "valorModuloDP": 543557.73,
     "ipc": 3533.1922,
     "usd": 808.25,
-    "cct": 431383.09
+    "cct": 431383.09,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-01",
@@ -415,7 +452,8 @@
     "valorModuloDP": 1418685.73,
     "ipc": 4261.5324,
     "usd": 825.5,
-    "cct": 431383.09
+    "cct": 431383.09,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-02",
@@ -426,7 +464,8 @@
     "valorModuloDP": 1418685.73,
     "ipc": 4825.7881,
     "usd": 841,
-    "cct": 560798.01
+    "cct": 560798.01,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-03",
@@ -437,7 +476,8 @@
     "valorModuloDP": 1418685.73,
     "ipc": 5357.0929,
     "usd": 856,
-    "cct": 628093.77
+    "cct": 628093.77,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-04",
@@ -448,7 +488,8 @@
     "valorModuloDP": 1418685.73,
     "ipc": 5830.2271,
     "usd": 876,
-    "cct": 628093.77
+    "cct": 628093.77,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-05",
@@ -459,7 +500,8 @@
     "valorModuloDP": 1418685.73,
     "ipc": 6073.7165,
     "usd": 894,
-    "cct": 690903.15
+    "cct": 690903.15,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-06",
@@ -470,7 +512,8 @@
     "valorModuloDP": 1418685.73,
     "ipc": 6351.7145,
     "usd": 910.5,
-    "cct": 753084.43
+    "cct": 753084.43,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-07",
@@ -481,7 +524,8 @@
     "valorModuloDP": 1418685.73,
     "ipc": 6607.7479,
     "usd": 931.5,
-    "cct": 809612.87
+    "cct": 809612.87,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-08",
@@ -492,7 +536,8 @@
     "valorModuloDP": 1454152.93,
     "ipc": 6883.4412,
     "usd": 952,
-    "cct": 846045.45
+    "cct": 846045.45,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-09",
@@ -503,7 +548,8 @@
     "valorModuloDP": 1483236,
     "ipc": 7122.2421,
     "usd": 970,
-    "cct": 878429.97
+    "cct": 878429.97,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-10",
@@ -514,7 +560,8 @@
     "valorModuloDP": 1483236,
     "ipc": 7313.9542,
     "usd": 991.5,
-    "cct": 913567.16
+    "cct": 913567.16,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-11",
@@ -525,7 +572,8 @@
     "valorModuloDP": 1483236,
     "ipc": 7491.4314,
     "usd": 1011,
-    "cct": 946947.5
+    "cct": 946947.5,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2024-12",
@@ -536,7 +584,8 @@
     "valorModuloDP": 1594478.77,
     "ipc": 7694.0075,
     "usd": 1032.5,
-    "cct": 978570.98
+    "cct": 978570.98,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-01",
@@ -547,7 +596,8 @@
     "valorModuloDP": 1594478.77,
     "ipc": 7864.1257,
     "usd": 1053.5,
-    "cct": 978570.98
+    "cct": 978570.98,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-02",
@@ -558,7 +608,8 @@
     "valorModuloDP": 1624774.07,
     "ipc": 8052.9927,
     "usd": 1064.25,
-    "cct": 997163.83
+    "cct": 997163.83,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-03",
@@ -569,7 +620,8 @@
     "valorModuloDP": 1624774.07,
     "ipc": 8353.3158,
     "usd": 1073.5,
-    "cct": 1014115.61
+    "cct": 1014115.61,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-04",
@@ -580,7 +632,8 @@
     "valorModuloDP": 1671013.79,
     "ipc": 8585.6078,
     "usd": 1165,
-    "cct": 1030341.46
+    "cct": 1030341.46,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-05",
@@ -591,7 +644,8 @@
     "valorModuloDP": 1702903.32,
     "ipc": 8714.4871,
     "usd": 1175,
-    "cct": 1045796.59
+    "cct": 1045796.59,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-06",
@@ -602,7 +656,8 @@
     "valorModuloDP": 1726820.3,
     "ipc": 8855.5681,
     "usd": 1190,
-    "cct": 1061483.54
+    "cct": 1061483.54,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-07",
@@ -613,7 +668,8 @@
     "valorModuloDP": 1750737.7,
     "ipc": 9023.973,
     "usd": 1355,
-    "cct": 1137405.79
+    "cct": 1137405.79,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-08",
@@ -624,7 +680,8 @@
     "valorModuloDP": 1750737.7,
     "ipc": 9193.2441,
     "usd": 1340,
-    "cct": 1157876.5
+    "cct": 1157876.5,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-09",
@@ -635,7 +692,8 @@
     "valorModuloDP": 1750737.7,
     "ipc": 9384.0922,
     "usd": 1375,
-    "cct": 1231258.4
+    "cct": 1231258.4,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-10",
@@ -646,7 +704,8 @@
     "valorModuloDP": 1750737.7,
     "ipc": 9603.8623,
     "usd": 1450,
-    "cct": 1194405.05
+    "cct": 1194405.05,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-11",
@@ -657,7 +716,8 @@
     "valorModuloDP": 1774654.67,
     "ipc": 9841.3581,
     "usd": 1450,
-    "cct": 1211421
+    "cct": 1211421,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2025-12",
@@ -668,7 +728,8 @@
     "valorModuloDP": 1798572.2,
     "ipc": 10121.3715,
     "usd": 1455,
-    "cct": 1228692
+    "cct": 1228692,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2026-01",
@@ -679,7 +740,8 @@
     "valorModuloDP": 1798572.2,
     "ipc": 10413.0309,
     "usd": 1440,
-    "cct": 1228692
+    "cct": 1228692,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2026-02",
@@ -690,7 +752,8 @@
     "valorModuloDP": 1798572.2,
     "ipc": 10714.6255,
     "usd": 1395,
-    "cct": 1287574.84
+    "cct": 1287574.84,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2026-03",
@@ -701,7 +764,8 @@
     "valorModuloDP": 1798572.2,
     "ipc": 11077.0608,
     "usd": 1380,
-    "cct": 1313103.61
+    "cct": 1313103.61,
+    "porcentajeCalidad": 0.52
   },
   {
     "periodo": "2026-04",
@@ -712,6 +776,43 @@
     "valorModuloDP": 1798572.2,
     "ipc": 11363.0904,
     "usd": 1390,
-    "cct": 1337753.27
+    "cct": 1337753.27,
+    "porcentajeCalidad": 0.52
+  },
+  {
+    "periodo": "2026-05",
+    "label": "Mayo 2026",
+    "resolucion": "Resol 1353/2026",
+    "valorSesionHD": 162042.51,
+    "valorSesionHDF": 243480.92,
+    "valorModuloDP": 2528105.19,
+    "ipc": 11607.3937,
+    "usd": 1405,
+    "cct": 1337753.27,
+    "porcentajeCalidad": 0
+  },
+  {
+    "periodo": "2026-06",
+    "label": "Junio 2026",
+    "resolucion": "Resol 1353/2026",
+    "valorSesionHD": 162042.51,
+    "valorSesionHDF": 243480.92,
+    "valorModuloDP": 2528105.19,
+    "ipc": 11826.4103,
+    "usd": 1475,
+    "cct": 1383920.14,
+    "porcentajeCalidad": 0
+  },
+  {
+    "periodo": "2026-07",
+    "label": "Julio 2026",
+    "resolucion": "Resol 1353/2026",
+    "valorSesionHD": 162042.51,
+    "valorSesionHDF": 243480.92,
+    "valorModuloDP": 2528105.19,
+    "ipc": 12076.3937,
+    "usd": 1485,
+    "cct": 1409798.54,
+    "porcentajeCalidad": 0
   }
 ]

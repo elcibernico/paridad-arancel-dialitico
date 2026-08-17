@@ -425,32 +425,32 @@
               "children": [
                 {
                   "id": "p3_p2_a6_b1",
-                  "title": "Ecuación General Estimada",
+                  "title": "Dimensión de Matrices de Entrada",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p2_a6_b2",
-                  "title": "Representación Matricial",
+                  "title": "Desglose del Producto Matricial ( XTX)",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p2_a6_b3",
-                  "title": "Matriz de Información",
+                  "title": "Cálculo Matricial",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p2_a6_b4",
-                  "title": "Matriz Inversa",
+                  "title": "Matriz Intersección",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p2_a6_b5",
-                  "title": "Vector Resultante de Parámetros",
+                  "title": "Matriz Inversa",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p2_a6_b6",
-                  "title": "Desarrollo algebráico matricial",
+                  "title": "Vector Estimado Final",
                   "type": "bloque"
                 }
               ]
@@ -462,12 +462,12 @@
               "children": [
                 {
                   "id": "p3_p2_a7_b1",
-                  "title": "Factor de Inflación de la Varianza (VIF)",
+                  "title": "Estado del Diagnóstico",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p2_a7_b2",
-                  "title": "Número de Condición",
+                  "title": "Factor de Inflación de la Varianza (VIF)",
                   "type": "bloque"
                 },
                 {
@@ -477,7 +477,7 @@
                 },
                 {
                   "id": "p3_p2_a7_b4",
-                  "title": "CONTROLES",
+                  "title": "Planteos Matemáticos",
                   "type": "bloque"
                 }
               ]
@@ -494,22 +494,17 @@
                 },
                 {
                   "id": "p3_p2_a8_b2",
-                  "title": "Estabilización de Coeficientes",
-                  "type": "bloque"
-                },
-                {
-                  "id": "p3_p2_a8_b3",
                   "title": "Traza Ridge: Convergencia de los Coeficientes",
                   "type": "bloque"
                 },
                 {
-                  "id": "p3_p2_a8_b4",
-                  "title": "Demostración Algebraica de la Penalización L2 (Cresta)",
+                  "id": "p3_p2_a8_b3",
+                  "title": "Planteo Matemático de la Penalización Ridge",
                   "type": "bloque"
                 },
                 {
-                  "id": "p3_p2_a8_b5",
-                  "title": "Estructura del modificador diagonal de la cresta",
+                  "id": "p3_p2_a8_b4",
+                  "title": "Desarrollo de Cálculos Matriciales — Penalización Ridge",
                   "type": "bloque"
                 }
               ]
@@ -521,7 +516,12 @@
               "children": [
                 {
                   "id": "p3_p2_a9_b1",
-                  "title": "Matriz de Información Estabilizada ",
+                  "title": "Validación Actuarial del Ajuste ",
+                  "type": "bloque"
+                },
+                {
+                  "id": "p3_p2_a9_b2",
+                  "title": "Planteo Matemático de los Indicadores de Calidad del Modelo ",
                   "type": "bloque"
                 }
               ]
@@ -536,15 +536,8 @@
           "children": [
             {
               "id": "p3_p3_a1",
-              "title": "Descripción",
-              "type": "apartado",
-              "children": [
-                {
-                  "id": "p3_p3_a1_b1",
-                  "title": "Parámetros del Simulador",
-                  "type": "bloque"
-                }
-              ]
+              "title": "Parámetros del Simulador",
+              "type": "apartado"
             },
             {
               "id": "p3_p3_a2",
@@ -553,16 +546,26 @@
               "children": [
                 {
                   "id": "p3_p3_a2_b1",
-                  "title": "Déficit Promedio Mensual",
+                  "title": "Brecha IF Promedio Porcentual",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p3_a2_b2",
-                  "title": "Daño Económico Acumulado",
+                  "title": "Déficit por sesion",
                   "type": "bloque"
                 },
                 {
                   "id": "p3_p3_a2_b3",
+                  "title": "Déficit Promedio Mensual",
+                  "type": "bloque"
+                },
+                {
+                  "id": "p3_p3_a2_b4",
+                  "title": "Daño Económico Acumulado",
+                  "type": "bloque"
+                },
+                {
+                  "id": "p3_p3_a2_b5",
                   "title": "Ecuación de Impacto Financiero e Institucional",
                   "type": "bloque"
                 }
@@ -575,6 +578,16 @@
               "children": [
                 {
                   "id": "p3_p3_a3_b1",
+                  "title": "Resumen del Daño Financiero por Rezago",
+                  "type": "bloque"
+                },
+                {
+                  "id": "p3_p3_a3_b2",
+                  "title": "Gráfico Cascada: Descomposición de la Erosión",
+                  "type": "bloque"
+                },
+                {
+                  "id": "p3_p3_a3_b3",
                   "title": "Planteo del Impuesto Inflacionario por Time Lag",
                   "type": "bloque"
                 }
@@ -590,27 +603,32 @@
           "children": [
             {
               "id": "p3_p4_a1",
-              "title": "Paridad Polinómica Proyectada",
+              "title": "Proyección Prospectiva y Sostenibilidad Financiera",
               "type": "apartado"
             },
             {
               "id": "p3_p4_a2",
+              "title": "Parametros del Simulador",
+              "type": "apartado"
+            },
+            {
+              "id": "p3_p4_a3",
               "title": "Planteo Algebraico y Desarrollo en Tiempo Real",
               "type": "apartado",
               "children": [
                 {
-                  "id": "p3_p4_a2_b1",
-                  "title": "Proyección de las Variables Exógenas",
+                  "id": "p3_p4_a3_b1",
+                  "title": "Trayectoria Proyectada del Arancel vs Paridad Polinómica",
                   "type": "bloque"
                 },
                 {
-                  "id": "p3_p4_a2_b2",
-                  "title": "Fórmula Polinómica Prospectiva",
+                  "id": "p3_p4_a3_b2",
+                  "title": "Planilla de Desvíos de Paridad Proyectados",
                   "type": "bloque"
                 },
                 {
-                  "id": "p3_p4_a2_b3",
-                  "title": "Desvío Proyectado (Brecha de Paridad)",
+                  "id": "p3_p4_a3_b3",
+                  "title": "Planteo Algebraico y Desarrollo en Tiempo Real",
                   "type": "bloque"
                 }
               ]
@@ -630,17 +648,32 @@
             },
             {
               "id": "p3_p5_a2",
+              "title": "Parámetros de Consolidación",
+              "type": "apartado"
+            },
+            {
+              "id": "p3_p5_a3",
+              "title": "Ecuación de Vinculación y Recomposición Arancelaria",
+              "type": "apartado"
+            },
+            {
+              "id": "p3_p5_a4",
               "title": "Modelo Simulación",
               "type": "apartado",
               "children": [
                 {
-                  "id": "p3_p5_a2_b1",
+                  "id": "p3_p5_a4_b1",
                   "title": "Parámteros del Simulador",
                   "type": "bloque"
                 },
                 {
-                  "id": "p3_p5_a2_b2",
+                  "id": "p3_p5_a4_b2",
                   "title": "Simulador del Valor Técnico de Paritdad Dialítica",
+                  "type": "bloque"
+                },
+                {
+                  "id": "p3_p5_a4_b3",
+                  "title": "Deducción Matemática Completa",
                   "type": "bloque"
                 }
               ]

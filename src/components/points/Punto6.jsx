@@ -33,11 +33,10 @@ export default function Punto6({ isDarkMode, onNext }) {
         {hasPermission('p2_p1') && (
           <button
             onClick={() => setActiveTab(activeTab === 'razones' ? null : 'razones')}
-            className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
-              activeTab === 'razones'
+            className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'razones'
                 ? 'bg-amber-50 border-amber-600 text-slate-950 shadow-md ring-2 ring-amber-600 dark:bg-amber-500/20 dark:border-amber-500 dark:text-amber-300'
                 : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-amber-50/50 hover:border-amber-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-amber-500/50 dark:hover:text-white'
-            }`}
+              }`}
           >
             <div className="flex items-center gap-2">
               <span>🚨</span>
@@ -52,11 +51,10 @@ export default function Punto6({ isDarkMode, onNext }) {
         {hasPermission('p2_p2') && (
           <button
             onClick={() => setActiveTab(activeTab === 'paradigma' ? null : 'paradigma')}
-            className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${
-              activeTab === 'paradigma'
+            className={`p-3.5 rounded-xl border text-xs font-bold transition-all duration-200 flex items-center justify-between ${activeTab === 'paradigma'
                 ? 'bg-teal-50 border-teal-600 text-slate-950 shadow-md ring-2 ring-teal-600 dark:bg-teal-500/20 dark:border-teal-500 dark:text-teal-300'
                 : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-teal-50/50 hover:border-teal-400 font-semibold dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:hover:border-teal-500/50 dark:hover:text-white'
-            }`}
+              }`}
           >
             <div className="flex items-center gap-2">
               <span>🔄</span>
@@ -191,7 +189,7 @@ export default function Punto6({ isDarkMode, onNext }) {
             className={`w-full p-3.5 rounded-xl border text-xs font-bold text-center transition-all transform hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center justify-center gap-2 shadow-sm bg-teal-100 border-teal-400 text-teal-950 hover:bg-teal-200 hover:border-teal-500 dark:bg-teal-500/20 dark:border-teal-500/50 dark:text-teal-300 dark:hover:bg-teal-500/30 dark:hover:border-teal-400`}
           >
             <span>👉</span>
-            <span>Parte 2 (Punto 7): El Motor de Costos Microeconómico!</span>
+            <span>Parte 2 : El Motor de Costos Microeconómico!</span>
             <span className="text-sm"></span>
           </button>
 

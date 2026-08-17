@@ -212,7 +212,14 @@ export default function App() {
               {activeSection.component === 'Punto3' && <Punto3 onNext={handleNextSection} />}
               {activeSection.component === 'Punto4' && <Punto4 onNext={handleNextSection} />}
               {activeSection.component === 'Punto5' && <Punto5 />}
-              {activeSection.component === 'Punto6' && <Punto6 onNext={handleNextSection} />}
+              {activeSection.component === 'Punto6' && (
+                <Punto6
+                  onNext={() => {
+                    setActiveBlock('p3');
+                    setActiveSectionId('p3_p1');
+                  }}
+                />
+              )}
               {activeSection.component === 'Punto7' && <Punto7 />}
               {activeSection.component === 'Punto8' && <Punto8 />}
               {activeSection.component === 'Punto9' && <Punto9 />}
