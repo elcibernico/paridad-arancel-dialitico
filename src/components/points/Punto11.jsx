@@ -119,11 +119,12 @@ export default function Punto11() {
         const IP_m = (wCCT * indCCT_m) + (wUSD * indUSD_m) + (wIPC * indIPC_m);
         const VP_m = baseVal * IP_m; // costo polinómico teórico en el mes m
 
-        sumDeficitNominal += (VP_m - Y_m); // Suma algebraica directa (VP_m - Y_m)
+        sumDeficitNominal += Math.max(0, VP_m - Y_m); // Suma acumulada de pérdidas (deuda nominal)
       });
 
-      const avgDeficitNominal = sumDeficitNominal / mesesHistorialRecuperar;
-      unitLossAccumulated = Math.max(0, avgDeficitNominal);
+      // Masa total acumulada de pérdida histórica a recuperar
+      unitLossAccumulated = sumDeficitNominal;
+      // Amortización lineal dividida únicamente por las K cuotas del horizonte prospectivo
       PTP_retrosp_T = mesesProyeccion > 0 ? unitLossAccumulated / mesesProyeccion : 0;
     }
 
@@ -631,7 +632,7 @@ export default function Punto11() {
                     <span className="text-yellow-500 font-mono">${Math.round(calculations.VP_T).toLocaleString('es-AR')}</span>
                   </div>
                   <div className="flex justify-between items-center text-[14px] font-bold text-slate-400 font-sans">
-                    <span>Pérdida Promedio Histórica ({currentMod.tipoBrecha}):</span>
+                    <span>Pérdida Total Acumulada Histórica ({currentMod.tipoBrecha}):</span>
                     <span className="text-red-400 font-mono">${Math.round(calculations.unitLossAccumulated).toLocaleString('es-AR')}</span>
                   </div>
                 </div>
