@@ -1,0 +1,22 @@
+Bloque, Desarrollo;R_MCO;PO;PR;V
+"Cuadro de Botones (R_MCO;PO;PR;V)";S;S;S;S
+Parámetros del Análisis Econométrico;S;S;S;S
+Evolución de Índices (Base 100 = Enero 2024);S;S;N;S
+¿Qué significan estos importes y porcentajes?;S;S;N;S
+Descomposición de la Sensibilidad Ridge (Saneada);S;S;S;S
+Intercepto y Elasticidades MCO vs Ridge;S;N;S;S
+Síntoma de Inestabilidad MCO;S;S;N;N
+Mínimos Cuadrados Ordinarios;S;N;N;N
+Planteo Matemático de la Regresión por MCO;S;N;N;N
+Desarrollo de Cálculos Matriciales MCO;S;N;N;N
+Estado del Diagnóstico: Multicolinealidad Crítica;N;S;N;N
+Cards (VIF: ipc, cct, usd);N;S;N;N
+Correlaciones de Pearson entre variables;N;S;N;N
+Planteo Matemático de los VIF;N;S;N;N
+Planteo Matemático de las Correclaciones de Pearson;N;S;N;N
+Regularización L2 (Ridge);N;N;S;N
+Traza Ridge: Convergencia de los Coeficientes;N;N;S;N
+Planteo Matemático de la Penalización Ridge;N;N;S;N
+Desarrollo de Cálculos Matriciales de la Penalización Ridge;N;N;S;N
+Validación Matemática del Ajuste;N;N;N;S
+Planteo Matemático de los indicadores de Calidad del Modelo;N;N;N;S

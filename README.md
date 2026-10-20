@@ -1,16 +1,56 @@
-# React + Vite
+# Paridad Técnica y Actuarial del Arancel Dialítico
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplicación web interactiva desarrollada con **React + Vite + Tailwind CSS** para el cálculo, análisis actuarial y presentación técnica de la fórmula de paridad y recomposición del arancel dialítico.
 
-Currently, two official plugins are available:
+- **Despliegue en producción:** [https://paridad-arancel-dialitico.vercel.app](https://paridad-arancel-dialitico.vercel.app)
+- **Repositorio:** [https://github.com/elcibernico/paridad-arancel-dialitico](https://github.com/elcibernico/paridad-arancel-dialitico)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Últimas Actualizaciones (Octubre 2026)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Corrección de Amortización Retrospectiva (Punto 11):**
+   - Ajuste actuarial en la amortización de deuda histórica: el saldo acumulado real de pérdidas históricas $\sum \max(0, V^P_m - Y_m)$ se amortiza exclusivamente sobre el horizonte prospectivo de proyección $K$, desacoplándolo del período histórico $M$.
+   - Sincronización del toggle de Ajuste Polinómico con permisos RBAC y recálculo en tiempo real.
 
-## Expanding the Oxlint configuration
+2. **Navegación Rápida por Selector Desplegable:**
+   - Incorporación de un menú desplegable interactivo (*"Elegir diapositiva"*) ubicado en la barra de navegación entre los botones `← Anterior` y `Siguiente →`.
+   - Disponible en la **Parte 1** y la **Parte 3** para saltar de forma no secuencial a cualquier sección.
+   - Diseño optimizado con alto contraste y paleta oscura (`bg-slate-900`, `text-white font-bold`, bordes destacados).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+3. **Arquitectura y Memoria Viva (Directivas SOP):**
+   - Integración de la carpeta `directivas/` con los Procedimientos Operativos Estándar (SOPs) que documentan cada regla matemática, restricciones y casos de borde del proyecto.
+
+---
+
+## 📂 Estructura del Proyecto
+
+```text
+├── directivas/             # SOPs y documentación técnica de la lógica de negocio
+├── public/                 # Recursos estáticos
+├── src/
+│   ├── components/         # Componentes modulares
+│   │   ├── points/         # Puntos de la presentación (Punto 1 al Punto 14)
+│   │   ├── SlideContainer  # Contenedor con barra de navegación y selector
+│   │   ├── Header / Footer # Encabezado y pie de página
+│   │   └── LoginView       # Control de acceso y autenticación Supabase
+│   ├── context/            # Contexto de autenticación y permisos RBAC
+│   └── index.css           # Estilos globales Tailwind CSS v4
+├── package.json
+└── vite.config.js
+```
+
+---
+
+## 🛠️ Instalación y Ejecución Local
+
+```bash
+# Instalar dependencias
+npm install
+
+# Modo desarrollo
+npm run dev
+
+# Compilar para producción
+npm run build
+```

@@ -1,0 +1,25 @@
+Prompt para Generación de Código en tu App (Antigravity)
+Puedes utilizar el siguiente prompt estructurado para que tu asistente o entorno de desarrollo local replique esta simulación e incorpore los gráficos directamente en la infraestructura de tu aplicación:
+
+
+Actúa como un Econometrista Senior y Desarrollador de Software en Python. Necesito integrar un módulo de regularización Ridge basado en la Descomposición en Valores Singulares (SVD) dentro de mi aplicación de simulación de costos en salud. 
+
+La base de datos proviene de un archivo CSV que contiene las siguientes variables mensuales históricas del sector dialítico argentino:
+- y (Variable dependiente): 'ValorSesion' (Tarifa nominal pagada por sesión)
+- X (Variables independientes altamente colineales): 'IPC', 'Dólar', 'CCT108-75'
+
+Requisitos específicos del script en Python:
+1. Procesamiento de Datos: Lee y limpia las columnas numéricas usando pandas. Convierte los decimales con formato regional (comas como decimales, puntos como miles).
+2. Estandarización: Centra la variable dependiente 'y' y estandariza la matriz de diseño 'X' (media 0, desviación estándar 1) para garantizar que la penalización L2 se aplique de forma equitativa.
+3. Descomposición SVD: Aplica la descomposición en valores singulares (np.linalg.svd) sobre 'X' de manera que X = U * D * V_T.
+4. Modelado Ridge Analítico:
+   - Deriva los coeficientes Ridge para un espacio logarítmico de lambdas entre 10^-3 y 10^4.
+   - Calcula de forma analítica las curvas de Varianza teórica de los parámetros: Var = sigma^2 * sum( d_j^2 / (d_j^2 + lambda)^2 ).
+   - Calcula el Sesgo al cuadrado teórico de los parámetros: Bias^2 = sum( (lambda / (d_j^2 + lambda))^2 * (v_j^T * beta_OLS)^2 ).
+   - Determina el Error Cuadrático Medio total (MSE = Var + Bias^2) e identifica el lambda óptimo que lo minimiza.
+5. Visualización Publicatoria (Matplotlib):
+   - Genera un gráfico de dos paneles de alta resolución (dpi=150).
+   - Panel A: Curvas del trade-off sesgo-varianza (MSE, Varianza, Bias^2 en función de lambda en escala logarítmica), marcando con línea vertical el lambda óptimo.
+   - Panel B: La Traza de Ridge (Ridge Trace), que grafique el valor de los coeficientes estandarizados de IPC, Dólar y CCT frente a lambda.
+   - Incorpora una caja de texto con métricas de diagnóstico de multicolinealidad, incluyendo los autovalores de X^TX y el Índice de Condición (CN).
+6. El código debe ser limpio, modular, estar altamente comentado y no debe arrojar warnings de sintaxis de escape en las etiquetas de LaTeX en Matplotlib.

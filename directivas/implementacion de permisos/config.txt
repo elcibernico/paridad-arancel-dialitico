@@ -1,0 +1,233 @@
+{
+"id": "p1",
+"title": "PARTE 1: Modelo Actuarial Dialítico (VAAD)",
+"type": "parte",
+"sections": 
+	[  // Las partes usan "sections" para los puntos
+		{
+			"id": "p1_p1",
+			"title": "El Dilema Inicial",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p1_p1_a1", "title": "El Enigma Financiero", "type": "apartado" },
+					{ "id": "p1_p1_a2", "title": "Las 3 Incertidumbres", "type": "apartado" },
+					{ "id": "p1_p1_a3", "title": "La Necesidad de la Tabla", "type": "apartado" },
+					{ "id": "p1_p1_a4", "title": "El Punto de Quiebre", "type": "apartado" }
+				]
+		},
+		{
+			"id": "p1_p2",
+			"title": "La Sobreestimación del Riesgo",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p1_p2_a1", "title": "El Problema", "type": "apartado" },
+					{ "id": "p1_p2_a2", "title": "La Solución", "type": "apartado" },
+					{ "id": "p1_p2_a3", "title": "La Desviación", "type": "apartado" },
+					{ "id": "p1_p2_a4", "title": "Subestimación de Reservas", "type": "apartado", "children": [
+						{ "id": "p1_p2_a4_b1", "title": "El Problema de la Subestimación de la Reserva Matemática", "type": "bloque"},
+						{ "id": "p1_p2_a4_b2", "title": "Secuencia de Razonamiento", "type": "bloque"}
+					]},
+					{ "id": "p1_p2_a5", "title": "Apartado 5: El Conflicto Final del Modelo Actuarial", "type": "apartado" }
+				]
+		},
+		{
+			"id": "p1_p3",
+			"title": "Modelo Multiestado de Markov: Transiciones Dinámicas",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p1_p3_a1", "title": "¿Por qué Markov?", "type": "apartado" },
+					{ "id": "p1_p3_a2", "title": "Diagrama de los 6 Estados", "type": "apartado", "children": [
+						{ "id": "p1_p3_a2_b1", "title": "Pase Estado 1 al 6", "type": "bloque"},
+						{ "id": "p1_p3_a2_b2", "title": "Pase Estado 2 al 6", "type": "bloque"},
+						{ "id": "p1_p3_a2_b3", "title": "Pase Estado 3 al 6", "type": "bloque"},
+						{ "id": "p1_p3_a2_b4", "title": "Pase Estado 4 al 5", "type": "bloque"},
+						{ "id": "p1_p3_a2_b5", "title": "Pase a Estado Cese Pasivo", "type": "bloque"},
+						{ "id": "p1_p3_a2_b6", "title": "Pase a Estado Muerte", "type": "bloque"}
+					]},
+					{ "id": "p1_p3_a3", "title": "Matriz de Transición de Estados", "type": "apartado", "children": [
+						{ "id": "p1_p3_a3_b1", "title": "Ecuación de Matriz de Transición", "type": "bloque"}
+					]}
+				]
+		},
+		{
+			"id": "p1_p4",
+			"title": "La Tabla Actuarial Híbrida de Diálisis",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p1_p4_a1", "title": "Tasas Basales", "type": "apartado", "children": [
+						{ "id": "p1_p4_a1_b1", "title": "Cuadro de Tasas Basales", "type": "bloque"}
+					]},
+					{ "id": "p1_p4_a2", "title": "Factores SHR", "type": "apartado", "children": [
+						{ "id": "p1_p4_a2_b1", "title": "Factores Multiplicadores del Riesgo", "type": "bloque"}
+					]},
+					{ "id": "p1_p4_a3", "title": "Fórmula de Ajuste", "type": "apartado", "children": [
+						{ "id": "p1_p4_a3_b1", "title": "Fórmula de Ajuste por Escala Acumulada de Comorbilidades", "type": "bloque"},
+						{ "id": "p1_p4_a3_b2", "title": "Caso de Estudio: Paciente Varón de 55 Años en Hemodiálisis (HD)", "type": "bloque"},
+						{ "id": "p1_p4_a3_b3", "title": "Desarrollo Secuencial del Ajuste Actuarial", "type": "bloque"}
+					]},
+					{ "id": "p1_p4_a4", "title": "Estructura Híbrida", "type": "apartado" },
+					{ "id": "p1_p4_a5", "title": "Tabla 5 Años", "type": "apartado", "children": [
+						{ "id": "p1_p4_a5_b1", "title": "Tabla 5 años", "type": "bloque"}
+					]},
+					{ "id": "p1_p4_a6", "title": "Conflicto VAAD", "type": "apartado" }
+				]
+		},
+		{
+			"id": "p1_p5",
+			"title": "Ecuación Unificada del VAAD",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p1_p5_a1", "title": "Ecuación Inicial del VAAD", "type": "apartado", "children": [
+						{ "id": "p1_p5_a1_b1", "title": "Ecuación", "type": "bloque"}
+					]},
+					{ "id": "p1_p5_a2", "title": "Tasa Descuento", "type": "apartado", "children": [
+						{ "id": "p1_p5_a2_b1", "title": "Ecuación", "type": "bloque"}
+					]},
+					{ "id": "p1_p5_a3", "title": "Evolución de los costos de la prestación dialítica", "type": "apartado", "children": [
+						{ "id": "p1_p5_a3_b1", "title": "Ecuación", "type": "bloque"}
+					]},
+					{ "id": "p1_p5_a4", "title": "Factor de Ajustes Arancelarios", "type": "apartado", "children": [
+						{ "id": "p1_p5_a4_b1", "title": "Ecuación", "type": "bloque"}
+					]},
+					{ "id": "p1_p5_a5", "title": "Ecuación Unificada del VAAD", "type": "apartado", "children": [
+						{ "id": "p1_p5_a5_b1", "title": "Ecuación", "type": "bloque"}
+					]},
+					{ "id": "p1_p5_a6", "title": "Simulador VAAD", "type": "apartado", "children": [
+						{ "id": "p1_p5_a6_b1", "title": "Parámetros del Modelo", "type": "bloque"},
+						{ "id": "p1_p5_a6_b2", "title": "Grafico", "type": "bloque"},
+						{ "id": "p1_p5_a6_b3", "title": "Ecuacion e Interpretación", "type": "bloque"}
+					]}
+				]
+		}
+	]
+},
+{
+	"id": "p2",
+	"title": "PARTE 2: Quiebre Metodológico y Cambio de Paradigma en la Investigación",
+	"type": "parte",
+	"sections": 
+		[  
+		{
+			"id": "p2_p1",
+			"title": "Las 3 Razones para Desestimar el VAAD Único",
+			"type": "punto"
+		},
+		{
+			"id": "p2_p2",
+			"title": "Cambio de Paradigma (Deconstrucción del VAAD)",
+			"type": "punto"
+		}
+		]
+},
+{
+	"id": "p3",
+	"title": "PARTE 3: Análisis Econométrico y El Valor Técnico de Paridad Dialítica",
+	"type": "parte",
+	"sections": 
+		[  
+		{
+			"id": "p3_p1",
+			"title": "El Modelo Retrospectivo",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p3_p1_a1", "title": "Ponderación de Incidencias", "type": "apartado"},
+					{ "id": "p3_p1_a2", "title": "Índices Relativos", "type": "apartado"},
+					{ "id": "p3_p1_a3", "title": "Índice Polinómico", "type": "apartado"},
+					{ "id": "p3_p1_a4", "title": "Simulador Polinómico", "type": "apartado", "children": [
+						{ "id": "p3_p1_a4_b1", "title": "Estructura de Incidencias Relativas (%) de las Variables", "type": "bloque"},
+						{ "id": "p3_p1_a4_b2", "title": "Horizonte Temporal y Modalidad Dialítica", "type": "bloque"},
+						{ "id": "p3_p1_a4_b3", "title": "Simulador", "type": "bloque"}
+					]}
+				]
+		},
+		{
+			"id": "p3_p2",
+			"title": "Relacionando la Historia con las Variables del Modelo Retrospectivo",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p3_p2_a1", "title": "Conceptualización", "type": "apartado"},
+					{ "id": "p3_p2_a2", "title": "Gráfico A: Evolución de Índices de Costo", "type": "apartado"},
+					{ "id": "p3_p2_a3", "title": "Gráfico B: Descomposición de la Sensibilidad MCO", "type": "apartado"},
+					{ "id": "p3_p2_a4", "title": "Intercepto Base (Arancel Autónomo)", "type": "apartado"},
+					{ "id": "p3_p2_a5", "title": "Parámetros del Modelo", "type": "apartado"},
+					{ "id": "p3_p2_a6", "title": "Regresión por Mínimos Cuadrados Ordinarios", "type": "apartado", "children": [
+						{ "id": "p3_p2_a6_b1", "title": "Ecuación General Estimada", "type": "bloque"},
+						{ "id": "p3_p2_a6_b2", "title": "Representación Matricial", "type": "bloque"},
+						{ "id": "p3_p2_a6_b3", "title": "Matriz de Información", "type": "bloque"},
+						{ "id": "p3_p2_a6_b3", "title": "Matriz Inversa", "type": "bloque"},
+						{ "id": "p3_p2_a6_b3", "title": "Vector Resultante de Parámetros", "type": "bloque"},
+						{ "id": "p3_p2_a6_b3", "title": "Desarrollo algebráico matricial", "type": "bloque"}
+					]},
+					{ "id": "p3_p2_a7", "title": "Pérdida de la Ortogonalidad", "type": "apartado", "children": [
+						{ "id": "p3_p2_a7_b1", "title": "Factor de Inflación de la Varianza (VIF)", "type": "bloque"},
+						{ "id": "p3_p2_a7_b2", "title": "Número de Condición", "type": "bloque"},
+						{ "id": "p3_p2_a7_b3", "title": "Correlaciones de Pearson", "type": "bloque"},
+						{ "id": "p3_p2_a7_b3", "title": "CONTROLES", "type": "bloque"}
+					]},
+					{ "id": "p3_p2_a8", "title": "Penalización Ridge", "type": "apartado", "children": [
+						{ "id": "p3_p2_a8_b1", "title": "Factor de Penalización Lambda", "type": "bloque"},
+						{ "id": "p3_p2_a8_b2", "title": "Estabilización de Coeficientes", "type": "bloque"},
+						{ "id": "p3_p2_a8_b3", "title": "Traza Ridge: Convergencia de los Coeficientes", "type": "bloque"},
+						{ "id": "p3_p2_a8_b4", "title": "Demostración Algebraica de la Penalización L2 (Cresta)", "type": "bloque"},
+						{ "id": "p3_p2_a8_b5", "title": "Estructura del modificador diagonal de la cresta", "type": "bloque"}
+					]},
+					{ "id": "p3_p2_a9", "title": "Validación del Modelo", "type": "apartado", "children": [
+						{ "id": "p3_p2_a9_b1", "title": "Matriz de Información Estabilizada ", "type": "bloque"},
+					]}
+				]
+		},
+		{
+			"id": "p3_p3",
+			"title": "El Impacto Financiero",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p3_p3_a1", "title": "Descripción", "type": "apartado", "children": [
+						{ "id": "p3_p3_a1_b1", "title": "Parámetros del Simulador", "type": "bloque"}
+					]},
+					{ "id": "p3_p3_a2", "title": "Brecha de Impacto Financiero", "type": "apartado", "children": [
+						{ "id": "p3_p3_a2_b1", "title": "Déficit Promedio Mensual", "type": "bloque"},
+						{ "id": "p3_p3_a2_b2", "title": "Daño Económico Acumulado", "type": "bloque"},
+						{ "id": "p3_p3_a2_b3", "title": "Ecuación de Impacto Financiero e Institucional", "type": "bloque"}
+					]},
+					{ "id": "p3_p3_a3", "title": "El Espejismo del Pago Nominal", "type": "apartado", "children": [
+						{ "id": "p3_p3_a3_b1", "title": "Planteo del Impuesto Inflacionario por Time Lag", "type": "bloque"},
+					]}
+				]
+		},
+		{
+			"id": "p3_p4",
+			"title": "El Modelo Prospectivo",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p3_p4_a1", "title": "Paridad Polinómica Proyectada", "type": "apartado"},
+					{ "id": "p3_p4_a2", "title": "Planteo Algebraico y Desarrollo en Tiempo Real", "type": "apartado", "children": [
+						{ "id": "p3_p4_a2_b1", "title": "Proyección de las Variables Exógenas", "type": "bloque"},
+						{ "id": "p3_p4_a2_b2", "title": "Fórmula Polinómica Prospectiva", "type": "bloque"},
+						{ "id": "p3_p4_a2_b3", "title": "Desvío Proyectado (Brecha de Paridad)", "type": "bloque"}
+					]}
+				]
+		},
+		{
+			"id": "p3_p5",
+			"title": "El Valor Técnico de Paridad Dialítica",
+			"type": "punto",
+			"children": 
+				[  
+					{ "id": "p3_p4_a1", "title": "Conceptualización", "type": "apartado"},
+					{ "id": "p3_p4_a2", "title": "Modelo Simulación", "type": "apartado", "children": [
+						{ "id": "p3_p4_a2_b1", "title": "Parámteros del Simulador", "type": "bloque"},
+						{ "id": "p3_p4_a2_b3", "title": "Simulador del Valor Técnico de Paritdad Dialítica", "type": "bloque"}
+					]}
+				]
+		}
+		]
+}

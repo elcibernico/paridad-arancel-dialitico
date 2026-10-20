@@ -1,0 +1,118 @@
+# Índice Jerárquico de la Aplicación (RBAC)
+
+> Documento estructurado según la plantilla `plantilla_indice_rbac.md` y generado a partir de `Indice de la APP.xlsx`.
+> Jerarquía: Parte > Punto > Apartado > Bloque > Desarrollo
+
+---
+
+## PARTE 1: Modelo Actuarial Dialítico (VAAD)
+- **Punto 1: El Dilema Inicial**
+  - Apartado 1: El Enigma Financiero
+  - Apartado 2: Las 3 Incertidumbres
+  - Apartado 3: La Necesidad de la Tabla
+  - Apartado 4: El Punto de Quiebre
+- **Punto 2: La Sobreestimación del Riesgo**
+  - Apartado 1: El Problema
+  - Apartado 2: La Solución
+  - Apartado 3: La Desviación
+  - Apartado 4: Subestimación de Reservas
+    - Bloque 1: El Problema de la Subestimación de la Reserva Matemática
+    - Bloque 2: Secuencia de Razonamiento
+  - Apartado 5: El Conflicto Final del Modelo Actuarial
+- **Punto 3: Modelo Multiestado de Markov: Transiciones Dinámicas**
+  - Apartado 1: ¿Por qué Markov?
+  - Apartado 2: Diagrama de los 6 Estados
+    - Bloque 1: Pase Estado 1 al 6
+    - Bloque 2: Pase Estado 2 al 6
+    - Bloque 3: Pase Estado 3 al 6
+    - Bloque 4: Pase Estado 4 al 5
+    - Bloque 5: Pase a Estado Cese Pasivo
+    - Bloque 6: Pase a Estado Muerte
+  - Apartado 3: Matriz de Transición de Estados
+    - Bloque 1: Mostrar Ecuación de Matriz de Transición
+  - Apartado 4: El Conflicto Metodológico
+- **Punto 4: La Tabla Actuarial Híbrida de Diálisis**
+  - Apartado 1: Tasas Basales
+    - Desarrollo: Mostrar Tasas
+  - Apartado 2: Factores SHR
+    - Desarrollo: Mostrar Factores Multiplicadores del Riesgo
+  - Apartado 3: Fórmula de Ajuste
+    - Bloque 1: Fórmula de Ajuste por Escala Acumulada de Comorbilidades
+    - Bloque 2: Caso de Estudio: Paciente Varón de 55 Años en Hemodiálisis (HD)
+    - Bloque 3: Desarrollo Secuencial del Ajuste Actuarial
+  - Apartado 4: Estructura Híbrida
+  - Apartado 5: Tabla 5 Años
+    - Bloque 1: Mostrar Tabla
+  - Apartado 6: Conflicto VAAD
+- **Punto 5: Ecuación Unificada del VAAD**
+  - Apartado 1: Ecuación Inicial del VAAD
+    - Bloque 1: Mostrar Ecuacion , donde
+  - Apartado 2: Tasa Descuento
+    - Bloque 1: Mostrar Ecuacion , donde
+  - Apartado 3: Evolución de los costos de la prestación dialítica
+    - Bloque 1: Mostrar Ecuacion , donde
+  - Apartado 4: Factor de Ajustes Arancelarios
+    - Bloque 1: Mostrar Ecuacion , donde
+  - Apartado 5: Ecuación Unificada del VAAD
+    - Bloque 1: Mostrar Ecuacion , donde
+  - Apartado 6: Simulador VAAD
+    - Bloque 1: Mostrar Parámetros
+    - Bloque 2: Grafico
+    - Bloque 3: Mostrar Ecuacion e Interpretación
+## PARTE 2: Quiebre Metodológico y Cambio de Paradigma en la Investigación
+- **Punto 6: El Cambio de Paradigma en la Investigación**
+  - Apartado 1: Las 3 Razones para Desestimar el VAAD Único
+  - Apartado 2: Cambio de Paradigma (Deconstrucción del VAAD)
+## PARTE 3: Análisis Econométrico
+- **Punto 7: El Modelo Retrospectivo**
+  - Apartado 1: Ponderación de Incidencias
+  - Apartado 2: Índices Relativos
+  - Apartado 3: Índice Polinómico
+  - Apartado 4: Simulador Polinómico
+    - Bloque 1: Estructura de Incidencias Relativas (%) de las Variables
+    - Bloque 2: Horizonte Temporal y Modalidad Dialítica
+    - Bloque 3: Simulador
+- **Punto 8: Relacionando la Historia con las Variables del Modelo Retrospectivo**
+  - Apartado 1: Conceptualización
+  - Apartado 2: Gráfico A: Evolución de Índices de Costo (Base 100 = {tDesde})
+  - Apartado 3: Gráfico B: Descomposición de la Sensibilidad MCO
+  - Apartado 4: Intercepto Base (Arancel Autónomo)
+  - Apartado 5: Regresión por Mínimos Cuadrados Ordinarios
+    - Bloque 1: Ecuación General Estimada
+    - Bloque 2: Representación Matricial
+    - Bloque 3: Matriz de Información &lt;MathJaxFormula formula={"\\mathbf{X}^T \\mathbf{X}"} /&gt; (4 × 4)
+    - Bloque 4: Matriz Inversa &lt;MathJaxFormula formula={"(\\mathbf{X}^T \\mathbf{X})^{-1}"} /&gt; (4 × 4)
+    - Bloque 5: Vector Resultante de Parámetros &lt;MathJaxFormula formula={"\\hat{\\beta}_{MCO}"} /&gt; (4 × 1)
+    - Bloque 6: Desarrollo algebráico matricial
+  - Apartado 6: Pérdida de la Ortogonalidad
+    - Bloque 1: Factor de Inflación de la Varianza (VIF)
+    - Bloque 2: Número de Condición (&lt;MathJaxFormula formula={"\\kappa_1"} /&gt;)
+    - Bloque 3: Correlaciones de Pearson (&lt;MathJaxFormula formula="r" /&gt;)
+    - Bloque 4: {/* CONTROLES */}
+  - Apartado 7: Penalización Ridge
+    - Bloque 1: Factor de Penalización Lambda (&lt;MathJaxFormula formula={"\\lambda"} /&gt;)
+    - Bloque 2: Estabilización de Coeficientes (&lt;MathJaxFormula formula={"\\beta"} /&gt;): MCO vs Ridge
+    - Bloque 3: Traza Ridge: Convergencia de los Coeficientes
+    - Bloque 4: Demostración Algebraica de la Penalización L2 (Cresta)
+    - Bloque 5: Estructura del modificador diagonal de la cresta (&lt;MathJaxFormula formula={"\\lambda \\mathbf{I}"} /&gt;)
+  - Apartado 8: Validación del Modelo
+    - Bloque 1: Matriz de Información Estabilizada &lt;MathJaxFormula formula={"\\mathbf{X}^T \\mathbf{X} + \\lambda \\mathbf{I}"} /&gt;
+- **Punto 9: El Impacto Financiero sufrido**
+  - Apartado 1: Descripción
+    - Bloque 1: Parámetros del Simulador
+  - Apartado 2: Brecha de Impacto Financiero
+    - Bloque 1: Déficit Promedio Mensual
+    - Bloque 2: Daño Económico Acumulado (&lt;MathJaxFormula formula="IF_{acumulado}" /&gt;)
+    - Bloque 3: Ecuación de Impacto Financiero e Institucional
+  - Apartado 3: El Espejismo del Pago Nominal
+    - Bloque 1: Planteo del Impuesto Inflacionario por Time Lag
+- **Punto 10: El Modelo Prospectivo**
+  - Apartado 1: Paridad Polinómica Proyectada
+  - Apartado 2: Planteo Algebraico y Desarrollo en Tiempo Real
+    - Bloque 1: Proyección de las Variables Exógenas
+    - Bloque 2: Fórmula Polinómica Prospectiva
+    - Bloque 3: Desvío Proyectado (Brecha de Paridad)
+- **Punto 11: El Valor Técnico de Paridad Dialítica**
+  - Apartado 1: Conceptualización
+  - Apartado 2: Modelo Simulación
+    - Bloque 1: Parámteros del Simulador
