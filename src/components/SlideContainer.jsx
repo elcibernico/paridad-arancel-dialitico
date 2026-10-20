@@ -1,6 +1,16 @@
 import React from 'react';
 
-export default function SlideContainer({ section, children, currentPoint, totalPoints, onNext, onPrev }) {
+export default function SlideContainer({
+  section,
+  children,
+  currentPoint,
+  totalPoints,
+  onNext,
+  onPrev,
+  sections = [],
+  onSelectSection,
+  showSelect = false
+}) {
   return (
     <div className="flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
       
@@ -21,20 +31,46 @@ export default function SlideContainer({ section, children, currentPoint, totalP
         </div>
 
         {/* Controles de Navegación Diapositiva */}
-        <div className="flex items-center space-x-3 self-end md:self-center">
+        <div className="flex items-center flex-wrap gap-2.5 self-end md:self-center">
           <button
             onClick={onPrev}
             disabled={currentPoint === 1}
-            className="flex items-center space-x-1 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold border transition disabled:opacity-40 disabled:cursor-not-allowed bg-white hover:bg-slate-100 text-slate-900 border-slate-300 shadow-md dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700"
+            className="flex items-center space-x-1 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold border transition disabled:opacity-40 disabled:cursor-not-allowed bg-white hover:bg-slate-100 text-slate-900 border-slate-300 shadow-md dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-700 cursor-pointer"
           >
             <span>← Anterior</span>
           </button>
 
+          {/* DESPLEGABLE ELEGIR DIAPOSITIVA (SOLO PARTES 1 Y 3) */}
+          {showSelect && sections && sections.length > 0 && (
+            <div className="relative flex items-center">
+              <select
+                value={section.id}
+                onChange={(e) => onSelectSection && onSelectSection(e.target.value)}
+                className="appearance-none bg-white hover:bg-slate-50 text-slate-800 border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-750 dark:text-slate-100 dark:border-slate-700 border text-xs sm:text-sm font-bold py-2 pl-3 pr-8 rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer transition max-w-[190px] sm:max-w-[260px] truncate"
+                title="Elegir diapositiva"
+              >
+                {sections.map((s, idx) => (
+                  <option
+                    key={s.id}
+                    value={s.id}
+                    className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 py-1 font-medium"
+                  >
+                    {idx + 1}. {s.title}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-slate-500 dark:text-slate-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          )}
 
           <button
             onClick={onNext}
             disabled={currentPoint === totalPoints}
-            className="flex items-center space-x-1 px-4 py-2 rounded-lg bg-teal-700 hover:bg-teal-600 text-white disabled:opacity-40 disabled:cursor-not-allowed text-xs sm:text-sm font-black transition shadow-lg shadow-teal-700/20"
+            className="flex items-center space-x-1 px-3.5 py-2 rounded-xl bg-teal-700 hover:bg-teal-600 text-white disabled:opacity-40 disabled:cursor-not-allowed text-xs sm:text-sm font-black transition shadow-lg shadow-teal-700/20 cursor-pointer"
           >
             <span>Siguiente →</span>
           </button>

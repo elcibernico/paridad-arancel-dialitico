@@ -202,10 +202,13 @@ export default function App() {
           sectionHasAccess ? (
             <SlideContainer
               section={activeSection}
-              currentPoint={currentBlock.sections.findIndex(s => s.id === activeSection.id) + 1}
-              totalPoints={currentBlock.sections.length}
+              currentPoint={allowedSections.findIndex(s => s.id === activeSection.id) + 1}
+              totalPoints={allowedSections.length}
               onNext={handleNextSection}
               onPrev={handlePrevSection}
+              sections={allowedSections}
+              onSelectSection={(id) => setActiveSectionId(id)}
+              showSelect={activeBlock === 'p1' || activeBlock === 'p3'}
             >
               {activeSection.component === 'Punto1' && <Punto1 onNext={handleNextSection} />}
               {activeSection.component === 'Punto2' && <Punto2 onNext={handleNextSection} />}
